@@ -1,0 +1,119 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{esvect}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[parfill]{parskip}
+\usepackage[a4paper, total={6in, 9in}]{geometry}
+
+\title{SafeStreets}
+\date{A.A. 2019}
+
+\begin{document}
+% title page
+\clearpage
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Logo_Politecnico_Milano.png}
+    \label{fig:my_label}
+\end{figure}
+
+
+{
+    \centering
+    \Huge Software Engineering 2\\
+    \Huge SafeStreets: RASD\\
+    
+    \large Andrea Falanti\\
+    \large Andrea Huang
+    \par
+}
+    
+\thispagestyle{empty}
+
+% content pages
+\newpage
+\section{Introduction}
+    \subsection{Purpose}
+        \paragraph{Use cases}
+        \begin{itemize}
+            \item NotifyViolations:
+            \begin{itemize}
+                \item Actors: User.
+                \item Entry condition: violation detection.
+                \item Event flow:
+                \begin{enumerate}
+                    \item The User selects the report tab if not already selected.
+                    \item The User elects the type of violation.
+                    \item The User takes and uploads a photo of the violation.
+                    \item The User confirms that the license plate is correctly recognized by app, if not he/she inserts it manually in the appropriate field.
+                    \item The User checks whether his/her current position is correctly identified by the GPS system, if not he/she inserts it manually in the appropriate field.
+                    \item The User confirms the violation report clicking on the "Done" button.
+                    \item The system stores the information and completes it with suitable metadata.
+                    \item The system sends a notification to the User about the success of the operation.
+                \end{enumerate}
+                \item Exit condition: the violation report is correctly stored.
+                \item Exception: the system detects missing information and rejects the report, then asks the User for missing data.
+                \item Special requirement: TBD.
+            \end{itemize}
+            \item AnalyzeData:
+            \begin{itemize}
+                \item Actors: User or Authority.
+                \item Entry condition: the Actor wants to know some information about the reported violations.
+                \item Event flow:
+                \begin{enumerate}
+                    \item The Actor selects the "aggregated data" tab.
+                    \item The Actor selects the topic he/she is interested about.
+                    \item The Actor may select an appropriate filter for his search.
+                    \item The Actor selects the data of interest.
+                    \item The system provides the data to be visualized according to the actor's authorization level.
+                    \item The Actor visualizes the data.
+                \end{enumerate}
+                \item Exit condition: the Actor finishes to analyze the data.
+            \end{itemize}
+        \end{itemize}
+    \subsection{Scope}
+    \subsection{Definitions, Acronyms, Abbreviations}
+    \subsection{Revision history}
+    \subsection{Reference Documents}
+    \subsection{Document Structure}
+    
+\newpage
+\section{Overall Description}
+    \subsection{Product perspective}
+    \subsection{Product functions}
+    \subsection{User characteristics}
+    \subsection{Assumptions, dependencies and constraints}
+    
+\newpage
+\section{Specific Requirements}
+    \subsection{External User Requirements}
+        \subsubsection{User Interfaces}
+        \subsubsection{Hardware Interfaces}
+        \subsubsection{Software Interfaces}
+        \subsubsection{Communication Interfaces}
+    \subsection{Functional Requirements}
+    \subsection{Performance Requirements}
+    \subsection{Design Constraints}
+        \subsubsection{Standards compliance}
+        \subsubsection{Hardware limitations}
+        \subsubsection{Any other constraint}
+    \subsection{Software System Attributes}
+        \subsubsection{Reliability}
+        \subsubsection{Availability}
+        \subsubsection{Security}
+        \subsubsection{Maintainability}
+        \subsubsection{Portability}
+
+\newpage
+\section{Formal Analysis Using Alloy}
+\section{Effort Spent}
+    Andrea Falanti: 2h\\
+    Andrea Huang: 2h
+\section{References}
+
+
+\end{document}
