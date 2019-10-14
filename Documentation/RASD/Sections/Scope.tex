@@ -1,0 +1,43 @@
+World events:
+\begin{itemize}
+    \item Traffic violations
+    \item Violation detection
+    \item Street interventions and improvements
+    \item Authorities interventions
+\end{itemize}
+
+Shared events:
+\begin{itemize}
+    \item Violation report codification
+    \item Data reading and analysis
+    \item Validated violations notification to authorities
+    \item Intervention suggestion to municipality
+\end{itemize}
+
+Machine events:
+\begin{itemize}
+    \item Database queries
+    \item Possible interventions computation
+    \item Licence plate recognition
+    \item Meta-data completion
+\end{itemize}
+
+Goals:
+\begin{itemize}
+    \item Report actual traffic violations to authorities
+    \item Store data about violations and cross it with municipality's ones to identify possible interventions
+    \item Provide a synthesis of all the data to public and improve people awareness about the topic
+\end{itemize}
+Domain properties:
+\begin{itemize}
+    \item Users report violations when they detect them
+    \item Traffic violations must occur regularly
+    \item Municipality service about accidents is always available
+    \item Report supervisor always validates the correctness of the reports
+\end{itemize}
+Requirements:
+\begin{itemize}
+    \item When a traffic violation is reported, the report supervisor verifies it and then notifies the authorities (SE1, DP4, SE3, G1)
+    \item Reported traffic violations are stored, integrated with data from the municipality and analysed by an algorithm to find possible interventions to address the problem. Then these suggestions are sent to the municipality to evaluate a possible solution (SE1, DP3, ME2, SE4, G2)
+    \item Traffic data is stored and available for public consultation with different levels of visibility, according to user's level of authorization (SE1, SE2, G3)
+\end{itemize}
