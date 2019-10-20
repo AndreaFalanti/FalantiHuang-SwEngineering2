@@ -11,6 +11,15 @@
 \graphicspath{{Images/}{../Images/}}
 \usepackage[table]{xcolor}
 \usepackage{subfiles}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=blue
+}
 
 \title{SafeStreets}
 \date{A.A. 2019}
@@ -29,9 +38,19 @@
     \centering
     \Huge Software Engineering 2\\
     \Huge SafeStreets: RASD\\
+    \bigskip
+    \large Version 1.0 - (date)\\
     \vspace*{\fill}
-    \large Andrea Falanti\\
-    \large Andrea Huang
+    \begingroup
+        \small
+        \renewcommand*{\arraystretch}{1.5}
+        \noindent
+        \begin{tabularx}{\linewidth}{@{}lXl@{}}
+        \textit{Authors:}  & & \textit{Professor:} \\
+        Andrea Falanti      & & Prof.\@ Elisabetta Di Nitto        \\
+        Andrea Huang \\
+        \end{tabularx}
+    \endgroup
     \par
 }
     
@@ -50,6 +69,7 @@
     \subsection{Definitions, Acronyms, Abbreviations}
     \subsection{Revision history}
     \subsection{Reference Documents}
+        \subfile{Sections/ReferenceDocuments}
     \subsection{Document Structure}
     
 \newpage
@@ -68,6 +88,9 @@
         \subsubsection{Software Interfaces}
         \subsubsection{Communication Interfaces}
     \subsection{Functional Requirements}
+        \subsubsection{User}
+            \subfile{Sections/FunctionalRequirements_user}
+        \subsubsection{Third Party}
     \subsection{Performance Requirements}
     \subsection{Design Constraints}
         \subsubsection{Standards compliance}
@@ -83,8 +106,7 @@
 \newpage
 \section{Formal Analysis Using Alloy}
 \section{Effort Spent}
-    Andrea Falanti: 4h 45m\\
-    Andrea Huang: 4h
+    \subfile{Sections/EffortSpent}
 \section{References}
 
 
