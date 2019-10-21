@@ -1,3 +1,8 @@
+\paragraph{Scenarios}
+    \begin{enumerate}
+        \item Johnny is a model citizen of Milan and he is really caring about parking violations, because they are really recurrent in his neighborhood. When he see a violation, he open the SafeStreets app on his smartphone and report it with just few clicks. All he needs to do is to take a photo of the violation where the licence plate is clearly visible and confirm if the system detected it correctly or not, if not he insert the licence plate manually in the field that appears after the confirmation. Position is automatically detected from the GPS because he allowed the app to access it, and to send the report to SafeStreets he just need to confirm by clicking the done button.
+    \end{enumerate}
+
 \paragraph{Use cases}
     \begin{itemize}
         \item NotifyViolations:
@@ -19,6 +24,8 @@
             \item Exception: the system detects missing information and rejects the report, then asks the User for missing data.
             \item Special requirement: TBD.
         \end{itemize}
+        
+        \vskip 0.2in
         \item AnalyzeData:
         \begin{itemize}
             \item Actors: User or Authority.
@@ -33,5 +40,38 @@
                 \item The Actor visualizes the data.
             \end{enumerate}
             \item Exit condition: the Actor finishes to analyze the data.
+        \end{itemize}
+        
+        \vskip 0.2in
+        \item Login:
+        \begin{itemize}
+            \item Actors: User, authority.
+            \item Entry condition: The actor opens the app.
+            \item Event flow:
+            \begin{enumerate}
+                \item The actor inserts his username.
+                \item The actor inserts his password.
+                \item The actor press the login button.
+            \end{enumerate}
+            \item Exit condition: The actor is authenticated and login is successful.
+            \item Exception: Username or password are invalid, "invalid credential" message is displayed and the actor needs to insert credential again.
+        \end{itemize}
+        
+        \vskip 0.2in
+        \item UserRegistration:
+        \begin{itemize}
+            \item Actors: User.
+            \item Entry condition: The user opens the app and has no valid account.
+            \item Event flow:
+            \begin{enumerate}
+                \item The user inserts the desired username.
+                \item The user inserts the desired password.
+                \item The user confirms his password.
+                \item The user inserts his email.
+                \item The user inserts his birthday.
+                \item The user agrees to the use of his personal data and of his submitted violation reports for analysis purposes.
+            \end{enumerate}
+            \item Exit condition: The registration is successful and the user is redirected to login form.
+            \item Exception: Email is already in use or confirm password field content diverge from password, in this case the user is alerted with a proper message on screen and asked to correct the data.
         \end{itemize}
     \end{itemize}
