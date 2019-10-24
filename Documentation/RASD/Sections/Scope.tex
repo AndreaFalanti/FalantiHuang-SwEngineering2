@@ -23,21 +23,25 @@ Machine events:
 \end{itemize}
 
 Goals:
-\begin{itemize}
+\begin{enumerate}[label={G\arabic*.}]
     \item Report actual traffic violations to authorities
     \item Store data about violations and cross it with municipality's ones to identify possible interventions
     \item Provide a synthesis of all the data to public and improve people awareness about the topic
-\end{itemize}
-Domain properties:
-\begin{itemize}
+\end{enumerate}
+Domain assumptions:
+\begin{enumerate}[label={D\arabic*.}]
+	\item Usernames must be unique
     \item Users report violations when they detect them
     \item Traffic violations must occur regularly
     \item Municipality service about accidents is always available
+   	\item Municipality accident data is always accurate
     \item Report supervisor always validates the correctness of the reports
-\end{itemize}
+    \item The GPS sensor of a user's device has an error of at most 5m from the real position.
+    \item The internet connection is always available when the user interacts with the system. (may need to be specified more clearly)
+\end{enumerate}
 Requirements:
-\begin{itemize}
+\begin{enumerate}[label={R\arabic*.}]
     \item When a traffic violation is reported, the report supervisor verifies it and then notifies the authorities (SE1, DP4, SE3, G1)
     \item Reported traffic violations are stored, integrated with data from the municipality and analysed by an algorithm to find possible interventions to address the problem. Then these suggestions are sent to the municipality to evaluate a possible solution (SE1, DP3, ME2, SE4, G2)
     \item Traffic data is stored and available for public consultation with different levels of visibility, according to user's level of authorization (SE1, SE2, G3)
-\end{itemize}
+\end{enumerate}
