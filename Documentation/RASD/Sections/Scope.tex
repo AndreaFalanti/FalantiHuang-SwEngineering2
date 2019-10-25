@@ -9,7 +9,8 @@ World events:
 Shared events:
 \begin{itemize}
     \item Violation report codification
-    \item Data reading and analysis
+    \item Data visualization and analysis
+    \item Filtered data request
     \item Validated violations notification to authorities
     \item Intervention suggestion to municipality
 \end{itemize}
@@ -22,25 +23,46 @@ Machine events:
     \item Meta-data completion
 \end{itemize}
 
-\begin{tabular}{|p{8cm}|l|l|}
+\bigskip
+\begin{center}
+\begin{tabular}{|p{9cm}|l|l|}
 	\hline 
-	Phenomenon & Shared & Controlled by \\ 
+	Phenomenon & Shared & Controlled by\\ 
 	\hline 
-	&  &  \\ 
+	Traffic violations &  N & W \\ 
 	\hline 
-	&  &  \\ 
+	Violation detection &  N & W\\ 
 	\hline 
-	&  &  \\ 
+	Street interventions and improvements & N &  W \\ 
 	\hline 
-	&  &  \\ 
+	Authorities interventions & N &  W \\
 	\hline 
-	&  &  \\ 
+	Violation report codification & Y & W\\ 
 	\hline 
-	&  &  \\ 
+	Data visualization and analysis & Y & M\\ 
+	\hline
+	Filtered data request & Y & W\\
 	\hline 
-	&  &  \\ 
+	Validated violations notification to authorities & Y & M\\ 
 	\hline 
+	Intervention suggestion to municipality & Y & M\\ 
+	\hline 
+	Database queries & N & M\\ 
+	\hline
+	Possible interventions computation & N & M\\ 
+	\hline
+	License plate recognition & N & M\\ 
+	\hline
+	Meta-data completion & N & M\\ 
+	\hline
 \end{tabular} 
+\end{center}
+Legend:
+\begin{itemize}
+	\item Y := Yes, N := No.
+	\item W := World, M := Machine.
+\end{itemize}
+
 
 \bigskip
 Goals:
