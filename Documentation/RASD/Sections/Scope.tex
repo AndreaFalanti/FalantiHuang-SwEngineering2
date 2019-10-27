@@ -1,3 +1,10 @@
+The SafeStreets service is offered to common users to report traffic violations that hinder the normal flow of the traffic. It is thought to offer an aide to the public officers in detecting violations and thus provide a more regulated traffic system to the citizens. The service stands in the middle between the common citizen and the authorities, providing a real-time update of the situation on the streets.
+
+The software will provide to the user the possibility to report traffic violations by taking a photo of the transgressor's vehicle with its license plate and an appropriate view of the situation. The system will locate automatically the location of the violation, assuming the device of the user has the GPS service enabled. Then a supervisor of the system will check whether the report is actually true, and only after his/her validation it will be sent to the authorities and stored in the software's databases. The user will be able to track the status of their reports from the mobile app. SafeStreets, besides receiving reports from users, will also provide the possibility to consult its stored data with different levels of authorisation for privacy safety reasons. A common citizen will be able to find the most frequent violations by location or time, but no private information of the violations will be provided. Whereas, the registered authorities will be able to perform the same queries and access to all the private information of the transgressors.
+
+To help municipalities in identifying potentially unsafe areas, SafeStreets retrieves data about traffic accidents in their territories from their specific service. It crosses this data with its own stored data and computes possible interventions to areas most affected by violations, for example, adding a barrier between the bike lane and the part of the road for motorised vehicles to prevent unsafe parking.
+
+
 World events:
 \begin{itemize}
     \item Traffic violations
@@ -9,7 +16,7 @@ World events:
 Shared events:
 \begin{itemize}
     \item Violation report codification
-    \item Data visualization and analysis
+    \item Data visualisation and analysis
     \item Filtered data request
     \item Validated violations notification to authorities
     \item Intervention suggestion to municipality
@@ -39,7 +46,7 @@ Machine events:
 	\hline 
 	Violation report codification & Y & W\\ 
 	\hline 
-	Data visualization and analysis & Y & M\\ 
+	Data visualisation and analysis & Y & M\\ 
 	\hline
 	Filtered data request & Y & W\\
 	\hline 
@@ -69,7 +76,7 @@ Goals:
 \begin{enumerate}[label={G\arabic*.}]
     \item Report certified traffic violations to authorities.
     \item Store data about violations and cross it with municipality's ones to identify possible interventions.
-    \item Provide a synthesis of all the violations' data to users, based on their authorization level.
+    \item Provide a synthesis of all the violations' data to users, based on their authorisation level.
     \begin{enumerate}[label={G\arabic{enumi}.\arabic*.}]
     	\item Normal users can access only to aggregated data, without seeing any private info about a reported violation, like the license plate or the personal info of the user who reported the violation.
     	\item Authenticated authorities can access to all violations' data.
@@ -93,7 +100,7 @@ Requirements:
     \item When a traffic violation is reported, the report supervisor verifies it and then notifies the authorities (SE1, DP4, SE3, G1)
     \item Reported traffic violations are stored, integrated with data from the municipality and analysed by an algorithm to find possible interventions to address the detected main cause of the violations. (SE1, DP3, ME2, SE4, G2)
     \item The suggestions about interventions are sent to the municipality to evaluate a possible solution.
-    \item Traffic data is stored and available for public consultation with different levels of visibility, according to user's level of authorization. (SE1, SE2, G3)
+    \item Traffic data is stored and available for public consultation with different levels of visibility, according to user's level of authorisation. (SE1, SE2, G3)
     \begin{enumerate}[label={R\arabic{enumi}.\arabic*.}]
     	\item The system allows a normal user to access only to aggregated data, without the license plate of the reported vehicle or the personal info of the user who reported the violation.
     	\item The system allows the authorities to access the data without any limitation.
