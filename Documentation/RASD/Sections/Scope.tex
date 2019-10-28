@@ -69,21 +69,3 @@ Legend:
 	\item Y := Yes, N := No.
 	\item W := World, M := Machine.
 \end{itemize}
-
-
-\bigskip
-Goals:
-Requirements:
-\begin{enumerate}[label={R\arabic*.}]
-    \item When a traffic violation is reported, the report supervisor verifies it and then notifies the authorities (SE1, DP4, SE3, G1)
-    \item Reported traffic violations are stored, integrated with data from the municipality and analysed by an algorithm to find possible interventions to address the detected main cause of the violations. (SE1, DP3, ME2, SE4, G2)
-    \item The suggestions about interventions are sent to the municipality to evaluate a possible solution.
-    \item Traffic data is stored and available for public consultation with different levels of visibility, according to user's level of authorisation. (SE1, SE2, G3)
-    \begin{enumerate}[label={R\arabic{enumi}.\arabic*.}]
-    	\item The system allows a normal user to access only to aggregated data, without the license plate of the reported vehicle or the personal info of the user who reported the violation.
-    	\item The system allows the authorities to access the data without any limitation.
-    \end{enumerate}
-	\item A human[TODO] must ascertain the identity of authorities that want to register to the system.
-	\item The system receives reports about the various traffic violations from the users.
-	\item A violation report must have a photo attached that clearly shows the license plate and the type of violation. 
-\end{enumerate}

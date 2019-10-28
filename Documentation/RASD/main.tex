@@ -15,6 +15,7 @@
 \usepackage{subfiles}
 \usepackage{tabularx}
 \usepackage{hyperref}
+\usepackage{etoolbox}
 
 %\setsvg{inkscape=inkscape -z -D,svgpath=Images/}
 \hypersetup{
@@ -24,6 +25,17 @@
     linkcolor=black,
     urlcolor=blue
 }
+
+\makeatletter
+\newcommand{\myitem}[2][]{%
+	\ifblank{#1}{%
+		\item #2%
+	}{%
+		\item[#1] #2%
+	}%
+	\protected@edef\@currentlabelname{\theenumi\, #2}
+}
+\makeatother
 
 \title{SafeStreets}
 \date{A.A. 2019}
@@ -101,6 +113,8 @@
             \subfile{Sections/FunctionalRequirements_user}
         \subsubsection{Third Party}
             \subfile{Sections/FunctionalRequirements_thirdParty}
+        \subsubsection{Requirements}
+        	\subfile{Sections/Requirements}
     \subsection{Performance Requirements}
     \subsection{Design Constraints}
         \subsubsection{Standards compliance}
