@@ -7,3 +7,45 @@
         \centering
         \includegraphics[width=\textwidth]{Images/UseCaseThirdParty}
 \end{figure}
+
+\begin{tabular}{|p{3.7cm}|p{11cm}|}
+\hline
+Name & Registration\\
+\hline
+Actors & Authorities or municipalities\\
+\hline
+Entry Condition & An authority or municipality opens the app and has no valid account\\
+\hline
+Event flow & \begin{enumerate}
+                \item The actor inserts the desired username.
+                \item The actor inserts the desired password.
+                \item The actor confirms his password.
+                \item The actor inserts his official certified email (PEC) given for his public office.
+                \item The actor inserts his birthday.
+                \item The system checks the authenticity of the the email using its domain.
+            \end{enumerate}\\
+\hline
+Exit condition & The email is authenticated and the user is redirected to login form.\\
+\hline
+Exception & Email is already in use, or is not a PEC email, or confirm password field content diverge from password, in this case the user is alerted with a proper message on screen and asked to correct the data.\\
+\hline
+\end{tabular}
+
+\begin{tabular}{|p{3.7cm}|p{11cm}|}
+\hline
+Name & ViolationConvalidation\\
+\hline
+Actors & Authorities\\
+\hline
+Entry Condition & A report is received by the authorities\\
+\hline
+Event flow & \begin{enumerate}
+                \item The authorities check whether the reported violation is an actual traffic violation.
+                \item The authorities send a result response (rejected or accepted) to SafeStreets.
+                \item The system updates the report status of the violation for the reporting user.
+                \item The system augments its data with the reported violation if and only if it was certified by the authorities.
+            \end{enumerate}\\
+\hline
+Exit condition & The violation report and the system violation data are updated.\\
+\hline
+\end{tabular}
