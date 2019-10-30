@@ -1,4 +1,4 @@
-\documentclass[12pt]{article}
+\documentclass[12pt]{report}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath,amssymb}
 \usepackage{esvect}
@@ -40,6 +40,11 @@
 \title{SafeStreets}
 \date{A.A. 2019}
 
+\linespread{1.3}\selectfont
+
+\usepackage{titlesec}
+\titleformat{\chapter}{}{}{0em}{\bf\LARGE}
+
 \begin{document}
 % title page
 \clearpage
@@ -78,60 +83,61 @@
 
 % content pages
 \newpage
-\section{Introduction}
-    \subsection{Purpose}
+
+\chapter{Introduction}
+    \section{Purpose}
         \subfile{Sections/Purpose}
-    \subsection{Scope}
+    \section{Scope}
         \subfile{Sections/Scope}
-    \subsection{Definitions, Acronyms, Abbreviations}
+    \section{Definitions, Acronyms, Abbreviations}
     	\subfile{Sections/Defintions}
-    \subsection{Revision history}
-    \subsection{Reference Documents}
+    \section{Revision history}
+    \section{Reference Documents}
         \subfile{Sections/ReferenceDocuments}
-    \subsection{Document Structure}
+    \section{Document Structure}
     
 \newpage
-\section{Overall Description}
-    \subsection{Product perspective}
+\chapter{Overall Description}
+    \section{Product perspective}
         \subfile{Sections/ProductPerspective}
-    \subsection{Product functions}
+    \section{Product functions}
     	\subfile{Sections/ProductFunctions}
-    \subsection{User characteristics}
+    \section{User characteristics}
     	\subfile{Sections/UserCharacteristics}
-    \subsection{Assumptions, dependencies and constraints}
+    \section{Assumptions, dependencies and constraints}
     	\subfile{Sections/AssumptionsDependenciesConstraints}
     
 \newpage
-\section{Specific Requirements}
-    \subsection{External User Requirements}
-        \subsubsection{User Interfaces}
-        \subsubsection{Hardware Interfaces}
-        \subsubsection{Software Interfaces}
-        \subsubsection{Communication Interfaces}
-    \subsection{Functional Requirements}
-        \subsubsection{User}
+\chapter{Specific Requirements}
+    \section{External User Requirements}
+        \subsection{User Interfaces}
+        \subsection{Hardware Interfaces}
+        \subsection{Software Interfaces}
+        \subsection{Communication Interfaces}
+    \section{Functional Requirements}
+        \subsection{User}
             \subfile{Sections/FunctionalRequirements_user}
-        \subsubsection{Third Party}
+        \subsection{Third Party}
             \subfile{Sections/FunctionalRequirements_thirdParty}
-        \subsubsection{Requirements}
+        \subsection{Requirements}
         	\subfile{Sections/Requirements}
-    \subsection{Performance Requirements}
-    \subsection{Design Constraints}
-        \subsubsection{Standards compliance}
-        \subsubsection{Hardware limitations}
-        \subsubsection{Any other constraint}
-    \subsection{Software System Attributes}
-        \subsubsection{Reliability}
-        \subsubsection{Availability}
-        \subsubsection{Security}
-        \subsubsection{Maintainability}
-        \subsubsection{Portability}
+    \section{Performance Requirements}
+    \section{Design Constraints}
+        \subsection{Standards compliance}
+        \subsection{Hardware limitations}
+        \subsection{Any other constraint}
+    \section{Software System Attributes}
+        \subsection{Reliability}
+        \subsection{Availability}
+        \subsection{Security}
+        \subsection{Maintainability}
+        \subsection{Portability}
 
 \newpage
-\section{Formal Analysis Using Alloy}
-\section{Effort Spent}
+\chapter{Formal Analysis Using Alloy}
+\chapter{Effort Spent}
     \subfile{Sections/EffortSpent}
-\section{References}
+\chapter{References}
 
 
 \end{document}
