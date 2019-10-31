@@ -5,13 +5,13 @@ SafeStreets stores the violation reports provided by users, that can be made fro
 SafeStreets also provide a service aimed at helping municipalities to identify potentially unsafe areas and suggest possible interventions. To have access to these features, the municipalities need to offer a service for retrieving info about accidents in their territory, so that Safestreets is able to cross a municipality's data with its own stored data and also analyse and suggest possible improvements to the areas with most reports.
 \subsubsection{Goals}
 \begin{enumerate}[label={G\arabic*.}]
-    \item Report certified traffic violations to authorities.
-    \item Store data about violations and cross it with municipality's ones to identify possible interventions.
-    \item Provide a synthesis of all the violations' data to users, based on their authorisation level.
+    \myitem {Report certified traffic violations to authorities.} \label{G_report_auth}
+    \myitem {Store data about violations and cross it with municipality's ones to identify possible interventions.} \label{G_interventions}
+    \myitem {Provide a synthesis of all the violations' data to users, based on their authorisation level.} \label{G_visualization}
     \begin{enumerate}[label={G\arabic{enumi}.\arabic*.}]
-    	\item Normal users can access only to aggregated data, without seeing any private info about a reported violation, like the license plate or the personal info of the user who reported the violation.
-    	\item Authenticated authorities can access to all violations' data.
+    	\myitem {Normal users can access only to aggregated data, without seeing any private info about a reported violation, like the license plate or the personal info of the user who reported the violation.} \label{G_visualization_cit}
+    	\myitem {Authenticated authorities can access to all violations' data.} \label{G_visualization_auth}
     \end{enumerate}
-	\item Allow users to send a report of a possible traffic violation.
-	\item Allow users to check their personal info and the list of violations they reported.
+	\myitem {Allow users to send a report of a possible traffic violation.} \label{G_accept_reports}
+	\myitem {Allow users to check their personal info and the list of violations they reported.} \label{G_check_info}
 \end{enumerate}

@@ -20,8 +20,8 @@ Requirements:
 \bigskip
 \bigskip
 Goal Logical Derivation:
-\begin{enumerate}[label={G\arabic*.}]
-	\item Report certified traffic violations to authorities.
+\begin{enumerate}[label={}]
+	\item \nameref{G_report_auth}.
 	\begin{itemize}[label={}]
 		\item \nameref{R_supervisor}.
 		\item \nameref{R_auth_certification}.
@@ -29,7 +29,7 @@ Goal Logical Derivation:
 		\item \nameref{D_reports}.
 		\item \nameref{D_supervisor}.
 	\end{itemize}
-	\item Store data about violations and cross it with municipality's ones to identify possible interventions.
+	\item \nameref{G_interventions}.
 	\begin{itemize}[label={}]
 		\item \nameref{R_storing_report}.
 	 	\item \nameref{R_mun_integration}.
@@ -37,29 +37,29 @@ Goal Logical Derivation:
 	 	\item \nameref{D_mun_availability}.
 	 	\item \nameref{D_mun_accuracy}.
 	\end{itemize}
-	\item Provide a synthesis of all the violations' data to users, based on their authorisation level.
+	\item \nameref{G_visualization}.
 	\begin{itemize}[label={}]
 		\item \nameref{R_data_vis}.
-		\item \nameref{D_internet}.(may need to be specified more clearly).
+		\item \nameref{D_internet}.
 	\end{itemize}
-	\begin{enumerate}[label={G\arabic{enumi}.\arabic*.}]
-		\item Normal users can access only to aggregated data, without seeing any private info about a reported violation, like the license plate or the personal info of the user who reported the violation.
-		\begin{itemize}[label={}]
-			\item \nameref{R_data_vis_cit}.
-		\end{itemize}
-		\item Authenticated authorities can access to all violations' data.
-		\begin{itemize}[label={}]
-			\item \nameref{R_data_vis_auth}.
-		\end{itemize}
-	\end{enumerate}
-	\item Allow users to send a report of a possible traffic violation.
+
+	\item \nameref{G_visualization_cit}.
+	\begin{itemize}[label={}]
+		\item \nameref{R_data_vis_cit}.
+	\end{itemize}
+	\item \nameref{G_visualization_auth}.
+	\begin{itemize}[label={}]
+		\item \nameref{R_data_vis_auth}.
+	\end{itemize}
+
+	\item \nameref{G_accept_reports}.
 	\begin{itemize}[label={}]
 		\item \nameref{R_report_reception}.
 		\item \nameref{R_photo}.
 		\item \nameref{D_gps}.
 		\item \nameref{D_internet}. 
 	\end{itemize}
-	\item Allow users to check their personal info and the list of violations they reported.
+	\item \nameref{G_check_info}.
 	\begin{itemize}[label={}]
 		\item \nameref{R_storing_report}.
 		\item \nameref{D_internet}.
