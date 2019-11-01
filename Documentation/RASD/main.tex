@@ -27,16 +27,27 @@
     urlcolor=blue
 }
 
+
 \makeatletter
-\newcommand{\myitem}[2][]{%
-	\ifblank{#1}{%
-		\item #2%
-	}{%
-		\item[#1] #2%
-	}%
-	\protected@edef\@currentlabelname{\theenumi\, #2}
+\newcommand{\myref}[1]
+{
+	\ref{#1} \nameref{#1}
 }
 \makeatother
+
+\makeatletter
+\newcommand{\myitem}[2][]
+{% 
+	\ifblank{#1}{% arg 1 is empty, in our enumeration it is this case
+		\item #2%
+	}{% arg 2 not empty
+		\item[#1] #2%
+	}%
+	\protected@edef\@currentlabelname{#2}
+}
+\makeatother
+
+
 
 \title{SafeStreets}
 \date{A.A. 2019}
@@ -125,6 +136,7 @@
         \subsection{Requirements}
         	\subfile{Sections/Requirements}
     \section{Performance Requirements}
+    	\subfile{Sections/PerformanceRequirements}
     \section{Design Constraints}
         \subsection{Standards compliance}
         \subsection{Hardware limitations}
