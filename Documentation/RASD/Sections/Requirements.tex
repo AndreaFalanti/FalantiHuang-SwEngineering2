@@ -12,7 +12,7 @@ Requirements:
 		\myitem {The system should allow a normal user to access only to aggregated data, without the license plate of the reported vehicle or the personal info of the user who reported the violation.} \label{R_data_vis_cit}
 		\myitem {The system should allow the authorities to access the data without any limitation.} \label{R_data_vis_auth}
 	\end{enumerate}
-	\myitem {An operator must ascertain the identity of authorities that want to register to the system.} \label{R_auth_certification}
+	\myitem {The system must ascertain the identity of a public institution that want to register to the system from its PCE, completing the account with the necessary data.} \label{R_institution_certification}
 	\myitem {The system must receive correctly reports about the various traffic violations from the users.} \label{R_report_reception}
 	\myitem {A violation report must have a photo attached that clearly shows the license plate and the type of violation.} \label{R_photo} 
 \end{enumerate}
@@ -24,10 +24,10 @@ Goal Logical Derivation:
 	\item \myref{G_report_auth}
 	\begin{itemize}[label={}]
 		\item \myref{R_supervisor}
-		\item \myref{R_auth_certification}
 		\item \myref{R_report_reception}
 		\item \myref{D_reports}
 		\item \myref{D_supervisor}
+		\item \myref{D_city_auth}
 	\end{itemize}
 	\item \myref{G_interventions}
 	\begin{itemize}[label={}]
@@ -36,6 +36,13 @@ Goal Logical Derivation:
 	 	\item \myref{R_mun_intervention_send}
 	 	\item \myref{D_mun_availability}
 	 	\item \myref{D_mun_accuracy}
+	 	\item \myref{D_pce}
+	\end{itemize}
+	\item \myref{G_inst_registration}
+	\begin{itemize}[label={}]
+		\item \myref{R_institution_certification}
+		\item \myref{D_pce}
+		\item \myref{D_pce_api}
 	\end{itemize}
 	\item \myref{G_visualization}
 	\begin{itemize}[label={}]
