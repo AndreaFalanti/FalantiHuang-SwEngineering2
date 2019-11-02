@@ -3,9 +3,9 @@ In this section project requirements are presented and relationships between goa
 \bigskip
 Requirements:
 \begin{enumerate}[label={R\arabic*.}]
-	\myitem {When a traffic violation is reported, the report supervisor has to verify it and then notify the authorities.} \label{R_supervisor}
+	\myitem {When a traffic violation is reported, the system must allow the authorities of the city where the violation happened to verify it.} \label{R_violation_auth}
 	\myitem {Reports about traffic violations need to be stored in a database, also associating them to the user profile who sent them.} \label{R_storing_report}
-	\myitem {The system needs to integrate reported traffic violations with data from the municipality and analyse all the data with an algorithm to find possible interventions to address the detected main cause of the violations.} \label{R_mun_integration}
+	\myitem {The system needs to integrate reported traffic violations with data from the municipality and analyze all the data with an algorithm to find possible interventions to address the detected main cause of the violations.} \label{R_mun_integration}
 	\myitem {The suggestions about interventions must be sent to the municipality to evaluate a possible solution.} \label{R_mun_intervention_send}
 	\myitem {Traffic violations data must be available for public consultation with different levels of visibility, according to user's level of authorization.} \label{R_data_vis}
 	\begin{enumerate}[label={R\arabic{enumi}.\arabic*.}]
@@ -13,8 +13,8 @@ Requirements:
 		\myitem {The system should allow the authorities to access the data without any limitation.} \label{R_data_vis_auth}
 	\end{enumerate}
 	\myitem {The system must ascertain the identity of a public institution that want to register to the system from its PCE, completing the account with the necessary data.} \label{R_institution_certification}
-	\myitem {The system must receive correctly reports about the various traffic violations from the users.} \label{R_report_reception}
-	\myitem {A violation report must have a photo attached that clearly shows the license plate and the type of violation.} \label{R_photo} 
+	\myitem {The system must receive correctly the reports about the various traffic violations from the users.} \label{R_report_reception}
+	\myitem {A violation report must have a photo attached that clearly shows the license plate of the involved vehicle and the type of violation.} \label{R_photo} 
 \end{enumerate}
 
 \bigskip
@@ -23,7 +23,7 @@ Goal Logical Derivation:
 \begin{enumerate}[label={}]
 	\item \myref{G_report_auth}
 	\begin{itemize}[label={}]
-		\item \myref{R_supervisor}
+		\item \myref{R_violation_auth}
 		\item \myref{R_report_reception}
 		\item \myref{D_reports}
 		\item \myref{D_supervisor}
@@ -84,13 +84,13 @@ Login use case is omitted for simplicity, because it would be used in almost eve
 	\hline 
 	Requirements & Use cases \\ 
 	\hline 
-	R1 &  \\ 
+	R1 &  ViolationConvalidation \\ 
 	\hline 
-	R2 &  NotifyViolations\\ 
+	R2 &  NotifyViolations \\ 
 	\hline 
-	R3 &  \\ 
+	R3 &  SuggestionEvaluation \\ 
 	\hline 
-	R4 &  \\ 
+	R4 &  SuggestionEvaluation \\ 
 	\hline 
 	R5 & AnalyzeData \\ 
 	\hline 
@@ -99,6 +99,7 @@ Login use case is omitted for simplicity, because it would be used in almost eve
 	R5.2& AnalyzeData-authority \\ 
 	\hline 
 	R6 & Registration-authority \\ 
+	   & Registration-municipality \\
 	\hline 
 	R7 & NotifyViolations \\ 
 	\hline 
