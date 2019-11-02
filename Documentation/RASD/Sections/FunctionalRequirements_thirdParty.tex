@@ -10,7 +10,28 @@
         \includegraphics[width=\textwidth]{UseCaseThirdParty}
 \end{figure}
 
-\begin{tabular}{|p{3.7cm}|p{11cm}|}
+\vskip 0.2in
+\begin{tabular}{|p{3.1cm}|p{11.6cm}|}
+\hline
+Name & Login\\
+\hline
+Actors & Authorities and municipality\\
+\hline
+Entry Condition & The actor opens the app.\\
+\hline
+Event flow & \begin{enumerate}
+                \item The actor inserts his email.
+                \item The actor inserts his password.
+                \item The actor press the login button.
+            \end{enumerate}\\
+\hline
+Exit condition & The actor is authenticated and login is successful.\\
+\hline
+Exception & Username or password are invalid, "invalid credentials" message is displayed and the actor needs to insert credentials again.\\
+\hline
+\end{tabular}
+
+\begin{tabular}{|p{3.1cm}|p{11.6cm}|}
 \hline
 Name & Registration\\
 \hline
@@ -34,9 +55,9 @@ Exception & Email is already in use, or is not a PEC email, or confirm password 
 \end{tabular}
 
 \vskip 0.2in
-\begin{tabular}{|p{3.7cm}|p{11cm}|}
+\begin{tabular}{|p{3.1cm}|p{11.6cm}|}
 \hline
-Name & AnalyzeAggregateData\\
+Name & Analyze aggregate data\\
 \hline
 Actors & Authorities\\
 \hline
@@ -56,9 +77,9 @@ Exit condition & The Actor finishes to analyze the data.\\
 \end{tabular}
 
 \vskip 0.2in
-\begin{tabular}{|p{3.7cm}|p{11cm}|}
+\begin{tabular}{|p{3.1cm}|p{11.6cm}|}
 \hline
-Name & ViolationConvalidation\\
+Name & Violation convalidation\\
 \hline
 Actors & Authorities\\
 \hline
@@ -76,9 +97,9 @@ Exit condition & The violation report and the system violation data are updated.
 \end{tabular}
 
 \vskip 0.2in
-\begin{tabular}{|p{3.7cm}|p{11cm}|}
+\begin{tabular}{|p{3.1cm}|p{11.6cm}|}
 \hline
-Name & SuggestionEvaluation\\
+Name & Suggestion evaluation\\
 \hline
 Actors & Municipality\\
 \hline

@@ -9,81 +9,10 @@
 	\centering
     \includegraphics[width=\textwidth]{UseCaseUser}
 \end{figure}	
+
 \textbf{Use cases}\\
-\vskip 0.2in
 
-\begin{tabular}{|p{3.7cm}|p{11cm}|}
-\hline
-Name & NotifyViolations\\
-\hline
-Actors & Citizen\\
-\hline
-Entry Condition & Violation detection.\\
-\hline
-Event flow & \begin{enumerate}
-                \item The User selects the report tab if not already selected.
-                \item The User selects the type of violation.
-                \item The User takes and uploads a photo of the violation.
-                \item The User confirms that the license plate is correctly recognized by app, if not he/she inserts it manually in the appropriate field.
-                \item The User checks whether his/her current position is correctly identified by the GPS system, if not he/she inserts it manually in the appropriate field.
-                \item The User confirms the violation report clicking on the "Done" button.
-                \item The system stores the information and completes it with suitable metadata.
-                \item The system sends a notification to the User about the success of the operation.
-            \end{enumerate}\\
-\hline
-Exit condition & The violation report is correctly stored.\\
-\hline
-Exception & the system detects missing information and rejects the report, then asks the User for missing data.\\
-\hline
-Special requirement & TBD.\\
-\hline
-\end{tabular}
-
-\vskip 0.2in
-\begin{tabular}{|p{3.7cm}|p{11cm}|}
-\hline
-Name & AnalyzeAggregateData\\
-\hline
-Actors & Citizen\\
-\hline
-Entry Condition & The citizen wants to know some information about the reported violations.\\
-\hline
-Event flow & \begin{enumerate}
-                \item The citizen selects the "aggregated data" tab.
-                \item The citizen selects the topic he/she is interested about.
-                \item The citizen may select an appropriate filter for his search.
-                \item The citizen selects the data of interest.
-                \item The system provides the data to be visualized according to the actor's authorization level.
-                \item The citizen visualizes the data.
-            \end{enumerate}\\
-\hline
-Exit condition & The Actor finishes to analyze the data.\\
-\hline
-\end{tabular}
-
-\vskip 0.2in
-\begin{tabular}{|p{3.7cm}|p{11cm}|}
-\hline
-Name & Login\\
-\hline
-Actors & Citizen\\
-\hline
-Entry Condition & The actor opens the app.\\
-\hline
-Event flow & \begin{enumerate}
-                \item The citizen inserts his username.
-                \item The citizen inserts his password.
-                \item The citizen press the login button.
-            \end{enumerate}\\
-\hline
-Exit condition & The citizen is authenticated and login is successful.\\
-\hline
-Exception & Username or password are invalid, "invalid credentials" message is displayed and the citizen needs to insert credentials again.\\
-\hline
-\end{tabular}
-
-\vskip 0.2in
-\begin{tabular}{|p{3.7cm}|p{11cm}|}
+\begin{tabular}{|p{3.1cm}|p{11.6cm}|}
 \hline
 Name & Registration\\
 \hline
@@ -107,9 +36,78 @@ Exception & Email is already in use or confirm password field content diverge fr
 \end{tabular}
 
 \vskip 0.2in
-\begin{tabular}{|p{3.7cm}|p{11cm}|}
+\begin{tabular}{|p{3.1cm}|p{11.6cm}|}
+\hline
+Name & Login\\
+\hline
+Actors & Citizen\\
+\hline
+Entry Condition & The citizen opens the app.\\
+\hline
+Event flow & \begin{enumerate}
+                \item The citizen inserts his email.
+                \item The citizen inserts his password.
+                \item The citizen press the login button.
+            \end{enumerate}\\
+\hline
+Exit condition & The citizen is authenticated and login is successful.\\
+\hline
+Exception & Username or password are invalid, "invalid credentials" message is displayed and the citizen needs to insert credentials again.\\
+\hline
+\end{tabular}
+
+\vskip 0.2in
+\begin{tabular}{|p{3.1cm}|p{11.6cm}|}
+\hline
+Name & Notify violations\\
+\hline
+Actors & Citizen\\
+\hline
+Entry Condition & Violation detection.\\
+\hline
+Event flow & \begin{enumerate}
+                \item The User selects the report tab if not already selected.
+                \item The User selects the type of violation.
+                \item The User takes and uploads a photo of the violation.
+                \item The User confirms that the license plate is correctly recognized by app, if not he/she inserts it manually in the appropriate field.
+                \item The User checks whether his/her current position is correctly identified by the GPS system, if not he/she inserts it manually in the appropriate field.
+                \item The User confirms the violation report clicking on the "Done" button.
+                \item The system stores the information and completes it with suitable metadata.
+                \item The system sends a notification to the User about the success of the operation.
+            \end{enumerate}\\
+\hline
+Exit condition & The violation report is correctly stored.\\
+\hline
+Exception & the system detects missing information and rejects the report, then asks the User for missing data.\\
+\hline
+\end{tabular}
+
+\vskip 0.2in
+\begin{tabular}{|p{3.1cm}|p{11.6cm}|}
+\hline
+Name & Analyze aggregate data\\
+\hline
+Actors & Citizen\\
+\hline
+Entry Condition & The citizen wants to know some information about the reported violations.\\
+\hline
+Event flow & \begin{enumerate}
+                \item The citizen selects the "aggregated data" tab.
+                \item The citizen selects the topic he/she is interested about.
+                \item The citizen may select an appropriate filter for his search.
+                \item The citizen selects the data of interest.
+                \item The system provides the data to be visualized according to the actor's authorization level.
+                \item The citizen visualizes the data.
+            \end{enumerate}\\
+\hline
+Exit condition & The Actor finishes to analyze the data.\\
+\hline
+\end{tabular}
+
+\vskip 0.2in
+\begin{tabular}{|p{3.1cm}|p{11.6cm}|}
 	\hline
-	Name & Check old reports\\
+	Name & Check personal reports\\
 	\hline
 	Actors & Citizen\\
 	\hline
@@ -129,7 +127,7 @@ Exception & Email is already in use or confirm password field content diverge fr
 \end{tabular}
 
 \vskip 0.2in
-\begin{tabular}{|p{3.7cm}|p{11cm}|}
+\begin{tabular}{|p{3.1cm}|p{11.6cm}|}
 	\hline
 	Name & Update e-mail\\
 	\hline
