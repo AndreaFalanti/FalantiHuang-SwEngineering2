@@ -1,8 +1,8 @@
-The core concept of the application is to provide to citizens of any city a reliable and fast way to report traffic violations that they see, trying to improve the awareness of citizens about the topic and addressing a social problem that could potentially harm the viability in the city or cause problems to handicapped. SafeStreets main goal to achieve this is to be an intermediary between the citizens, that have the responsibility of reporting the violations, and the authorities, that can access the report and take care of them. The system allows an asynchronous interaction between the parts, avoiding time loss for both the actors.
+The core concept of the application is to provide to citizens of any city a reliable and fast way to report traffic violations they see on streets, trying to improve the their awareness about the topic and addressing a social problem that could potentially harm the viability of the city or cause problems to people with disability. SafeStreets' main method to achieve this is to be an intermediary between the citizens, who have the responsibility of reporting the violations, and the authorities, who can access the report and take care of them. The system allows an asynchronous interaction between parts, avoiding time loss for both the actors.
 
-The municipalities can also have various benefits too when registered to the system, because SafeStreets provide them a way to integrate their data about violations with the ones stored in SafeStreets' databases, calculating then the most unsafe areas and provide suggestions about possible interventions to improve them.
+The municipalities can also have various benefits too when registered to the system, because SafeStreets provide them a way to integrate their data about violations with the ones stored in SafeStreets' databases, calculating then the most unsafe areas and providing suggestions about possible interventions to improve them.
 
-The following class diagrams shows the model of the application domain and its main actors and entities. Note that this class diagram is really high-level, it's main purpose its only to display the defined entities involved in the system, their principal attributes and the relations between them.
+The following class diagrams shows the model of the application domain and its main actors and entities. Note that this class diagram is really high-level, its main purpose it's only to display the defined entities involved in the system, their principal attributes and the relations between them.
 
 \begin{figure}[H]
 	\centering
@@ -10,13 +10,13 @@ The following class diagrams shows the model of the application domain and its m
 	\caption{Class diagram}
 \end{figure}
 
-User abstract class represent the common structure and attributes shared between all types of accounts that reflect the role of the customers of the system. Citizens principal role is to generate reports to populate the databases of violations, while the authorities can check these reports and update their status from pending (default initial status) to validated or invalidated based on the fact if the violation has been certified of not. Municipality accounts instead can visualize the list of interventions to improve the situation of detected unsafe areas and also rate the suggestions to give a feedback to the system. All account type can submit data request for visualize aggregated information relevant to them, but only authorities can visualize single reports (actually a citizen can visualize single reports, but only the ones made by himself).
+User abstract class represents the common structure and attributes shared between all types of accounts that reflect the role of the customers of the system. Citizens' main role is to generate reports to populate the databases of violations, while the authorities can check these reports and update their status from pending (default initial status) to validated or invalidated based on the fact if the violation has been certified or not. Municipality accounts instead can visualize the list of interventions to improve the situation of detected unsafe areas and also rate the suggestions to give a feedback to the system. All account types can submit data request for visualizing aggregated information relevant to them, but only authorities can visualize single reports (actually a citizen can visualize single reports, but only the ones made by himself).
 
-Report entity could be considered central in the entire system because it contains various references to many other entities of the model and its essential to achieve the goals of the application. Reports have attributes that specify their type, the date and hour of the violation, and their actual status. Other fields are references to other class objects, like the vehicle involved, the location of the violation, the citizen that submit the report and the authority that have supervised its certification. It's important to note that vehicle and location entities have a strict composition relation with the report entities, this means that if no more reports with that vehicle or location are stored in the system, also the vehicle and location entities are eliminated from the system.
+Report entity could be considered central in the entire system because it contains various references to many other entities of the model and its essential to achieve the goals of the application. Reports have attributes that specify their type, the date and hour of the violation, and their actual status. Other fields are references to other class objects, like the vehicle involved, the location of the violation, the citizen who submits the report and the authority who has supervised its certification. It's important to note that vehicle and location entities have a strict composition relation with the report entities, this means that if no more reports with that vehicle or location are stored in the system, also the vehicle and location entities are eliminated from the system.
 
-Lastly, the location of a violation or intervention is handled by the Location-Place-City correlated entities. The separation of this entities through composition allows an higher level of granularity and maintainability. Composition is used to emphasize the fact that if no more places of a city are stored in the database, the city is also deleted from it, same thing for places if no more locations coordinates of the place are needed.
+Lastly, the location of a violation or intervention is handled by the Location-Place-City correlated entities. The separation of this entities through composition allows an higher level of granularity and maintainability. Composition is used to emphasize the fact that if no more places of a city are stored in the database, the city is also deleted from it, same thing for places if no more location coordinates of the place are needed.
 
-Next section provide multiple state diagrams, useful to better understand the main interactions that the different customers can perform with the application. 
+Next section provide multiple state diagrams, useful to better understand the main interactions that the different customers can perform with the application.
 
 \begin{figure}[H]
 	\centering
@@ -24,7 +24,7 @@ Next section provide multiple state diagrams, useful to better understand the ma
 	\caption{Generate report state diagram}
 \end{figure}
 
-This state diagram specify all operations needed to complete and submit a report. After selecting the "generate report" tab, the user is asked to take a photo of the violation, with the license plate clearly visible. If not recognized, the user can insert it manually. After that it needs to insert other missing data (GPS automatically detects the location), only description field is completely optional and not required to confirm and submit the report.
+This state diagram specify all operations needed to complete and submit a report. After selecting the "generate report" tab, the user is asked to take a photo of the violation, with the license plate clearly visible. If not recognized, the user can insert it manually. After that it needs to insert other missing data (GPS automatically detects the location). Only the description field is completely optional and not required to confirm and submit the report.
 
 \begin{figure}[H]
 	\centering
@@ -32,7 +32,7 @@ This state diagram specify all operations needed to complete and submit a report
 	\caption{Reports validation state diagram}
 \end{figure}
 
-This diagram instead focus on the report supervision performed by the authorities. In appropriate report section, an authority can visualize the whole list of violations occurred in their area of competence and visualize a report at a time to validate or invalidate them.
+This diagram instead focuses on the report supervision performed by the authorities. In appropriate report section, an authority can visualize the whole list of violations occurred in their area of competence and visualize a report at a time to validate or invalidate them.
 
 \begin{figure}[H]
 	\centering
@@ -40,7 +40,7 @@ This diagram instead focus on the report supervision performed by the authoritie
 	\caption{Suggestions evaluation state diagram}
 \end{figure}
 
-The flow of states that identify the process of a municipality for checking the suggested interventions is pretty similar to the precedent. The municipalities can check a list of interventions from the apposite tab and then consulting them individually, they can also rate them to give a feedback to the system to improve future suggestions.
+The flow of states that identifies the process of a municipality for checking the suggested interventions is pretty similar to the precedent. The municipalities can check a list of interventions from the appropriate tab and then consult them individually. They can also rate them to give a feedback to the system to improve future suggestions.
 
 \begin{figure}[H]
 	\centering
@@ -48,4 +48,4 @@ The flow of states that identify the process of a municipality for checking the 
 	\caption{Data analysis state diagram}
 \end{figure}
 
-The final state diagram describe the process done by any type of user to analyze aggregate data of interest. In the apposite tab, the user is asked to insert spatial and temporal filters, also specifying type of violation (left to "all" value if not interested in a more specific research). Then the user can confirm to check a density map of the violations and a small report. At any time he can update the filters or end the operation.
+The final state diagram describes the process done by any type of user to analyze aggregate data of interest. In the approprite tab, the user is asked to insert spatial and temporal filters, also specifying the type of violation (left to "all" value if not interested in a more specific research). Then the user can confirm to check a density map of the violations and a small report. At any time he can update the filters or end the operation.
