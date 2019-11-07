@@ -140,6 +140,17 @@ fact DataRequestsOnlyValidatedReports {
 	all d: DataRequest | d.validReports.status = VALIDATED
 }
 
+fact SameCoordinatesHaveSamePlace {
+	no disj l1,l2: Location | (l1.latitude = l2.latitude && l1.longitude = l2.longitude) && l1.place != l2.place
+}
+
+fact SelectOnlyReportsThatSatisfyRequestFilters {
+	all d: DataRequest | all r: Report | r in d.validReports implies (
+												r.timestamp.timestamp >= d.from.timestamp and r.timestamp.timestamp <= d.to.timestamp
+												and r.location.place.city = d.locality
+												and (d.violationType != none implies r.violationType = d.violationType))
+}
+
 pred show {
 	#Address > 1
 	#City > 1
