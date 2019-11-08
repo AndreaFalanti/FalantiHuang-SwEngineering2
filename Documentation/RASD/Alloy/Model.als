@@ -6,9 +6,7 @@ one sig INVALIDATED extends ReportStatus{}
 sig PhotoUrl{}
 sig Address{}
 sig State{}
-//sig PostalCode{}
 sig Email{}
-//sig Name{}
 sig LicensePlate{}
 sig Password{}
 sig TrafficViolation{}
@@ -27,7 +25,8 @@ sig Report{
 	vehicle: one Vehicle,
 	photo: one PhotoUrl,
 	supervisor: lone Authority,
-	status: one ReportStatus
+	status: one ReportStatus,
+	visualizedBy: set Authority
 }
 
 
@@ -44,9 +43,7 @@ sig Place{
 }
 
 sig City{
-	//name: one Name,
-	state: one State,
-	//postalCode: one PostalCode
+	state: one State
 }
 
 sig Vehicle{
@@ -64,26 +61,29 @@ sig DataRequest{
 
 sig Intervention{
 	location: one Location,
-	type: one InterventionType
+	type: one InterventionType,
+	accessedBy: lone Municipality
 }
 
 abstract sig User{
-	email: one Email,/*
-	name: one Name,
-	surname: one Name,*/
+	email: one Email,
 	password: one Password
 }
-sig Municipality extends User{}
-sig Authority extends User{}
+sig Municipality extends User{
+	city: one City
+}
+sig Authority extends User{
+	city: one City
+}
 sig Citizen extends User{}
 
 fact NoVehiclesWithSameLicensePlate {
 	no disj v1,v2: Vehicle | v1.licensePlate = v2.licensePlate
 }
 
-fact NoUsersWithSameEmail {
+/*fact NoUsersWithSameEmail {
 	no disj u1,u2: User | u1.email = u2.email
-}
+}*/
 
 fact ReportStatusConstraint {
 	all r: Report | r.supervisor = none iff r.status = PENDING
@@ -93,13 +93,14 @@ fact VehicleReportAggregationConstraint {
 	all v: Vehicle | some r: Report | v in r.vehicle
 }
 
-fact LocationReportAggregationConstraint {
-	all l: Location | some r: Report | l in r.location
+fact LocationReportOrInterventionAggregationConstraint {
+	all l: Location | all r: Report, i: Intervention | l in r.location or l in i.location
 }
 
 // new facts
-fact TimestampReportAggregationConstraint {
-	all t: Timestamp | some r: Report | t in r.timestamp 
+fact TimestampReportOrDataRequestAggregationConstraint {
+	all t: Timestamp | all r: Report, d: DataRequest | t in r.timestamp or
+		t in d.from or t in d.to
 }
 
 fact VehicleReportAggregationConstraint {
@@ -127,12 +128,7 @@ fact PasswordUserAggregationConstraint {
 }
 
 fact EmailUserAggregationConstraint {
-	all e: Email | some u: User | e in u.email
-}
-
-// data requests have "from" timestamp smaller than "to" timestamp to have a correct interval
-fact CorrectIntervalDataRequest {
-	all d: DataRequest | d.from.timestamp < d.to.timestamp
+	all e: Email | one u: User | e in u.email
 }
 
 // data requests must be done only on validated reports
@@ -145,20 +141,76 @@ fact SameCoordinatesHaveSamePlace {
 }
 
 fact SelectOnlyReportsThatSatisfyRequestFilters {
-	all d: DataRequest | all r: Report | r in d.validReports implies (
-												r.timestamp.timestamp >= d.from.timestamp and r.timestamp.timestamp <= d.to.timestamp
-												and r.location.place.city = d.locality
-												and (d.violationType != none implies r.violationType = d.violationType))
+	all d: DataRequest | all r: Report | r in d.validReports iff 
+	(r.timestamp.timestamp >= d.from.timestamp and r.timestamp.timestamp <= d.to.timestamp
+	and r.location.place.city = d.locality
+	and (d.violationType != none implies r.violationType = d.violationType))
 }
 
-pred show {
+fact NoMunicipalityWithSameCity {
+	no disj m1,m2: Municipality | m1.city = m2.city
+}
+
+fact InterventionMunicipalityLocationConsistency {
+	all i: Intervention | all m: Municipality | m in i.accessedBy iff
+	i.location.place.city = m.city
+}
+
+fact ReportVisualizedByCompetentAuthorities {
+	all r: Report | all a: Authority | a in r.visualizedBy iff
+	r.location.place.city = a.city
+}
+
+fact LicensePlateVehicleAggregationConstraint {
+	all l: LicensePlate | one v: Vehicle | l in v.licensePlate
+}
+
+fact PhotoUrlReportAggregationConstraint {
+	all p: PhotoUrl | one r: Report | p in r.photo
+}
+
+fact TrafficViolationReportOrDataRequestAggregationConstraint {
+	all t: TrafficViolation | all r: Report, d: DataRequest | t in r.violationType or
+		t in d.violationType
+}
+
+assert ReportsOfDataRequestSatisfyFilters {
+	all d: DataRequest | no r: Report | r in d.validReports and
+	not (r.timestamp.timestamp >= d.from.timestamp and r.timestamp.timestamp <= d.to.timestamp
+	and r.location.place.city = d.locality
+	and (d.violationType != none implies r.violationType = d.violationType))
+}
+
+check ReportsOfDataRequestSatisfyFilters for 3
+
+pred dataRequest {
 	#Address > 1
 	#City > 1
 	#DataRequest > 0
 	#Authority > 0
 	#Report = 3
 	#(status :> VALIDATED)  = 2
-	#validReports > 1
+	#validReports = 1
+	#Intervention = 0
 }
 
-run show for 3
+pred interventionAccessibility {
+	#Authority = 0
+	#Citizen = 0
+	#Municipality = 2
+	#Report = 0
+	#DataRequest = 0
+	#Intervention = 3
+}
+
+pred reportAccessibility {
+	#Authority = 3
+	#Municipality = 0
+	#Report = 3
+	#DataRequest = 0
+	#Intervention = 0
+}
+
+run dataRequest for 3
+//run interventionAccessibility for 3
+//run reportAccessibility for 3

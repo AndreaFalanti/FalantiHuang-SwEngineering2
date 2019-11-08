@@ -1,0 +1,62 @@
+\documentclass[12pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{esvect}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[parfill]{parskip}
+\usepackage[a4paper, total={6in, 9in}]{geometry}
+\graphicspath{{Images/}{../Images/}}
+\usepackage{xcolor}
+%\usepackage{svg}
+\usepackage{enumitem}
+\usepackage{subfiles}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\usepackage{etoolbox}
+\usepackage{array}
+\usepackage{subcaption}
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{alloy-style}
+
+%\setsvg{inkscape=inkscape -z -D,svgpath=Images/}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=blue
+}
+
+
+\makeatletter
+\newcommand{\myref}[1]
+{
+	\ref{#1} \nameref{#1}.
+}
+\makeatother
+
+\makeatletter
+\newcommand{\myitem}[2][]
+{% 
+	\ifblank{#1}{% arg 1 is empty, in our enumeration it is this case
+		\item #2%
+	}{% arg 2 not empty
+		\item[#1] #2%
+	}%
+	\protected@edef\@currentlabelname{#2}
+}
+\makeatother
+
+
+
+\title{SafeStreets}
+\date{A.A. 2019}
+
+\linespread{1.3}\selectfont
+
+\usepackage{titlesec}
+\titleformat{\chapter}{}{}{0em}{\bf\LARGE}

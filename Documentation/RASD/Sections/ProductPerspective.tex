@@ -14,7 +14,7 @@ User abstract class represents the common structure and attributes shared betwee
 
 Report entity could be considered central in the entire system because it contains various references to many other entities of the model and its essential to achieve the goals of the application. Reports have attributes that specify their type, the date and hour of the violation, and their actual status. Other fields are references to other class objects, like the vehicle involved, the location of the violation, the citizen who submits the report and the authority who has supervised its certification. It's important to note that vehicle and location entities have a strict composition relation with the report entities, this means that if no more reports with that vehicle or location are stored in the system, also the vehicle and location entities are eliminated from the system.
 
-Lastly, the location of a violation or intervention is handled by the Location-Place-City correlated entities. The separation of this entities through composition allows an higher level of granularity and maintainability. Composition is used to emphasize the fact that if no more places of a city are stored in the database, the city is also deleted from it, same thing for places if no more location coordinates of the place are needed.
+Lastly, the location of a violation or intervention is handled by the Location-Place-City correlated entities. The separation of this entities through composition allows a higher level of granularity and maintainability. Composition is used to emphasize the fact that if no more places of a city are stored in the database, the city is also deleted from it, same thing for places if no more location coordinates of the place are needed.
 
 Next section provide multiple state diagrams, useful to better understand the main interactions that the different customers can perform with the application.
 
@@ -48,4 +48,4 @@ The flow of states that identifies the process of a municipality for checking th
 	\caption{Data analysis state diagram}
 \end{figure}
 
-The final state diagram describes the process done by any type of user to analyze aggregate data of interest. In the approprite tab, the user is asked to insert spatial and temporal filters, also specifying the type of violation (left to "all" value if not interested in a more specific research). Then the user can confirm to check a density map of the violations and a small report. At any time he can update the filters or end the operation.
+The final state diagram describes the process done by any type of user to analyze aggregate data of interest. In the appropriate tab, the user is asked to insert spatial and temporal filters, also specifying the type of violation (left to "all" value if not interested in a more specific research). Then the user can confirm to check a density map of the violations and a small report. At any time he can update the filters or end the operation.

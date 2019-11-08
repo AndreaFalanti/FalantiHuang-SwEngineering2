@@ -1,8 +1,7 @@
 Domain assumptions:
 \begin{enumerate}[label={D\arabic*.}]
-	\myitem {Registered emails must be unique.} \label{D_email}
+	\myitem {Email addresses are unique.} \label{D_email}
     \myitem {Users report violations when they detect them.} \label{D_reports}
-    \myitem {Traffic violations must occur regularly.} \label{D_occurrency}
     \myitem {Municipality service about accidents is always available.} \label{D_mun_availability}
    	\myitem {Municipality accidents' data is always accurate.} \label{D_mun_accuracy}
     \myitem {Report supervisor always validates the correctness of the reports.} \label{D_supervisor}
@@ -11,6 +10,7 @@ Domain assumptions:
     \myitem {Every city has authority institutions.} \label{D_city_auth}
     \myitem {Municipality and authorities of each city have a PCE.} \label{D_pce}
     \myitem {Each nation's PCE service has an API to get the data of an institution from a PCE.} \label{D_pce_api}
+    \myitem{License plates are unique.}\label{D_unique_license_plate}
 \end{enumerate}
 
 Any user who has a device with internet connection is able to access the services offered by SafeStreets (e.g. reporting violation with images and mining data about the previously reported violations). GPS sensor is required to report a violation.
