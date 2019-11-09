@@ -163,11 +163,6 @@ fact NoDifferentInterventionsWithSameLocation {
 }
 
 /* ------------------------- assertions ------------------------ */
-assert ReportsOfDataRequestSatisfyFilters {
- 
-}
-//check ReportsOfDataRequestSatisfyFilters for 3
-
 assert ReportSupervisorCanAlsoVisualize {
 	all r: Report | r.supervisor in r.visualizedBy
 }
@@ -179,7 +174,7 @@ assert AuthorityCanAccessOnlyReportsFromHisCity {
 check AuthorityCanAccessOnlyReportsFromHisCity for 10
 
 /* ------------------------- worlds ------------------------ */
-// shows a world with one data request with one valid report
+// shows a world with one data request with at least one valid report
 pred dataRequestWithValidReport {
 	#(status :> VALIDATED)  = 1
 	#(status :> PENDING) = 1
