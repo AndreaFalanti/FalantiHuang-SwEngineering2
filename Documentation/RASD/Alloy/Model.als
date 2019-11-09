@@ -18,8 +18,8 @@ sig Timestamp{
 }
 
 sig Report{
-	timestamp: one Timestamp,
-	location: one Location,
+	reportTimestamp: one Timestamp,
+	reportLocation: one Location,
 	submitter: one Citizen,
 	violationType: one TrafficViolation,
 	vehicle: one Vehicle,
@@ -27,8 +27,11 @@ sig Report{
 	supervisor: lone Authority,
 	status: one ReportStatus,
 	visualizedBy: set Authority
+}{
+	no supervisor iff status = PENDING
+	some supervisor implies supervisor.city = reportLocation.place.city
+	status != PENDING iff #visualizedBy >0
 }
-
 
 sig Location{
 	// Alloy doesn't provide a Float or Double type for performance reasons, so Int is used instead (Simplified version of GPS coordinates)
@@ -56,11 +59,14 @@ sig DataRequest{
 	locality: one City,
 	violationType: lone TrafficViolation,
 	validReports: set Report
+}{ 
+	from != to and from.timestamp < to.timestamp
+	// data requests must be done only on validated reports
+	some validReports implies validReports.status = VALIDATED
 }
-{ from != to and from.timestamp < to.timestamp}
 
 sig Intervention{
-	location: one Location,
+	interventionLocation: one Location,
 	type: one InterventionType,
 	accessedBy: lone Municipality
 }
@@ -77,34 +83,27 @@ sig Authority extends User{
 }
 sig Citizen extends User{}
 
-fact NoVehiclesWithSameLicensePlate {
-	no disj v1,v2: Vehicle | v1.licensePlate = v2.licensePlate
+// aggregation constraints
+fact LocationReportOrInterventionAggregationConstraint {
+	all l: Location, r: Report, i: Intervention | l in r.reportLocation or l in i.interventionLocation
+	//all l: Location, r: Report | l in r.reportLocation
 }
 
-/*fact NoUsersWithSameEmail {
-	no disj u1,u2: User | u1.email = u2.email
-}*/
+fact TimestampReportOrDataRequestAggregationConstraint {
+	all t: Timestamp | all r: Report, d: DataRequest | t in r.reportTimestamp or
+		t in d.from or t in d.to
+}
 
-fact ReportStatusConstraint {
-	all r: Report | r.supervisor = none iff r.status = PENDING
+fact PhotoUrlReportAggregationConstraint {
+	all p: PhotoUrl | one r: Report | p in r.photo
 }
 
 fact VehicleReportAggregationConstraint {
 	all v: Vehicle | some r: Report | v in r.vehicle
 }
 
-fact LocationReportOrInterventionAggregationConstraint {
-	all l: Location | all r: Report, i: Intervention | l in r.location or l in i.location
-}
-
-// new facts
-fact TimestampReportOrDataRequestAggregationConstraint {
-	all t: Timestamp | all r: Report, d: DataRequest | t in r.timestamp or
-		t in d.from or t in d.to
-}
-
-fact VehicleReportAggregationConstraint {
-	all v: Vehicle | some r: Report | v in r.vehicle 
+fact LicensePlateVehicleAggregationConstraint {
+	all l: LicensePlate | one v: Vehicle | l in v.licensePlate
 }
 
 fact InteverntionTypeInterventionAggregationConstraint {
@@ -131,9 +130,9 @@ fact EmailUserAggregationConstraint {
 	all e: Email | one u: User | e in u.email
 }
 
-// data requests must be done only on validated reports
-fact DataRequestsOnlyValidatedReports {
-	all d: DataRequest | d.validReports.status = VALIDATED
+// other constraints
+fact NoVehiclesWithSameLicensePlate {
+	no disj v1,v2: Vehicle | v1.licensePlate = v2.licensePlate
 }
 
 fact SameCoordinatesHaveSamePlace {
@@ -141,9 +140,9 @@ fact SameCoordinatesHaveSamePlace {
 }
 
 fact SelectOnlyReportsThatSatisfyRequestFilters {
-	all d: DataRequest | all r: Report | r in d.validReports iff 
-	(r.timestamp.timestamp >= d.from.timestamp and r.timestamp.timestamp <= d.to.timestamp
-	and r.location.place.city = d.locality
+	all d: DataRequest, r: Report | r in d.validReports iff 
+	(r.reportTimestamp.timestamp >= d.from.timestamp and r.reportTimestamp.timestamp <= d.to.timestamp
+	and r.reportLocation.place.city = d.locality
 	and (d.violationType != none implies r.violationType = d.violationType))
 }
 
@@ -152,47 +151,38 @@ fact NoMunicipalityWithSameCity {
 }
 
 fact InterventionMunicipalityLocationConsistency {
-	all i: Intervention | all m: Municipality | m in i.accessedBy iff
-	i.location.place.city = m.city
+	all i: Intervention, m: Municipality | m in i.accessedBy iff
+	i.interventionLocation.place.city = m.city
 }
 
 fact ReportVisualizedByCompetentAuthorities {
-	all r: Report | all a: Authority | a in r.visualizedBy iff
-	r.location.place.city = a.city
-}
-
-fact LicensePlateVehicleAggregationConstraint {
-	all l: LicensePlate | one v: Vehicle | l in v.licensePlate
-}
-
-fact PhotoUrlReportAggregationConstraint {
-	all p: PhotoUrl | one r: Report | p in r.photo
+	all r: Report, a: Authority | a in r.visualizedBy iff
+	r.reportLocation.place.city = a.city
 }
 
 fact TrafficViolationReportOrDataRequestAggregationConstraint {
-	all t: TrafficViolation | all r: Report, d: DataRequest | t in r.violationType or
+	all t: TrafficViolation, r: Report, d: DataRequest | t in r.violationType or
 		t in d.violationType
 }
 
 assert ReportsOfDataRequestSatisfyFilters {
-	all d: DataRequest | no r: Report | r in d.validReports and
-	not (r.timestamp.timestamp >= d.from.timestamp and r.timestamp.timestamp <= d.to.timestamp
-	and r.location.place.city = d.locality
-	and (d.violationType != none implies r.violationType = d.violationType))
+ 
 }
+//check ReportsOfDataRequestSatisfyFilters for 3
 
-check ReportsOfDataRequestSatisfyFilters for 3
+// the supervisor of a report must be able to visualize it
+assert ReportSupervisorCanAlsoVisualize {
+	all r: Report | r.supervisor in r.visualizedBy
+}
+//check ReportSupervisorCanAlsoVisualize for 10
 
+/* ------------------------- worlds ------------------------ */
 pred dataRequest {
-	#Address > 1
-	#City > 1
-	#DataRequest > 0
-	#Authority > 0
-	#Report = 3
-	#(status :> VALIDATED)  = 2
-	#validReports = 1
-	#Intervention = 0
+	#(status :> VALIDATED)  = 1
+	#(status :> PENDING) = 1
+	some d: DataRequest | no d.validReports
 }
+run dataRequest for 4 but exactly 4 Location, exactly 2 Report, exactly 2 DataRequest, 0 Intervention, 0 Municipality
 
 pred interventionAccessibility {
 	#Authority = 0
@@ -211,6 +201,5 @@ pred reportAccessibility {
 	#Intervention = 0
 }
 
-run dataRequest for 3
 //run interventionAccessibility for 3
 //run reportAccessibility for 3
