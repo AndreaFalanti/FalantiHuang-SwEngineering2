@@ -162,6 +162,10 @@ fact NoDifferentInterventionsWithSameLocation {
 	no disj i1, i2: Intervention | i1.interventionLocation = i2.interventionLocation and i1.type = i2.type
 }
 
+fact NoPlacesWithSameAddressAndCity {
+	no disj p1, p2: Place | p1.address = p2. address and p1.city = p2.city
+}
+
 /* ------------------------- assertions ------------------------ */
 assert ReportSupervisorCanAlsoVisualize {
 	all r: Report | r.supervisor in r.visualizedBy
