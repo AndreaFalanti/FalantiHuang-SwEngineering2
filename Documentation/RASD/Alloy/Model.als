@@ -30,7 +30,6 @@ sig Report{
 }{
 	no supervisor iff status = PENDING
 	some supervisor implies supervisor.city = reportLocation.place.city
-	status != PENDING iff #visualizedBy >0
 }
 
 sig Location{
@@ -83,7 +82,8 @@ sig Authority extends User{
 }
 sig Citizen extends User{}
 
-// aggregation constraints
+/* ------------------------- constraints ------------------------ */
+// composition constraints
 fact LocationReportInterventionCompositionConstraint {
 	all l: Location | (some r: Report | l in r.reportLocation) or
 	(some i: Intervention | l in i.interventionLocation)
@@ -131,19 +131,10 @@ fact EmailUserCompositionConstraint {
 fact StateCityCompositionConstraint {
 	all s: State | some c: City | s in c.state
 }
-/* They are aggregation not compositions!
-fact TrafficViolationReportOrDataRequestCompositionConstraint {
-	all t: TrafficViolation, r: Report, d: DataRequest | t in r.violationType or
-		t in d.violationType
-}
-
-fact InteverntionTypeInterventionCompositionConstraint {
-	all it: InterventionType | some i: Intervention | it in i.type
-}*/
 
 // other constraints
 fact SameCoordinatesHaveSamePlace {
-	no disj l1,l2: Location | (l1.latitude = l2.latitude && l1.longitude = l2.longitude) && l1.place != l2.place
+	no disj l1,l2: Location | (l1.latitude = l2.latitude and l1.longitude = l2.longitude) and l1.place != l2.place
 }
 
 fact SelectOnlyReportsThatSatisfyRequestFilters {
@@ -167,39 +158,53 @@ fact ReportVisualizedByCompetentAuthorities {
 	r.reportLocation.place.city = a.city
 }
 
+fact NoDifferentInterventionsWithSameLocation {
+	no disj i1, i2: Intervention | i1.interventionLocation = i2.interventionLocation and i1.type = i2.type
+}
+
+/* ------------------------- assertions ------------------------ */
 assert ReportsOfDataRequestSatisfyFilters {
  
 }
 //check ReportsOfDataRequestSatisfyFilters for 3
 
-// the supervisor of a report must be able to visualize it
 assert ReportSupervisorCanAlsoVisualize {
 	all r: Report | r.supervisor in r.visualizedBy
 }
-//check ReportSupervisorCanAlsoVisualize for 10
+check ReportSupervisorCanAlsoVisualize for 10
+
+assert AuthorityCanAccessOnlyReportsFromHisCity {
+	all r: Report | no a: Authority | a.city != r.reportLocation.place.city and a in r.visualizedBy
+}
+check AuthorityCanAccessOnlyReportsFromHisCity for 10
 
 /* ------------------------- worlds ------------------------ */
-pred dataRequest {
+// shows a world with one data request with one valid report
+pred dataRequestWithValidReport {
 	#(status :> VALIDATED)  = 1
 	#(status :> PENDING) = 1
-	#(status :> INVALIDATED)  = 1
 	#validReports >= 1
-	some d: DataRequest | no d.validReports
 }
-run dataRequest for 3 but exactly 3 Report, exactly 2 DataRequest, 0 Intervention, 0 Municipality
+run dataRequestWithValidReport for 3 but exactly 2 Report, exactly 1 DataRequest, 1 City,  1 TrafficViolation, 0 Intervention, 0 Municipality
+
+// shows a world with one data request with zero valid reports
+pred dataRequestWithNoValidReport {
+	#(status :> VALIDATED)  = 2
+	#validReports = 0
+}
+run dataRequestWithNoValidReport for 3 but exactly 2 Report, exactly 1 DataRequest, 1 City,  1 TrafficViolation, 0 Intervention, 0 Municipality
 
 // shows a world in which some interventions are accessible from municipalities and others are not
 pred interventionAccessibility {
 	#accessedBy >=  1
 	some i: Intervention | i.accessedBy = none
 }
+run interventionAccessibility for 3 but exactly 2 Municipality, exactly 3 Intervention, exactly 2 Location, 0 Authority, 0 Citizen, 0 Report, 0 DataRequest
 
 // shows a world in which some reports are accessible from some authorities and others are not
 pred reportAccessibility {
 	#visualizedBy >= 1
 	some r: Report | r.visualizedBy = none
 }
-
-run interventionAccessibility for 3 but exactly 2 Municipality, exactly 3 Intervention, exactly 2 Location, 0 Authority, 0 Citizen, 0 Report, 0 DataRequest
 // at least n+1 entities, where n is number of authorities, because at least 1 citizen is needed for reports and so n+1 emails are needed
-run reportAccessibility for 4 but exactly 3 Authority, exactly 2 Report, 2 Location, 0 Municipality, 0 DataRequest, 0 Intervention
+run reportAccessibility for 4 but exactly 2 Authority, exactly 2 Report, 2 Location, 0 Municipality, 0 DataRequest, 0 Intervention
