@@ -166,6 +166,10 @@ fact NoPlacesWithSameAddressAndCity {
 	no disj p1, p2: Place | p1.address = p2. address and p1.city = p2.city
 }
 
+fact NoSameReportFromSameCitizenAtTheSameTime {
+	no r1, r2: Report | r1.submitter = r2.submitter and r1 != r2
+}
+
 /* ------------------------- assertions ------------------------ */
 assert ReportSupervisorCanAlsoVisualize {
 	all r: Report | r.supervisor in r.visualizedBy
@@ -188,7 +192,8 @@ run dataRequestWithValidReport for 3 but exactly 2 Report, exactly 1 DataRequest
 
 // shows a world with one data request with zero valid reports
 pred dataRequestWithNoValidReport {
-	#(status :> VALIDATED)  = 2
+	#(status :> VALIDATED)  = 1
+	#(status :> INVALIDATED)  = 1
 	#validReports = 0
 }
 run dataRequestWithNoValidReport for 3 but exactly 2 Report, exactly 1 DataRequest, 1 City,  1 TrafficViolation, 0 Intervention, 0 Municipality

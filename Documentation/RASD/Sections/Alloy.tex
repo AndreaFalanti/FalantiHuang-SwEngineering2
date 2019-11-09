@@ -10,7 +10,19 @@ In this section an alloy formulation is provided to model critical aspects of th
 \vspace{10mm}
 \lstinputlisting[language=alloy]{Alloy/Model.als}
 
-
+In the following we present some possible models of the world, in particular the continuous lines represents the most important relations, whereas the dotted lines represents the least important relations.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{Alloy/dataRequestWithValidReport}
+	\caption{World 1}
+\end{figure}
+In the first world, we can see that different users have different emails (used for registration and login) and there are two reports and one data request. The first report is in a pending status even though it is visualized by an authority that has in its jurisdiction the city where the violation occurred, and it is correctly among the reports associated to the data request. The second report is in a validated status, indeed there is an authority in that city who is its supervisor; also this report satisfies the time and spatial constraints of the data request so it is in its valid reports.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{Alloy/dataRequestWithNoValidReport}
+	\caption{World 2}
+\end{figure}
+In the second world, there is one validated request, one invalidated request and one data request. The two reports are about the same traffic violation (same vehicle, same location and same timestamp), but they are reported by different citizens with two different photos. It is interesting to see that the report of a same violation can be validated in one case and not in the other, most probably when a photo describes completely the violation situation and not respectively. In this case there are no reports in the data requests, because there are no reports satisfying its filter.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{Alloy/interventionAccessibility}
