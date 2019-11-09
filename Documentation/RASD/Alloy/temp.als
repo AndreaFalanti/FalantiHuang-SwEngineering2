@@ -84,62 +84,51 @@ sig Authority extends User{
 sig Citizen extends User{}
 
 // aggregation constraints
-fact LocationReportInterventionCompositionConstraint {
-	all l: Location | (some r: Report | l in r.reportLocation) or
-	(some i: Intervention | l in i.interventionLocation)
+fact LocationReportInterventionAggregationConstraint {
+	all l: Location, r: Report, i: Intervention | l in r.reportLocation or l in i.interventionLocation
 	//all l: Location, r: Report | l in r.reportLocation
 }
 
-fact TimestampReportDataRequestCompositionConstraint {
-	all t: Timestamp | (some r: Report | t in r.reportTimestamp) or
-	(some d: DataRequest | t in d.from or t in d.to)
+fact TimestampReportDataRequestAggregationConstraint {
+	all t: Timestamp, r: Report, d: DataRequest | t in r.reportTimestamp or
+		t in d.from or t in d.to
 }
 
-fact PhotoUrlReportCompositionConstraint {
+fact PhotoUrlReportAggregationConstraint {
 	all p: PhotoUrl | one r: Report | p in r.photo
 }
 
-fact VehicleReportCompositionConstraint {
+fact VehicleReportAggregationConstraint {
 	all v: Vehicle | some r: Report | v in r.vehicle
 }
 
-fact LicensePlateVehicleCompositionConstraint {
+fact LicensePlateVehicleAggregationConstraint {
 	all l: LicensePlate | one v: Vehicle | l in v.licensePlate
 }
 
-fact PlaceLocationCompositionConstraint {
+fact InteverntionTypeInterventionAggregationConstraint {
+	all it: InterventionType | some i: Intervention | it in i.type
+}
+
+fact PlaceLocationAggregationConstraint {
 	all p: Place | some l: Location | p in l.place
 }
 
-fact AddressPlaceCompositionConstraint {
+fact AddressPlaceAggregationConstraint {
 	all a: Address | some p: Place | a in p.address
 }
 
-fact CityPlaceAuthorityMunicipalityCompositionConstraint {
-	all c: City | (some p: Place | c in p.city) or 
-	(some m: Municipality |c in m.city) or  (some a: Authority |c in a.city)
+fact CityPlaceAuthorityMunicipalityAggregationConstraint {
+	all c: City, p: Place, m: Municipality, a: Authority | c in p.city or c in m.city or c in a.city
 }
 
-fact PasswordUserCompositionConstraint {
+fact PasswordUserAggregationConstraint {
 	all p: Password | some u: User | p in u.password
 }
 
-fact EmailUserCompositionConstraint {
+fact EmailUserAggregationConstraint {
 	all e: Email | one u: User | e in u.email
 }
-
-fact StateCityCompositionConstraint {
-	all s: State | some c: City | s in c.state
-}
-/* They are aggregation not compositions!
-fact TrafficViolationReportOrDataRequestCompositionConstraint {
-	all t: TrafficViolation, r: Report, d: DataRequest | t in r.violationType or
-		t in d.violationType
-}
-
-fact InteverntionTypeInterventionCompositionConstraint {
-	all it: InterventionType | some i: Intervention | it in i.type
-}*/
 
 // other constraints
 fact SameCoordinatesHaveSamePlace {
@@ -167,6 +156,11 @@ fact ReportVisualizedByCompetentAuthorities {
 	r.reportLocation.place.city = a.city
 }
 
+fact TrafficViolationReportOrDataRequestAggregationConstraint {
+	all t: TrafficViolation, r: Report, d: DataRequest | t in r.violationType or
+		t in d.violationType
+}
+
 assert ReportsOfDataRequestSatisfyFilters {
  
 }
@@ -182,19 +176,16 @@ assert ReportSupervisorCanAlsoVisualize {
 pred dataRequest {
 	#(status :> VALIDATED)  = 1
 	#(status :> PENDING) = 1
-	#(status :> INVALIDATED)  = 1
 	#validReports >= 1
 	some d: DataRequest | no d.validReports
 }
-run dataRequest for 3 but exactly 3 Report, exactly 2 DataRequest, 0 Intervention, 0 Municipality
+run dataRequest for 4 but exactly 4 Location, exactly 2 Report, exactly 2 DataRequest, 0 Intervention, 0 Municipality
 
-// shows a world in which some interventions are accessible from municipalities and others are not
 pred interventionAccessibility {
 	#accessedBy >=  1
 	some i: Intervention | i.accessedBy = none
 }
 
-// shows a world in which some reports are accessible from some authorities and others are not
 pred reportAccessibility {
 	#visualizedBy >= 1
 	some r: Report | r.visualizedBy = none
