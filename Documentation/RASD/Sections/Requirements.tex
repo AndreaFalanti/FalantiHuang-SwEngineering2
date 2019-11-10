@@ -5,7 +5,7 @@ Requirements:
 \begin{enumerate}[label={R\arabic*.}]
 	\myitem {When a traffic violation is reported, the system must allow the authorities of the city where the violation happened to verify it.} \label{R_violation_auth}
 	\myitem {Reports about traffic violations need to be stored in a database, also associating them to the user profile who sent them.} \label{R_storing_report}
-	\myitem {The system needs to integrate reported traffic violations with data from the municipality and analyze all the data with an algorithm to find possible interventions to address the detected main cause of the violations.} \label{R_mun_integration}
+	\myitem {The system needs to integrate reported traffic violations with data from the municipality when provided and analyze all the data with an algorithm to find possible interventions to address the detected main cause of the violations.} \label{R_mun_integration}
 	\myitem {The suggestions about interventions must be sent to the municipality to evaluate a possible solution.} \label{R_mun_intervention_send}
 	\myitem {Traffic violations data must be available for public consultation with different levels of visibility, according to user's level of authorization.} \label{R_data_vis}
 	\begin{enumerate}[label={R\arabic{enumi}.\arabic*.}]
@@ -77,8 +77,7 @@ Goal Logical Derivation:
 \end{enumerate}
 
 \bigskip
-Traceability matrix:
-
+\textbf{Traceability matrix}:
 
 Login use case is omitted for simplicity, because it would be used in almost every requirement.
 

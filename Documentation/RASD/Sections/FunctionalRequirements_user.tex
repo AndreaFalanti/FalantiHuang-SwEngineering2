@@ -1,16 +1,18 @@
 \paragraph{Scenarios}
     \begin{enumerate}
-        \item Johnny is a model citizen of Milan and he is really caring about parking violations, because they are really frequent in his neighbourhood. When he see a violation, he opens the SafeStreets app on his smartphone and reports it with just few clicks. All he needs to do is to take a photo of the violation where the license plate is clearly visible and confirm if the system detected it correctly or not, if not he inserts the license plate manually in the field that appears after the confirmation. Position is automatically detected from the GPS because he allowed the app to access it, and to send the report to SafeStreets he just needs to confirm by clicking the done button.
+        \item Johnny is a model citizen of Milan and he is really caring about parking violations, because they are really frequent in his neighbourhood. When he sees a violation, he opens the SafeStreets app on his smartphone and reports it with just few clicks. All he needs to do is to take a photo of the violation where the license plate is clearly visible and confirm if the system detected it correctly or not, if not he inserts the license plate manually in the field that appears after the confirmation. Position is automatically detected from the GPS because he allowed the app to access it. Finally, to send the report to SafeStreets he just needs to confirm by clicking the done button.
         
-        \item Giuseppe is a veteran user of SafeStreets app, registered to the system since its beginning. One day he need to update his e-mail, because he has no more access to the one he registered with, so he opens the app and check his account tab. Here, he clicks on update e-mail and inserts the new one, then he logs in the e-mail service to confirm the change.
+        \item Giuseppe is a righteous citizen and recently has heard about SafeStreets but never used it. One day, he finds a double-parked car right in front of his, so he is not able to get his car out. After waiting some minutes hoping for the owner of the double-parked car to arrive without success, Giuseppe remembers about SafeStreets and decides to use it for the first time. He registers and logs in the app, then he uploads a photo of the car of the transgressor and sends the report. While still waiting, he checks whether his report has been validated by some authorities and sees that after 10 minutes it has been validated, so he now knows that the authorities will take action about it.
+        
+        \item George is a tourist who has just arrived in Rome, and plans to stay there for a week. When he goes out touring the city with the car he rented for the entire week, he uses SafeStreets to check where the most violation afflicted areas of the city are to avoid areas which can lead to a terrible experience in parking his vehicle. So he opens the SafeStreets app and enters the analyze data tab, selecting Rome as the city and a year time as time interval. George now knows where he should park his car and can have a great experience in Rome.
     \end{enumerate}
-
+\textbf{Use cases}
 \begin{figure}[H]
 	\centering
     \includegraphics[width=\textwidth]{UML/UseCaseUser}
 \end{figure}	
 
-\textbf{Use cases}\\
+
 
 \begin{tabular}{|p{3.1cm}|p{11.6cm}|}
 \hline
@@ -123,29 +125,6 @@ Exit condition & The Actor finishes to analyze the data.\\
 	\end{enumerate}\\
 	\hline
 	Exit condition & The citizen closes the reports list after he doesn't need to visualize them anymore.\\
-	\hline
-\end{tabular}
-
-\vskip 0.2in
-\begin{tabular}{|p{3.1cm}|p{11.6cm}|}
-	\hline
-	Name & Update e-mail\\
-	\hline
-	Actors & Citizen\\
-	\hline
-	Entry Condition & The citizen opens the app, desiring to change the e-mail associated to his account.\\
-	\hline
-	Event flow & \begin{enumerate}
-		\item The citizen selects the account tab.
-		\item The citizen clicks on "Change e-mail" button.
-		\item The citizen inputs a new e-mail in the pop-up.
-		\item The citizen checks the input of the given e-mail, opens the e-mail concerning his e-mail change and clicks on a link to confirm the change.
-		\item A confirmation about the success of the operation is printed on screen after the link is opened.
-	\end{enumerate}\\
-	\hline
-	Exit condition & The confirmation message correctly appears on user's device screen.\\
-	\hline
-	Exception & Email is already in use or it has an invalid format, the user is then asked to input another e-mail in the field. If the e-mail for confirming the change of the account's e-mail is not correctly received by the user for any reason, he/she can contact the support about the issue.\\
 	\hline
 \end{tabular}
 
