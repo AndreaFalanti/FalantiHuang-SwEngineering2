@@ -6,7 +6,7 @@ Requirements:
 	\myitem {When a traffic violation is reported, the system must allow the authorities of the city where the violation happened to verify it.} \label{R_violation_auth}
 	\myitem {Reports about traffic violations need to be stored in a database, also associating them to the user profile who sent them.} \label{R_storing_report}
 	\myitem {The system needs to integrate reported traffic violations with data from the municipality when provided and analyze all the data with an algorithm to find possible interventions to address the detected main cause of the violations.} \label{R_mun_integration}
-	\myitem {The suggestions about interventions must be sent to the municipality to evaluate a possible solution.} \label{R_mun_intervention_send}
+	\myitem {The system must be able to generate a list of possible interventions when a municipality requires it for evaluation, based on stored reports.} \label{R_mun_intervention_generation}
 	\myitem {Traffic violations data must be available for public consultation with different levels of visibility, according to user's level of authorization.} \label{R_data_vis}
 	\begin{enumerate}[label={R\arabic{enumi}.\arabic*.}]
 		\myitem {The system should allow a normal user to access only to aggregated data, without the license plate of the reported vehicle or the personal info of the user who reported the violation.} \label{R_data_vis_cit}
@@ -29,14 +29,18 @@ Goal Logical Derivation:
 		\item \myref{D_supervisor}
 		\item \myref{D_city_auth}
 	\end{itemize}
+	\item \myref{G_store_cross_data}
+	\begin{itemize}[label={}]
+		\item \myref{R_storing_report}
+		\item \myref{R_mun_integration}
+		\item \myref{D_mun_availability}
+	\end{itemize}
 	\item \myref{G_interventions}
 	\begin{itemize}[label={}]
 		\item \myref{R_storing_report}
-	 	\item \myref{R_mun_integration}
-	 	\item \myref{R_mun_intervention_send}
+	 	\item \myref{R_mun_intervention_generation}
 	 	\item \myref{D_mun_availability}
 	 	\item \myref{D_mun_accuracy}
-	 	\item \myref{D_pce}
 	\end{itemize}
 	\item \myref{G_inst_registration}
 	\begin{itemize}[label={}]
@@ -86,13 +90,15 @@ Login use case is omitted for simplicity, because it would be used in almost eve
 	\hline 
 	Requirements & Use cases \\ 
 	\hline 
-	R1 &  ViolationValidation \\ 
+	R1 & ViolationValidation \\ 
 	\hline 
-	R2 &  NotifyViolations \\ 
+	R2 & NotifyViolations \\ 
+	   & ViolationValidation \\
+	   & SuggestionEvaluation \\
 	\hline 
-	R3 &  SuggestionEvaluation \\ 
+	R3 & SuggestionEvaluation \\ 
 	\hline 
-	R4 &  SuggestionEvaluation \\ 
+	R4 & SuggestionEvaluation \\ 
 	\hline 
 	R5 & AnalyzeData \\ 
 	\hline 

@@ -3,13 +3,20 @@ In this section an alloy formulation is provided to model critical aspects of th
 	\item it cannot happen that two different users have the same email address.
 	\item each city must have at most one municipality, and a municipality is associated to only one city.
 	\item authorities have the jurisdiction of only one city, but a city can have multiple registered authorities.
+	\item a municipality can see only intervention relative to its city.
 	\item data requests must satisfy the filters.
 \end{itemize}
 
 \vspace{10mm}
 \lstinputlisting[language=alloy]{Alloy/Model.als}
 
-In the following we present some possible models of the world, in particular the continuous lines represents the most important relations, whereas the dotted lines represents the least important relations.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth]{Alloy/execution}
+	\caption{World execution details}
+\end{figure}
+
+In the following section we present some possible models of the world, in particular the continuous lines represents the most important relations, whereas the dotted lines represents the least important ones.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{Alloy/dataRequestWithValidReport}
@@ -28,7 +35,7 @@ In the second world, there is one validated request, one invalidated request and
 	\caption{World 3}
 \end{figure}
 
-From world 3 we can check that an intervention can be seen only by municipality of the city in which the intervention is situated, otherwise the intervention exists but can't be visualized by any municipality. Generating interventions for non registered municipalities can be useful because any municipality that register to the service can visualize a list of interventions right away, so we have allowed this case.
+In the third world, we can check that an intervention can be seen only by municipality of the city in which the intervention is situated. As you can see, municipality1 can access intervention1 and intervention0 because their location is situated in the same city of it, same thing happens for intervention2 and municipality0. Some interventions can occur in the same location because different intervention type could be needed in that place.
 
 \begin{figure}[H]
 	\centering
@@ -36,4 +43,4 @@ From world 3 we can check that an intervention can be seen only by municipality 
 	\caption{World 4}
 \end{figure}
 
-From world 4 we can check that a report can be visualized only by authorities who have jurisdiction on that city. Another interesting relation is that report supervisor is of course an authority that can access it, also if a supervisor is present means that report is either validated or invalidated. If a report can't be accessed, clearly its status remain always pending because no authority can't change it.
+In the fourth world, we can check that a report can be visualized only by authorities who have jurisdiction on that city. Another interesting relation is that report supervisor is of course an authority that can access it, also if a supervisor is present means that report is either validated or invalidated. If a report can't be accessed, clearly its status remain always pending because no authority can't change it.

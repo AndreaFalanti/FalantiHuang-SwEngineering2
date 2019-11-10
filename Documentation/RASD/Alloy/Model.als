@@ -67,7 +67,7 @@ sig DataRequest{
 sig Intervention{
 	interventionLocation: one Location,
 	type: one InterventionType,
-	accessedBy: lone Municipality
+	accessedBy: one Municipality
 }
 
 abstract sig User{
@@ -170,6 +170,10 @@ fact NoSameReportFromSameCitizenAtTheSameTime {
 	no r1, r2: Report | r1.submitter = r2.submitter and r1 != r2
 }
 
+fact NoInterventionsWithoutMunicipality {
+	all i: Intervention | some m: Municipality | i.interventionLocation.place.city = m.city
+}
+
 /* ------------------------- assertions ------------------------ */
 assert ReportSupervisorCanAlsoVisualize {
 	all r: Report | r.supervisor in r.visualizedBy
@@ -198,10 +202,9 @@ pred dataRequestWithNoValidReport {
 }
 run dataRequestWithNoValidReport for 3 but exactly 2 Report, exactly 1 DataRequest, 1 City,  1 TrafficViolation, 0 Intervention, 0 Municipality
 
-// shows a world in which some interventions are accessible from municipalities and others are not
+// shows a world in which interventions are accessible only from municipality in which they are located in
 pred interventionAccessibility {
-	#accessedBy >=  1
-	some i: Intervention | i.accessedBy = none
+	some i1, i2: Intervention | i1.interventionLocation.place.city != i2.interventionLocation.place.city
 }
 run interventionAccessibility for 3 but exactly 2 Municipality, exactly 3 Intervention, exactly 2 Location, 0 Authority, 0 Citizen, 0 Report, 0 DataRequest
 
