@@ -1,0 +1,74 @@
+\input{config}
+\usepackage{subfiles}
+
+\begin{document}
+% title page
+\clearpage
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Logo_Politecnico_Milano.png}
+    \label{fig:my_label}
+\end{figure}
+
+
+{
+    \centering
+    \Huge Software Engineering 2\\
+    \LARGE Design Document\\
+    \LARGE SafeStreets\\
+    \bigskip
+    \large Version 1.0 - (date)\\
+    \vspace*{\fill}
+    \begingroup
+        \small
+        \renewcommand*{\arraystretch}{1.5}
+        \noindent
+        \begin{tabularx}{\linewidth}{@{}lXl@{}}
+        \textit{Authors:}  & & \textit{Professor:} \\
+        Andrea Falanti      & & Prof.\@ Elisabetta Di Nitto        \\
+        Andrea Huang \\
+        \end{tabularx}
+    \endgroup
+    \par
+}
+    
+\thispagestyle{empty}
+
+\newpage
+\tableofcontents
+
+% content pages
+\newpage
+
+\chapter{Introduction}
+    \section{Purpose}
+        \subfile{../RASD/Sections/Purpose}
+    \section{Scope}
+        \subfile{../RASD/Sections/Scope}
+    \section{Definitions, Acronyms, Abbreviations}
+    	\subfile{../RASD/Sections/Definitions}
+    \section{Revision history}
+    	\subfile{../RASD/Sections/RevisionHistory}
+    \section{Reference Documents}
+        \subfile{../RASD/Sections/ReferenceDocuments}
+    \section{Document Structure}
+    
+\newpage
+\chapter{Architectural design}
+    \section{Overview}
+    \section{Component view}
+    \section{Deployment view}
+    \section{Runtime view}
+    \section{Component interfaces}
+    \section{Selected architectural styles and patterns}
+    \section{Other design decisions}
+\newpage
+\chapter{User interface design}
+\newpage
+\chapter{Requirement traceability}
+\chapter{Implementation, integration and test plan}
+\chapter{Effort Spent}
+    \subfile{Sections/EffortSpent}
+\chapter{References}
+
+\end{document}
