@@ -1,6 +1,9 @@
+\subsection{Introduction}
 The core concept of the application is to provide to citizens of any city a reliable and fast way to report traffic violations they see on streets, trying to improve their awareness about the topic and addressing a social problem that could potentially harm the viability of the city or cause problems to people with disability. To achieve this goal, SafeStreets behaves as an intermediary between the citizens, who have the responsibility of reporting the violations, and the authorities, who can access the report and take care of them. The system allows an asynchronous interaction between parts, avoiding time loss for both the actors.
 
 The municipalities can also have various benefits too when registered to the system, because SafeStreets provide them a way to integrate their data about violations with the ones stored in SafeStreets' databases, calculating then the most unsafe areas and providing suggestions about possible interventions to improve them.
+
+\subsection{Class diagram}
 
 The following class diagrams shows the model of the application domain and its main actors and entities. Note that this class diagram is really high-level, its main purpose it's only to display the defined entities involved in the system, their principal attributes and the relations between them.
 
@@ -18,7 +21,11 @@ Report entity could be considered central in the entire system because it contai
 
 Lastly, the location of a violation or intervention is handled by the Location-Place-City correlated entities. The separation of this entities through composition allows a higher level of granularity and maintainability. Composition is used to emphasize the fact that if no more places of a city are stored in the database, the city is also deleted from it, same thing for places if no more location coordinates of the place are needed.
 
-Next section provide multiple state diagrams, useful to better understand the main actions that the different customers can perform with the application.
+\subsection{State diagrams}
+
+Next section provides multiple state diagrams, useful to better understand the main actions that the different customers can perform with the application.
+
+\subsubsection{Generate report (citizens)}
 
 \begin{figure}[H]
 	\centering
@@ -28,13 +35,17 @@ Next section provide multiple state diagrams, useful to better understand the ma
 
 This state diagram specify all the operations needed to complete and submit a report. After selecting the "generate report" tab, the user is asked to take a photo of the violation, with the license plate of the transgressor's vehicle clearly visible. If the license plate is not recognized, the user can insert it manually. After that it needs to insert the violation type to complete the report (GPS automatically detects the location). The description field is completely optional and not required to confirm and submit the report.
 
+\subsubsection{Reports validation (authorities)}
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{UML/ReportValidationStateDiagram}
 	\caption{Reports validation state diagram}
 \end{figure}
 
-This diagram instead focuses on the report supervision performed by the authorities. In appropriate report section, an authority can visualize the whole list of violations occurred in their area of competence and visualize a report at a time to validate or invalidate them.
+This diagram instead focuses on the report supervision performed by the authorities. In appropriate report section, an authority can visualize the whole list of violations occurred in their area of competence and visualize a report at a time to validate or invalidate them. Every time a report is validated or invalidated, the citizen who submitted the report is notified on SafeStreets app about the status change.
+
+\subsubsection{Suggestions evaluation (municipality)}
 
 \begin{figure}[H]
 	\centering
@@ -43,6 +54,8 @@ This diagram instead focuses on the report supervision performed by the authorit
 \end{figure}
 
 The flow of states that identifies the process of a municipality for checking the suggested interventions is pretty similar to the precedent. The municipalities can check a list of interventions (relative to their city) from the appropriate tab and then consult them individually. They can also rate them to give a feedback to the system to improve future suggestions.
+
+\subsubsection{Data analysis (any user)}
 
 \begin{figure}[H]
 	\centering

@@ -1,4 +1,5 @@
-Domain assumptions:
+\subsection{Domain assumptions}
+
 \begin{enumerate}[label={D\arabic*.}]
 	\myitem {Email addresses are unique.} \label{D_email}
     \myitem {Users report violations when they detect them.} \label{D_reports}
@@ -13,12 +14,21 @@ Domain assumptions:
     \myitem{License plates are unique.}\label{D_unique_license_plate}
 \end{enumerate}
 
+
+\subsection{Dependencies}
+
+The system employs external APIs to focus on its main business of providing users the possibility to report traffic violations, in particular the system will use an optical character recognition (OCR) service and a generic map API service. The OCR service will be used to recognize the license plate from the first photo of the report, while map's API will be used to allow the system to recognize places and addresses from latitude and longitude coordinates of the reports and to provide interactive maps to users in which visualize the data requested in some topic of data analysis functionality.
+
+\subsection{Constraints}
+
 Any user who has a device with internet connection is able to access the services offered by SafeStreets (e.g. reporting violation with images and mining data about the previously reported violations). GPS sensor is required to report a violation.
+
+During registration, every user is asked to read the "Terms and Conditions" document, provided with an apposite link, and to accept them by ticking the checkbox, otherwise he won't be able to complete the registration and use the app.
+
+When a citizen starts the process for reporting a violation for the first time, he will be asked to give to SafeStreets app the access to camera and localization. Camera is required to take photos of a violation, while localization is required to take the location of the violation from GPS. Both photo and location coordinates are required in a report, therefore both permissions must be accepted from the citizen to be able to generate a report.
 
 Official apps supported mobile operating systems are Android (4.4 and above) and iOS (9.0 and above). The website can be accessed with any modern browser with AJAX support.
 
 The additional service of suggesting possible interventions to the most unsafe areas doesn't require the municipality to provide an API to let SafeStreets access its data and augment it with its own for intervention analysis, but it's recommended to improve drastically the results given by the algorithm.
-
-For image recognition and GPS localization services, the system employs external APIs to focus on its main business of providing users the possibility to report traffic violations.
 
 The S2B is assumed to be distributed in Europe; it needs only an email for the registration of common citizens, and a public certified email(PCE) for the authorities. Also it must be compliant with the GDPR normative for the privacy.
