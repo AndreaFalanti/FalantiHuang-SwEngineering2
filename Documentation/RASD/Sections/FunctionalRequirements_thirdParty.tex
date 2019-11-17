@@ -13,6 +13,29 @@
 \vskip 0.2in
 \begin{tabular}{|p{3.1cm}|p{11.6cm}|}
 \hline
+Name & Registration\\
+\hline
+Actors & Authorities or municipalities\\
+\hline
+Entry Condition & An authority or municipality opens the app and has no valid account\\
+\hline
+Event flow & \begin{enumerate}
+				\item {\color{red} needs revision}
+                \item The actor inserts the desired password.
+                \item The actor confirms his password.
+                \item The actor inserts his official public certified email (PCE) given for his public office.
+                \item The system checks the authenticity of the the email using its domain.
+            \end{enumerate}\\
+\hline
+Exit condition & The email is authenticated and the actor is redirected to login form.\\
+\hline
+Exception & Email is already in use, or is not a PEC email, or confirm password field content diverge from password, in this case the actor is alerted with a proper message on screen and asked to correct the data.\\
+\hline
+\end{tabular}
+
+\vskip 0.2in
+\begin{tabular}{|p{3.1cm}|p{11.6cm}|}
+\hline
 Name & Login\\
 \hline
 Actors & Authorities and municipality\\
@@ -27,31 +50,7 @@ Event flow & \begin{enumerate}
 \hline
 Exit condition & The actor is authenticated and login is successful.\\
 \hline
-Exception & Username or password are invalid, "invalid credentials" message is displayed and the actor needs to insert credentials again.\\
-\hline
-\end{tabular}
-
-\vskip 0.2in
-\begin{tabular}{|p{3.1cm}|p{11.6cm}|}
-\hline
-Name & Registration\\
-\hline
-Actors & Authorities or municipalities\\
-\hline
-Entry Condition & An authority or municipality opens the app and has no valid account\\
-\hline
-Event flow & \begin{enumerate}
-                \item The actor inserts the desired username.
-                \item The actor inserts the desired password.
-                \item The actor confirms his password.
-                \item The actor inserts his official public certified email (PCE) given for his public office.
-                \item The actor inserts his birthday.
-                \item The system checks the authenticity of the the email using its domain.
-            \end{enumerate}\\
-\hline
-Exit condition & The email is authenticated and the user is redirected to login form.\\
-\hline
-Exception & Email is already in use, or is not a PEC email, or confirm password field content diverge from password, in this case the user is alerted with a proper message on screen and asked to correct the data.\\
+Exception & Email or password are invalid, "invalid credentials" message is displayed and the actor needs to insert credentials again.\\
 \hline
 \end{tabular}
 
@@ -62,15 +61,15 @@ Name & Analyze aggregate data\\
 \hline
 Actors & Authorities\\
 \hline
-Entry Condition & The Actor wants to know some information about the reported violations.\\
+Entry Condition & The authorities wants to know some information about the reported violations.\\
 \hline
 Event flow & \begin{enumerate}
-                \item The Actor selects the "aggregated data" tab.
-                \item The Actor selects the topic he/she is interested about.
-                \item The Actor may select an appropriate filter for his search.
-                \item The Actor selects the data of interest.
+                \item The authorities selects the "analyze data" tab.
+                \item The authorities selects the topic he/she is interested about.
+                \item The authorities may select an appropriate filter for his search.
+                \item The authorities selects the data of interest.
                 \item The system provides the data to be visualized according to the actor's authorization level.
-                \item The Actor visualizes the data.
+                \item The authorities visualizes the data.
             \end{enumerate}\\
 \hline
 Exit condition & The Actor finishes to analyze the data.\\
@@ -84,12 +83,12 @@ Name & Violation validation\\
 \hline
 Actors & Authorities\\
 \hline
-Entry Condition & A report is received by the authorities.\\
+Entry Condition & The authorities is in the "validate violation report" tab and selects a report to be validated.\\
 \hline
 Event flow & \begin{enumerate}
-                \item The authorities check whether the reported violation is an actual traffic violation.
-                \item The authorities send a result response (rejected or accepted) to SafeStreets.
-                \item The system updates the report status of the violation for the reporting user.
+                \item The authorities checks whether the reported violation is an actual traffic violation.
+                \item The authorities sends a result response (rejected or accepted) to SafeStreets.
+                \item The system updates the report status of the violation for the reporting citizen.
                 \item The system augments its data with the reported violation if and only if it was certified by the authorities.
             \end{enumerate}\\
 \hline
@@ -107,7 +106,7 @@ Actors & Municipality\\
 Entry Condition & A municipality is registered on the application and wants to evaluate possible suggested interventions.\\
 \hline
 Event flow & \begin{enumerate}
-			\item The municipality selects the intervention suggestion tab.
+			\item The municipality selects the "evaluate intervention" tab.
 			\item The municipality reads and analyzes a list of suggestions.
 			\item The municipality chooses and approves zero or more interventions from the list.
             \end{enumerate}\\

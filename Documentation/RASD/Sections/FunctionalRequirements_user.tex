@@ -20,20 +20,21 @@ Name & Registration\\
 \hline
 Actors & Citizen\\
 \hline
-Entry Condition & The user opens the app and has no valid account.\\
+Entry Condition & The citizen opens the app and has no valid account.\\
 \hline
 Event flow & \begin{enumerate}
-                \item The user inserts the desired username.
-                \item The user inserts the desired password.
-                \item The user confirms his password.
-                \item The user inserts his email.
-                \item The user inserts his birthday.
-                \item The user agrees to the use of his personal data and of his submitted violation reports for analysis purposes.
+				\item The citizen inserts his last name.
+				\item The citizen inserts his first name.
+				\item The citizen inserts his birthday.
+                \item The citizen inserts his email.
+                \item The citizen inserts the desired password.
+                \item The citizen confirms his password.
+                \item The citizen agrees to the use of his personal data and of his submitted violation reports for analysis purposes.
             \end{enumerate}\\
 \hline
-Exit condition & The registration is successful and the user is redirected to login form.\\
+Exit condition & The registration is successful and the citizen is redirected to login form.\\
 \hline
-Exception & Email is already in use or confirm password field content diverge from password, in this case the user is alerted with a proper message on screen and asked to correct the data.\\
+Exception & Email is already in use or confirm password field content diverge from password, in this case the citizen is alerted with a proper message on screen and asked to correct the data.\\
 \hline
 \end{tabular}
 
@@ -54,7 +55,7 @@ Event flow & \begin{enumerate}
 \hline
 Exit condition & The citizen is authenticated and login is successful.\\
 \hline
-Exception & Username or password are invalid, "invalid credentials" message is displayed and the citizen needs to insert credentials again.\\
+Exception & Email or password are invalid, "invalid credentials" message is displayed and the citizen needs to insert credentials again.\\
 \hline
 \end{tabular}
 
@@ -68,19 +69,18 @@ Actors & Citizen\\
 Entry Condition & Violation detection.\\
 \hline
 Event flow & \begin{enumerate}
-                \item The User selects the report tab if not already selected.
-                \item The User selects the type of violation.
-                \item The User takes and uploads a photo of the violation.
-                \item The User confirms that the license plate is correctly recognized by app, if not he/she inserts it manually in the appropriate field.
-                \item The User checks whether his/her current position is correctly identified by the GPS system, if not he/she inserts it manually in the appropriate field.
-                \item The User confirms the violation report clicking on the "Done" button.
+                \item The citizen selects the "report a traffic violation" tab if not already selected.
+                \item The citizen selects the type of violation.
+                \item The citizen takes and uploads one or more photos of the violation.
+                \item The citizen confirms that the license plate is correctly recognized by the app, if not he/she inserts it manually in the appropriate field.
+                \item The citizen confirms the violation report clicking on the "Done" button.
                 \item The system stores the information and completes it with suitable metadata.
-                \item The system sends a notification to the User about the success of the operation.
+                \item The system sends a notification to the citizen about the success of the operation.
             \end{enumerate}\\
 \hline
 Exit condition & The violation report is correctly stored.\\
 \hline
-Exception & the system detects missing information and rejects the report, then asks the User for missing data.\\
+Exception & the system detects missing information and rejects the report, then asks the citizen for missing data.\\
 \hline
 \end{tabular}
 
@@ -94,7 +94,7 @@ Actors & Citizen\\
 Entry Condition & The citizen wants to know some information about the reported violations.\\
 \hline
 Event flow & \begin{enumerate}
-                \item The citizen selects the "aggregated data" tab.
+                \item The citizen selects the "analyze data" tab.
                 \item The citizen selects the topic he/she is interested about.
                 \item The citizen may select an appropriate filter for his search.
                 \item The citizen selects the data of interest.
@@ -116,10 +116,9 @@ Exit condition & The Actor finishes to analyze the data.\\
 	Entry Condition & The citizen opens the app, desiring to check the reports he sent in the past.\\
 	\hline
 	Event flow & \begin{enumerate}
-		\item The citizen selects the account tab.
-		\item The citizen clicks on "View reports sent" button.
+		\item The citizen selects the "analyze personal reports" tab.
 		\item The system displays a list of all reports done by the citizen.
-		\item The citizen clicks on a report to see his details.
+		\item The citizen clicks on a report to see its details.
 		\item The citizen clicks the return button, going back to the list of reports.
 		\item The citizen can repeat the last two steps as many times as he pleases, to check other reports.
 	\end{enumerate}\\
