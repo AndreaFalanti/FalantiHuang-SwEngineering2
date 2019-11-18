@@ -23,7 +23,7 @@ sig Report{
 	submitter: one Citizen,
 	violationType: one TrafficViolation,
 	vehicle: one Vehicle,
-	photo: one PhotoUrl,
+	photo: some PhotoUrl,
 	supervisor: lone Authority,
 	status: one ReportStatus,
 	visualizedBy: set Authority

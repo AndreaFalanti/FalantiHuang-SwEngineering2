@@ -33,7 +33,7 @@ Next section provides multiple state diagrams, useful to better understand the m
 	\caption{Generate report state diagram}
 \end{figure}
 
-This state diagram specify all the operations needed to complete and submit a report. After selecting the "generate report" tab, the user is asked to take a photo of the violation, with the license plate of the transgressor's vehicle clearly visible. If the license plate is not recognized, the user can insert it manually. After that it needs to insert the violation type to complete the report (GPS automatically detects the location). The description field is completely optional and not required to confirm and submit the report.
+This state diagram specify all the operations needed to complete and submit a report. After selecting the "generate report" tab, the citizen is asked to take at least one photo of the violation, with the license plate of the transgressor's vehicle clearly visible in the first one. After confirmation, the first photo of the violation is uploaded to SafeStreets servers and used in the OCR service to recognize automatically the license plate. The result is then sent back to the user, that needs to confirm if the license plate has been recognized correctly, if not the user can insert it manually. After that, the citizen needs to select the violation type and check also that location field has been correctly populated by the GPS. If detected location is wrong, user can click a button to try again to get the correct location from the GPS. The description field is completely optional and not required to confirm and submit the report.
 
 \subsubsection{Reports validation (authorities)}
 
