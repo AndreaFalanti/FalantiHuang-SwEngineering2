@@ -62,7 +62,7 @@ Exception & Email or password are invalid, "invalid credentials" message is disp
 \vskip 0.2in
 \begin{tabular}{|p{3.1cm}|p{11.6cm}|}
 \hline
-Name & Notify violations\\
+Name & Report violation\\
 \hline
 Actors & Citizen\\
 \hline
@@ -70,9 +70,10 @@ Entry Condition & Violation detection.\\
 \hline
 Event flow & \begin{enumerate}
                 \item The citizen selects the "report a traffic violation" tab if not already selected.
-                \item The citizen selects the type of violation.
                 \item The citizen takes and uploads one or more photos of the violation.
                 \item The citizen confirms that the license plate is correctly recognized by the app, if not he/she inserts it manually in the appropriate field.
+                \item The citizen selects the type of violation.
+                \item The citizen optionally inserts a short description of the violation in the description field.
                 \item The citizen confirms the violation report clicking on the "Done" button.
                 \item The system stores the information and completes it with suitable metadata.
                 \item The system sends a notification to the citizen about the success of the operation.
