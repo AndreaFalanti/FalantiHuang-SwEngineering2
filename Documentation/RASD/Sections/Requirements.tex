@@ -13,8 +13,8 @@ Requirements:
 		\myitem {The system should allow the authorities to access the data without any limitation.} \label{R_data_vis_auth}
 	\end{enumerate}
 	\myitem {The system must ascertain the identity of a public institution that want to register to the system from its PCE, completing the account with the necessary data.} \label{R_institution_certification}
-	\myitem {The system must receive correctly the reports about the various traffic violations from the users.} \label{R_report_reception}
-	\myitem {A violation report must have a photo attached that clearly shows the license plate of the involved vehicle and the type of violation.} \label{R_photo} 
+	\myitem {The system must receive correctly the reports about the various traffic violations from the users, discarding reports with incomplete data.} \label{R_report_reception} 
+	\myitem{The system must be able to recognize the license plate of the vehicle involved in the violation from the first photo of the report.} \label{R_license_plate_recognition}
 \end{enumerate}
 
 \bigskip
@@ -53,6 +53,7 @@ Goal Logical Derivation:
 		\item \myref{R_data_vis}
 		\item \myref{D_auth_validation}
 		\item \myref{D_internet}
+		\item \myref{D_maps}
 	\end{itemize}
 
 	\item \myref{G_visualization_cit}
@@ -60,21 +61,25 @@ Goal Logical Derivation:
 		\item \myref{R_data_vis_cit}
 		\item \myref{D_auth_validation}
 		\item \myref{D_internet}
+		\item \myref{D_maps}
 	\end{itemize}
 	\item \myref{G_visualization_auth}
 	\begin{itemize}[label={}]
 		\item \myref{R_data_vis_auth}
 		\item \myref{D_auth_validation}
 		\item \myref{D_internet}
+		\item \myref{D_maps}
 	\end{itemize}
 
 	\item \myref{G_accept_reports}
 	\begin{itemize}[label={}]
 		\item \myref{R_report_reception}
-		\item \myref{R_photo}
+		\item \myref{R_license_plate_recognition}
 		\item \myref{D_gps}
 		\item \myref{D_internet}
 		\item \myref{D_unique_license_plate}
+		\item \myref{D_photo}
+		\item \myref{D_OCR}
 	\end{itemize}
 	\item \myref{G_check_info}
 	\begin{itemize}[label={}]
