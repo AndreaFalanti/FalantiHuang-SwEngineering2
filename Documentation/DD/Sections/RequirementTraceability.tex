@@ -1,0 +1,17 @@
+To fulfill the goal of the software to be, it's important that the requirements of the system (defined in RASD) are completely satisfied by the designed components described in \hyperref[sec:components]{\color{blue}{component view}} section. Therefore, in this chapter is reported accurately which components are involved in each requirements and how they participate in their realization.
+
+Note that the router component is used in all interactions between clients and application server because it handles all request received through the API endpoints, calls the components related to the functionality related to the request and also return a response to client. It's behaviour is consistent for each requirement and because of this will be omitted from the analysis.
+
+\begin{itemize}[label={}]
+	\item \myref{R_violation_auth}
+	\item \myref{R_storing_report}
+	\item \myref{R_mun_integration}
+	\item \myref{R_mun_intervention_generation}
+	\item \myref{R_data_vis}
+	\item \myref{R_data_vis_cit}
+	\item \myref{R_data_vis_auth}
+	\item \myref{R_institution_certification}
+	\item \myref{R_report_reception}
+	\item \myref{R_license_plate_recognition}	
+\end{itemize}
+
