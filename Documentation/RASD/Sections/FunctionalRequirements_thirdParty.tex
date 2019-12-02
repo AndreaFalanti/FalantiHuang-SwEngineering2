@@ -1,10 +1,12 @@
-\paragraph{Scenarios}
-\begin{enumerate}
-    \item Henry is a member of the local police of the city of Casalpusterlengo, a municipality that has a partnership with SafeStreets. Every month he wants to check the most unsafe areas in the city, so that he could better patrol the city. This could be done by opening the SafeStreets app and selecting "analyze" tab, then selecting the violation density map option and using the previous month as temporal filter.
+\subsubsection{Scenarios}
+\textbf{Analyze aggregated data}\\
+    Henry is a member of the local police of the city of Casalpusterlengo, a municipality that has a partnership with SafeStreets. Every month he wants to check the most unsafe areas in the city, so that he could better patrol the city. This could be done by opening the SafeStreets app and selecting "analyze" tab, then selecting the violation density map option and using the previous month as temporal filter.
     
-    \item Lucia, a worker of Bergamo's municipality, is interested in studying possible solutions to recurrent parking violations along Via Milano. Bergamo's municipality is regularly registered to SafeStreets system, so she decides to try to check the list of interventions suggested from SafeStreets' algorithm. After she logs in the app, she just needs to check the suggestions tab to search for valid ones in that area, then she can also rate them to improve the suggestion system.
-\end{enumerate}
-\textbf{Use cases}
+\textbf{Suggestion evaluation}\\
+    Lucia, a worker of Bergamo's municipality, is interested in studying possible solutions to recurrent parking violations along Via Milano. Bergamo's municipality is regularly registered to SafeStreets system, so she decides to try to check the list of interventions suggested from SafeStreets' algorithm. After she logs in the app, she just needs to check the suggestions tab to search for valid ones in that area, then she can also rate them to improve the suggestion system.
+
+
+\subsubsection{Use cases}
 \begin{figure}[H]
         \centering
         \includegraphics[width=\textwidth]{UML/UseCaseThirdParty}
@@ -23,7 +25,7 @@ Event flow & \begin{enumerate}
                 \item The actor inserts his official public certified email (PEC) given for his public office.
                 \item The actor inserts the desired password.
                 \item The actor confirms his password.
-                \item The system checks the authenticity of the the email using its domain.
+                \item The system checks the authenticity of the email using its domain.
             \end{enumerate}\\
 \hline
 Exit condition & The email is authenticated and the actor is redirected to login form.\\
@@ -42,7 +44,7 @@ Actors & Authorities and municipality\\
 Entry Condition & The actor opens the app.\\
 \hline
 Event flow & \begin{enumerate}
-                \item The actor inserts his email.
+                \item The actor inserts his PEC address.
                 \item The actor inserts his password.
                 \item The actor press the login button.
             \end{enumerate}\\
@@ -58,17 +60,17 @@ Exception & Email or password are invalid, "invalid credentials" message is disp
 \hline
 Name & Analyze aggregate data\\
 \hline
-Actors & Authorities\\
+Actors & Authorities and municipality\\
 \hline
-Entry Condition & The authorities wants to know some information about the reported violations.\\
+Entry Condition & The actor wants to know some information about the reported violations.\\
 \hline
 Event flow & \begin{enumerate}
-                \item The authorities selects the "analyze data" tab.
-                \item The authorities selects the topic he/she is interested about.
-                \item The authorities may select an appropriate filter for his search.
-                \item The authorities selects the data of interest.
+                \item The actor selects the "analyze data" tab.
+                \item The actor selects the topic he/she is interested about.
+                \item The actor may select an appropriate filter for his search.
+                \item The actor selects the data of interest.
                 \item The system provides the data to be visualized according to the actor's authorization level.
-                \item The authorities visualizes the data.
+                \item The actor visualizes the data.
             \end{enumerate}\\
 \hline
 Exit condition & The Actor finishes to analyze the data.\\
