@@ -1,17 +1,54 @@
-To fulfill the goal of the software to be, it's important that the requirements of the system (defined in RASD) are completely satisfied by the designed components described in \hyperref[sec:components]{\color{blue}{component view}} section. Therefore, in this chapter is reported accurately which components are involved in each requirements and how they participate in their realization.
+To fulfill the goal of the software to be, it's important that the requirements of the system (defined in RASD) are completely satisfied by the designed components described in \hyperref[sec:components]{\color{blue}{component view}} section. Therefore, in this chapter is reported accurately which components are involved in each requirements and how they participate in their realization with a discursive description. For a better description on how the components actually work and interact which each other in detail, refer to \hyperref[sec:components]{\color{blue}{component view}} section.
 
-Note that the router component is used in all interactions between clients and application server because it handles all request received through the API endpoints, calls the components related to the functionality related to the request and also return a response to client. It's behaviour is consistent for each requirement and because of this will be omitted from the analysis.
+Note that the router component is used in all interactions between clients and application server because it handles all request received through the API endpoints, calls the components related to the functionality related to the request and also return a response to client. It's behaviour is consistent for each requirement and because of this it will be omitted from the analysis.
 
+Also LoginManager and RegistrationManager are not listed in the traceability analysis. Even if essential for all users to access the functionalities of the system, requirements are focused on the actual services that SafeStreets provides to its customers, so login and registration only participate in them indirectly. In fact, all users need to register and then login to access the system, all active accesses are then stored in a [TODO: agree on this implementation?] session database and the various managers can retrieve from it who made the request and which type of authorizations the client has.
+
+\bigskip
 \begin{itemize}[label={}]
 	\item \myref{R_violation_auth}
+	\begin{itemize}
+		\item 
+	\end{itemize}
 	\item \myref{R_storing_report}
+	\begin{itemize}
+		\item \textbf{ReportReceiverManager:} after the validation and completion of the report is done, this component calls an insert on the database, storing it permanently in the database server storage.
+	\end{itemize}
 	\item \myref{R_mun_integration}
+	\begin{itemize}
+		\item \textbf{InterventionManager:}  when the municipality has an API inserted associated it calls the MunicipalityDataIntegrationManager to integrate the data. At the end, the manager computes the possible interventions, pass them to the client and store them in the database for further consultations.
+		\item \textbf{MunicipalityDataIntegrationManager:} when notified by the InterventionManager, it connects to the municipality's API to download all new data that is not already integrated, then notifies the InterventionManager to continue the operation.
+	\end{itemize}
 	\item \myref{R_mun_intervention_generation}
+	\begin{itemize}
+		\item \textbf{InterventionManager:} this component allow every municipality registered and logged in the system to generate a list of interventions based on the reports stored in SafeStreets database. The reports stored in the database when the algorithm is executed include the one provided from the municipality through its API, if present.
+	\end{itemize}
 	\item \myref{R_data_vis}
+	\begin{itemize}
+		\item \textbf{DataAnalysisManager:} handles the requests about aggregated data, which can be then visualized by the client in the most appropriate way. The returned data is different between the different kind of accounts, so the manager contains logic for discriminating the user that make the request and accordingly omits some details if the user hasn't the permission to see such data. To obtain the data requested by the client, it performs a query on the database constructed from the filters chosen by the user.
+		\item \textbf{ReportVisualizationManager:} handles requests for single reports visualization and request for lists of interventions useful for the user. For doing this, it checks which user made the request and, based on the account info and permissions, return only the report that the user can actually access. 
+	\end{itemize}
 	\item \myref{R_data_vis_cit}
+	\begin{itemize}
+		\item \textbf{DataAnalysisManager:} omits from citizens requests the data about license plates, to preserve privacy of transgressors and avoid potential social issues. 
+		\item \textbf{ReportVisualizationManager:} allows citizens to only check the report which themselves have generated, all others reports are completely inaccessible to preserve privacy of other users and avoid social issues. 
+	\end{itemize}
 	\item \myref{R_data_vis_auth}
+	\begin{itemize}
+		\item \textbf{DataAnalysisManager:} allows authorities to analyze freely all data about reports, so that they have all the necessary data to improve their efficiency and punish quickly the transgressor.
+		\item \textbf{ReportVisualizationManager:} allows authorities to retrieve a list about all reports of violations happened in their city (bound on account info when registered to the server). From that list they are able to check all these violations in detail. 
+	\end{itemize}
 	\item \myref{R_institution_certification}
+	\begin{itemize}
+		\item 
+	\end{itemize}
 	\item \myref{R_report_reception}
-	\item \myref{R_license_plate_recognition}	
+	\begin{itemize}
+		\item \textbf{ReportReceiverManager:} this component manages the validation of the data inserted in the report, its completion with metadata like the reference to the user who submitted it and the timestamp. When a report sent to the server is incomplete, returns an error to be displayed on user device.
+	\end{itemize}
+	\item \myref{R_license_plate_recognition}
+	\begin{itemize}
+		\item \textbf{ReportReceiverManager:} when a citizen finishes to take pictures about the violation, the first photo is sent to the server and handled by this manager, that communicate with the OCR service and wait for the output, that is then redirected to the user for confirmation.
+	\end{itemize}	
 \end{itemize}
 
