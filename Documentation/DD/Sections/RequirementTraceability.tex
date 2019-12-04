@@ -8,7 +8,7 @@ Also LoginManager and RegistrationManager are not listed in the traceability ana
 \begin{itemize}[label={}]
 	\item \myref{R_violation_auth}
 	\begin{itemize}
-		\item 
+		\item \textbf{ReportValidationManager:} allow authorities to validate or invalidate the reports.
 	\end{itemize}
 	\item \myref{R_storing_report}
 	\begin{itemize}
@@ -40,7 +40,7 @@ Also LoginManager and RegistrationManager are not listed in the traceability ana
 	\end{itemize}
 	\item \myref{R_institution_certification}
 	\begin{itemize}
-		\item 
+		\item \textbf{RegistrationManager:} contains a function for communicating with an external API of the public register of PEC addresses, passing to it the PEC address sent in the registration form by the client. It then wait the response and analyze the data received to identify the institution from the PEC domain, associating it to the right type of account.
 	\end{itemize}
 	\item \myref{R_report_reception}
 	\begin{itemize}
