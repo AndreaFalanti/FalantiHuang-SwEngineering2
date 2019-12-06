@@ -1,0 +1,18 @@
+In this section is described in detail the constraints on the integration of the modules and their optimal integration plan.
+
+The design was studied to avoid coupling of the components, so that it's easier to test, modify and integrate the components more easily. After the implementation of the components is complete, the integration plan can be pretty flexible and summarized as follows:
+
+\begin{itemize}
+	\item It's possible to integrate:
+	\begin{itemize}
+		\item SignUpManager
+		\item LoginManager
+		\item ReportReceiverManager
+		\item ReportVisualizationManager
+		\item ReportValidationManager
+		\item DataAnalysisManager
+		\item InterventionManager 
+	\end{itemize}
+	with the router as soon as they are produced, because the router when implemented will have already the method calls to the service interfaces (defined in \hyperref[sec:interfaces]{\textcolor{blue}{Component interfaces}}).
+	\item MunicipalityDataIntegrationManager need to be integrated into the InterventionManager.
+\end{itemize} 
