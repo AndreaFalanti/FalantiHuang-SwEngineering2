@@ -35,17 +35,17 @@ Interfaces accessible from mobile app:
 \begin{itemize}
 	\item HandleSignUp
 	\item HandleLogin
-	\item ReceiveViolationData
-	\item SpecificReportDataRequest
-	\item ProvideAggregatedData
-	\item ValidateReport
+	\item HandleReportViolationData
+	\item HandleReportVisualization
+	\item HandleDataAnalysis
+	\item HandleReportValidation
 \end{itemize}
 Interfaces accessible from municipality web app:
 \begin{itemize}
 	\item HandleSignUp
 	\item HandleLogin
-	\item ProvideAggregatedData
-	\item InterventionListRequest 
+	\item HandleDataAnalysis
+	\item HandleIntervention 
 \end{itemize}
 
 \bigskip
@@ -64,7 +64,7 @@ Component descriptions:
 	\item \textbf{ReportValidationManager:}
 	module that permits a report validation or invalidation made by authorities. It associates the authority ID to the report and changes the status of the report according to the one selected by the supervisor. Obviously the changes are made directly on the database, updating the record with the ID of the report present in the request.
 	\item \textbf{DataAnalysisManager:}
-	\item \textbf{InterventionGenerationManager:}
+	\item \textbf{InterventionManager:}
 	module that handles municipalities' requests for generating new lists of possible interventions, targeted to provide possible solutions to the frequent violations in the most unsafe areas of their cities. Before generating the interventions, this module calls the MunicipalityDataIntegrationManager to integrate municipality data in the database, if possible. After receiving a response from the integration manager, the list of interventions will be generated. An algorithm consults all the reports present in SafeStreets database that are located in the city of the municipality that made the request, and checks for the areas with the highest density of violations. After computing the most unsafe areas of the city, the algorithm checks the type of violations recurring and from that it computes all possible interventions that can solve the problem. When all the process is finished, the result is returned to the router, in combination of a possible error raised from the MunicipalityDataIntegrationManager so that the user is aware of the fact that data integration was not possible and he could investigate the problem.
 	\item \textbf{MunicipalityDataIntegrationManager:}
 	module that allows the integration of violation data from any municipality API structured according to SafeStreets API. It is accessed by the InterventionGenerationManager when a municipality request the generation of a list of possible interventions to do in its territory. The module checks if the municipality that made the request has provided an API for accessing its data, if present in the database it requests all violation data that have a date later than the one indicated in last intervention generation timestamp (gets all data if no intervention generation was made by the municipality in the past), and integrate it in SafeStreets database. When the process is done the manager notifies the InterventionGenerationManager, that waits a response from it before initiating the intervention generation. Note that if no API is associated to municipality the integration will be immediately aborted, instead if the municipality's API endpoints or its provided data has not the structure expected the MunicipalityDataIntegrationManager will return an error to the InterventionGenerationManager, that will continue without the data integration using only data contained in SafeStreets database (the error is reported to the user in this case).

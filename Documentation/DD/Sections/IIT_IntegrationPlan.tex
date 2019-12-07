@@ -1,18 +1,46 @@
 In this section is described in detail the constraints on the integration of the modules and their optimal integration plan.
+The integration process can be grouped and ordered in the following way:
+\begin{enumerate}
+	\item integration of components with the DBMS
+	\item integration of components with (other) external services
+	\item integration of components of the application server
+	\item integration of the front-end application with the back-end server of SafeStreets
+\end{enumerate}
+
 
 The design was studied to avoid coupling of the components, so that it's easier to test, modify and integrate the components more easily. After the implementation of the components is complete, the integration plan can be pretty flexible and summarized as follows:
 
+\textbf{Integration of components with the DBMS}\\
+In this first phase of the integration plan every component that retrieves, inserts, updates data from the database is integrated with the chosen DBMS. The components involved in integration of this group are the following:
 \begin{itemize}
-	\item It's possible to integrate:
-	\begin{itemize}
-		\item SignUpManager
-		\item LoginManager
-		\item ReportReceiverManager
-		\item ReportVisualizationManager
-		\item ReportValidationManager
-		\item DataAnalysisManager
-		\item InterventionManager 
-	\end{itemize}
-	with the router as soon as they are produced, because the router when implemented will have already the method calls to the service interfaces (defined in \hyperref[sec:interfaces]{\textcolor{blue}{Component interfaces}}).
-	\item MunicipalityDataIntegrationManager need to be integrated into the InterventionManager.
+	\item SignUpManager
+	\item LoginManager
+	\item ReportReceiverManager
+	\item ReportVisualizationManager
+	\item ReportValidationManager
+	\item DataAnalysisManager
+	\item InterventionManager
+	\item MunicipalityDataIntegrationManager
 \end{itemize} 
+
+\textbf{Integration of components with (other) external services}\\
+This group includes integrations with any external service different from the DBMS:
+\begin{itemize}
+	\item ReportReceiverManager, OCR service
+	\item MunicipalityDataIntegrationManager, municipality service
+\end{itemize}
+
+\textbf{Integration of components of the application server}\\
+In this group, integrations between internal components of the application server are carried out. It is composed of:
+\begin{itemize}
+	\item SignUpManager, Router
+	\item LoginManager, Router
+	\item ReportReceiverManager, Router
+	\item ReportVisualizationManager,Router
+	\item ReportValidationManager, Router
+	\item DataAnalysisManager, Router
+	\item InterventionManager, Router
+	\item InterventionManager, MunicipalityDataIntegrationManager
+\end{itemize}
+\textbf{Integration of the front-end application with the back-end server of SafeStreets}
+The integration of this group is conducted and tested at the end of the process. It connects the client application request with the SafeStreets API (Router).
