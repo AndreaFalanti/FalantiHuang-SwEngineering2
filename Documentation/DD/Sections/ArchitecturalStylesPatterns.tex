@@ -3,7 +3,7 @@ The system is developed following a classical three tier architecture, composed 
 
 \subsubsection{RESTful API}
 
-The clients interact and send requests to the SafeStreets servers to a REST API, that provides a web interface common between all the clients. Using a REST API allows to de-coupling clients and servers functionalities, the clients only need to call the correct endpoint for retrieving data or perform an action, expecting a certain output structure but without knowing the computations that happen behind the curtains. This also helps the maintainability of both servers and clients, because server can be updated without affecting directly the clients if the API endpoints are not modified (but can be expanded).
+The clients interact and send requests to the SafeStreets servers to a REST API, that provides a web interface common between all the clients. Using a REST API allows to have a de-coupling between clients and servers functionalities. The clients only need to call the correct endpoint for retrieving data or perform an action, expecting a certain output structure but without knowing the computations that happen behind the curtains. This also helps the maintainability of both servers and clients, because server can be updated without affecting directly the clients if the API endpoints are not modified (but can be expanded).
 
 To achieve these goals, a REST API need to follow these properties:
 \begin{itemize}
@@ -11,5 +11,5 @@ To achieve these goals, a REST API need to follow these properties:
 	\item \textbf{Stateless:} API returned data by a same endpoint has always the same structure, the server is not aware of the specific state scope of the call or the state of the client, it just provides data that can be used by the client as they please.  
 	\item \textbf{Client-Server model:} client and server evolve in a separate way and communicate only through API endpoints.
 	\item \textbf{Caching:} a client-side or server-side cache system can be used to improve performances and speed up interactions, especially in case of multiple same requests in a very short period of time.
-	\item \textbf{Layered architecture:} the system use a standard 3-tier architecture. Clients communicate with the servers through API calls, where specific backend code handle each request. These handlers calls the managers that have the functions used to interrogate and manipulate the data layer, to fetch the data that clients require to display or perform specific actions, like login.
+	\item \textbf{Layered architecture:} the system uses a standard 3-tier architecture. Clients communicate with the servers through API calls, where specific backend code handle each request. These handlers call the managers that have the functions used to interrogate and manipulate the data layer, to fetch the data that clients require to display or perform specific actions, like login.
 \end{itemize}
