@@ -1,5 +1,7 @@
 \begin{figure}[H]
+	\centering
 	\includegraphics[width=\linewidth]{tier.png}
+	\caption{Tier architecture.}
 \end{figure}
 
 SafeStreets system is organized as a three-tier layer, a standard design architecture used to provide a good level of security and performance thanks to subdivision of the tasks between the three tiers. Each tier runs on a different machine (or a group of machines with same structure), so that every tier is responsible of a specific task and the computational work is splitted between different machines, optimizing performances. This also improve the security of the system, because user devices needs to pass through the application server to access the data and have no way to directly access to it. 
@@ -11,7 +13,9 @@ Application tier is composed by a replicated array of application servers, to sc
 Data tier task is to provide access to data to application tier, so that the manager modules can interrogate the database and also store or modify data in a reliable way. Data tier is composed by a single server, with cloned databases that share memory disks. This structure helps in maintaining high performances while keeping the data safe from possible hardware issues or data loss.
 
 \begin{figure}[H]
+	\centering
 	\includegraphics[width=\linewidth]{systemArchitecture.png}
+	\caption{System architecture.}
 \end{figure}
 
 Tier are separated by firewalls to improve the security of the system. Firewall between application server and client is a must to provide a layer of protection from fraudulent users and hackers, because application server could be accessed by anyone external to the system. The firewall between application server and database server isn't strictly necessary but can be used to negate all accesses that don't originate from the cluster of application servers, providing an additional layer of protection from fraudulent accesses.

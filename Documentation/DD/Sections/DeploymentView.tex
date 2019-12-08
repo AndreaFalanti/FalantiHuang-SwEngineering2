@@ -1,7 +1,9 @@
 This section focuses on explaining how the system will be deployed, describing the machines involved in the system and what components they will run or contain.
 
 \begin{figure}[H]
+	\centering
 	\includegraphics[width=\linewidth]{deploymentDiagram.png}
+	\caption{Deployment diagram.}
 \end{figure}
 
 In the presentation tier, clients devices will run mobile apps on both Android and iOS smartphones, instead personal computers can run the web application if the user has access to a municipality's account. We decided to implement mobile apps for smartphones to cover citizens and authorities needs of interacting with SafeStreets system in an easy and fast way, because both categories of users will use the apps during their normal routines and it's nowadays common to have a smartphone with you all the time. For municipality instead we choose to implement a web application because a municipality member will probably use the software in his workplace, so using a computer is optimal for the task and having a larger layout with a better level of details when retrieving data is surely an appreciated feature. A web application is preferred to a website because municipalities will be interested in data research and possible improvements of unsafe areas, so the possibility to filter content and dynamically display and retrieve data is a must. To access the web application, the only requirements is to have a web browser that supports AJAX, so no restrictive requirements are necessary for running it, making it really easy to integrate the use of the software in workflows of every municipality.

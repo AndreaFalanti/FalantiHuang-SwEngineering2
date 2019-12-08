@@ -1,5 +1,7 @@
 \begin{figure}[H]
-	\includegraphics[width=\linewidth]{componentsDiagram.png}
+	\centering
+	\includegraphics[width=.98\linewidth]{componentsDiagram.png}
+	\caption{Components diagram.}
 \end{figure}
 TODO: Change names of the interfaces and complete it
 
@@ -69,3 +71,13 @@ Component descriptions:
 	\item \textbf{MunicipalityDataIntegrationManager:}
 	module that allows the integration of violation data from any municipality API structured according to SafeStreets API. It is accessed by the InterventionGenerationManager when a municipality request the generation of a list of possible interventions to do in its territory. The module checks if the municipality that made the request has provided an API for accessing its data, if present in the database it requests all violation data that have a date later than the one indicated in last intervention generation timestamp (gets all data if no intervention generation was made by the municipality in the past), and integrate it in SafeStreets database. When the process is done the manager notifies the InterventionGenerationManager, that waits a response from it before initiating the intervention generation. Note that if no API is associated to municipality the integration will be immediately aborted, instead if the municipality's API endpoints or its provided data has not the structure expected the MunicipalityDataIntegrationManager will return an error to the InterventionGenerationManager, that will continue without the data integration using only data contained in SafeStreets database (the error is reported to the user in this case).
 \end{itemize}
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{Images/ER_diagram.png}
+	\caption{Entity-relationship diagram.}
+\end{figure}
+\textbf{Entity-relationship diagram}\\
+The above entity-relationship diagram describes the conceptual model of the database. In comparison with the class diagram, the main entities user, report and intervention have UserID, ReportID, and InterventionID primary key attributes, respectively, that are used for a faster lookup on the database.
+
