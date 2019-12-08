@@ -5,21 +5,22 @@ The various external services used by the system are supposed to be completely f
 As a preliminary step for choosing the implementation order and testing importance of each module we performed a non rigorous analysis to estimate the complexity of each module and their relevance for SafeStreets' customers.
 
 \bigskip
-\begin{tabular}{|c|c|c|}
+\begin{tabular}{|c|c|c|c|}
 	\hline 
-	Functionality & Relevance for customers & Implementation complexity \\ 
+	Functionality & Relevance for customers & \multicolumn{2}{c|}{Implementation complexity} \\ 
+	& & server & client \\
 	\hline
 	\hline 
-	Login and registration & low & medium \\ 
+	Login and registration & low & medium & low \\ 
 	\hline 
-	Report submission & high & medium \\ 
+	Report submission & high & medium & medium \\ 
 	\hline 
-	Report detail visualization & high & low \\ 
+	Report detail visualization & high & low & low \\ 
 	\hline 
-	Aggregated data visualization & medium & high \\ 
+	Aggregated data visualization & medium & medium & high \\ 
 	\hline 
-	Report validation & medium & low \\ 
+	Report validation & medium & low & low \\ 
 	\hline 
-	Intervention list generation & high & high \\  
+	Intervention list generation & high & high & low \\  
 	\hline 
 \end{tabular} 
