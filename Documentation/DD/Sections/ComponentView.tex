@@ -3,36 +3,26 @@
 	\includegraphics[width=.98\linewidth]{componentsDiagram.png}
 	\caption{Components diagram.}
 \end{figure}
-In the following a list of all the system's interfaces is provided:\\
-External interfaces:
-\begin{itemize}
-	\item DBMS
-	\item Maps API
-	\item OCR API
-\end{itemize}
 
-Customers app interfaces:
+Customers app subsystems (clients):
 \begin{itemize}
 	\item MobileApp (citizen/authorities)
 	\item WebApp (municipality)
 \end{itemize}
 
-Internal services:
+\subsubsection{Interfaces summary}
+In the following, a list of all the system's interfaces subdivided into relevant categories is provided:\\
+
+External interfaces:
 \begin{itemize}
-	\item Router
-	\item SignUpManager
-	\item LoginManager
-	\item ReportReceiverManager
-	\item ReportVisualizationManager
-	\item ReportValidationManager
-	\item DataAnalysisManager
-	\item InterventionManager
-	\item MunicipalityDataIntegrationManager
+	\item DBMS
+	\item Maps API
+	\item OCR API
+	\item Violation integration API
 \end{itemize}
 
 \bigskip
-Router interfaces:\\
-Interfaces accessible from mobile app:
+Router Interfaces accessible from mobile app:
 \begin{itemize}
 	\item HandleSignUp
 	\item HandleLogin
@@ -41,7 +31,9 @@ Interfaces accessible from mobile app:
 	\item HandleDataAnalysis
 	\item HandleReportValidation
 \end{itemize}
-Interfaces accessible from municipality web app:
+
+\bigskip
+Router interfaces accessible from municipality web app:
 \begin{itemize}
 	\item HandleSignUp
 	\item HandleLogin
@@ -50,7 +42,9 @@ Interfaces accessible from municipality web app:
 \end{itemize}
 
 \bigskip
-Component descriptions:
+\subsubsection{Component descriptions}
+In this section, every internal component of the application server is analyzed and described in detail:
+
 \begin{itemize}
 	\item \textbf{Router:} 
 	it listens for all requests made by clients on the SafeStreets API endpoint and provides handlers for each type of request. The handlers call various managers internal to the application server that are pertinent to the request made by the client, so that the router can receive from them the result of the operation and send back to the user a response.
@@ -65,7 +59,7 @@ Component descriptions:
 	\item \textbf{ReportValidationManager:}
 	module that permits a report validation or invalidation made by authorities. It associates the authority ID to the report and changes the status of the report according to the one selected by the supervisor. Obviously the changes are made directly on the database, updating the record with the ID of the report present in the request. Also here is checked that the report that is going to be modified is actually accessible from the authority that made the request (it's situated in the city in which the authority has jurisdiction, that is retrievable from the database).
 	\item \textbf{DataAnalysisManager:}
-	module that handles the requests for data analysis, that involve the representation of data from multiple reports that match the filters specified by the client. Every request received by this component contains temporal filters (from what date and to which date), spatial filters (the interested city) and violation type filter, that are then used by the manager to query the database and return to client all the reports data that satisfy the filters. Note that like ReportVisualizationManager, also this component need to check which type of account made the request and filter some data based on its permissions. If the request is made by a citizen account, the license plates, the submitter data and the supervisor (authority that validated the report) are omitted from reports' data, to avoid common citizen to visualize sensible data that is also not relevant for their analysis; instead if the request is made by authorities and municipalities' accounts, they can visualize all data associated to the reports. Another consideration is that the server only provides the data to clients but doesn't define or bind the method to visualize this data in any way.   
+	module that handles the requests for data analysis, that involve the representation of data from multiple reports that match the filters specified by the client. Every request received by this component contains temporal filters (from what date and to which date), spatial filters (the interested city) and violation type filter, that are then used by the manager to query the database and return to client all the validated reports data that satisfy the filters. Note that like ReportVisualizationManager, also this component need to check which type of account made the request and filter some data based on its permissions. If the request is made by a citizen account, the license plates, the submitter data and the supervisor (authority that validated the report) are omitted from reports' data, to avoid common citizen to visualize sensible data that is also not relevant for their analysis; instead if the request is made by authorities and municipalities' accounts, they can visualize all data associated to the reports. Another consideration is that the server only provides the data to clients but doesn't define or bind the method to visualize this data in any way.   
 	\item \textbf{InterventionManager:}
 	module that handles municipalities' requests for generating new lists of possible interventions, targeted to provide possible solutions to the frequent violations in the most unsafe areas of their cities. Before generating the interventions, this module calls the MunicipalityDataIntegrationManager to integrate municipality's data in the SafeStreets' database, if possible. After receiving a response from the MunicipalityDataIntegrationManager, the list of interventions will be generated. An algorithm consults all the reports present in SafeStreets database that are located in the city of the municipality that made the request, and checks for the areas with the highest density of violations. After computing the most unsafe areas of the city, the algorithm checks the type of violations recurring for each single area and from that it computes all possible interventions that can solve the problem. When all the process is finished, the result is returned to the router, in combination of a possible error raised from the MunicipalityDataIntegrationManager so that the user is aware of the fact that data integration was not possible and he could investigate the problem.
 	\item \textbf{MunicipalityDataIntegrationManager:}
