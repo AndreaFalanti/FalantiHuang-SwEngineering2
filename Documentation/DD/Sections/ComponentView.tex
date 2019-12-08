@@ -73,11 +73,14 @@ Component descriptions:
 \end{itemize}
 
 
+\subsubsection{Entity-relationship diagram}
+The entity-relationship diagram below describes the conceptual model of the database.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{Images/ER_diagram.png}
 	\caption{Entity-relationship diagram.}
 \end{figure}
-\textbf{Entity-relationship diagram}\\
-The above entity-relationship diagram describes the conceptual model of the database. In comparison with the class diagram, the main entities user, report and intervention have UserID, ReportID, and InterventionID primary key attributes, respectively, that are used for a faster lookup on the database.
+
+In comparison with the class diagram presented in RASD document, the main entities user, report and intervention have UserID, ReportID, and InterventionID primary key attributes, respectively, that are used for a faster lookup on the database. In fact using strings or multiple fields primary keys are not advisable in case performances are concerned, because indexing them is more difficulty and require more database block lookups compared on indexing on a single int number. Also, the IDs guarantees the uniqueness of the primary key in case that a table doesn't have any relevant unique identifier among its fields.
 

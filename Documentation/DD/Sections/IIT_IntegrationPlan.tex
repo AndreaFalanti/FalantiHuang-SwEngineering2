@@ -4,11 +4,10 @@ The integration process can be grouped and ordered in the following way:
 	\item integration of components with the DBMS
 	\item integration of components with (other) external services
 	\item integration of components of the application server
-	\item integration of the front-end application with the back-end server of SafeStreets
+	\item integration of the front-end applications with the back-end server of SafeStreets
 \end{enumerate}
 
-
-The design was studied to avoid coupling of the components, so that it's easier to test, modify and integrate the components more easily. After the implementation of the components is complete, the integration plan can be pretty flexible and summarized as follows:
+The design was studied to avoid coupling of the components, so that it's easier to test, modify and integrate the components. After the implementation of the components is complete, the integration plan can be pretty flexible and summarized as follows:
 
 \textbf{Integration of components with the DBMS}\\
 In this first phase of the integration plan every component that retrieves, inserts, updates data from the database is integrated with the chosen DBMS. The components involved in integration of this group are the following:
@@ -24,23 +23,26 @@ In this first phase of the integration plan every component that retrieves, inse
 \end{itemize} 
 
 \textbf{Integration of components with (other) external services}\\
-This group includes integrations with any external service different from the DBMS:
+This group of components need to be integrated with additional external services, different from the DBMS, to completely fulfill their functionality:
 \begin{itemize}
-	\item ReportReceiverManager, OCR service
-	\item MunicipalityDataIntegrationManager, municipality service
+	\item ReportReceiverManager $ -> $ OCR service
+	\item MunicipalityDataIntegrationManager $ -> $ municipality service (API interface for retrieving data)
 \end{itemize}
+[Note: $ -> $ means "uses" in above relations]
 
 \textbf{Integration of components of the application server}\\
-In this group, integrations between internal components of the application server are carried out. It is composed of:
+In this group, integration between internal components of the application server are carried out, so that the complete application server can be built from the single modules and could be accessed by the clients in all its functionalities:
 \begin{itemize}
-	\item SignUpManager, Router
-	\item LoginManager, Router
-	\item ReportReceiverManager, Router
-	\item ReportVisualizationManager,Router
-	\item ReportValidationManager, Router
-	\item DataAnalysisManager, Router
-	\item InterventionManager, Router
-	\item InterventionManager, MunicipalityDataIntegrationManager
+	\item SignUpManager $ -> $ Router
+	\item LoginManager $ -> $ Router
+	\item ReportReceiverManager $ -> $ Router
+	\item ReportVisualizationManager $ -> $ Router
+	\item ReportValidationManager $ -> $ Router
+	\item DataAnalysisManager $ -> $ Router
+	\item InterventionManager $ -> $ Router
+	\item MunicipalityDataIntegrationManager $ -> $ InterventionManager
 \end{itemize}
+[Note: $ -> $ means "integrated into" in above relations]
+
 \textbf{Integration of the front-end application with the back-end server of SafeStreets}
-The integration of this group is conducted and tested at the end of the process. It connects the client application request with the SafeStreets API (Router).
+At the end of the process, server and clients can be test integrated to check if all the system processes are working correctly. The client applications make requests to the SafeStreets server API, so the two subsystems need to satisfy the API schema defined as first step of the implementation to be able to communicate without errors.
