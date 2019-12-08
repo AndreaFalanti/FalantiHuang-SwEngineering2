@@ -1,11 +1,11 @@
-The system is subdivided in various subsystems that are connected together through API interfaces but that are fairly independent between each other. In fact the mobile apps for both Android and iOS and the web app can be developer in parallel with the application server, because they will communicate without knowing the state of each other (stateless architecture). The only important aspect is to define clearly the API and the retrieved data before starting the implementation of the subsystems, so that the devices will communicate easily between each other when an integration test is performed.
+The system is subdivided in various subsystems that are connected together through API interfaces but that are fairly independent between each other. In fact the mobile apps for both Android and iOS and the web app can be developed in parallel with the application server, because they will communicate without knowing the state of each other (stateless architecture). The only important aspect is to define clearly the API and the retrieved data before starting the implementation of the subsystems, so that the devices will communicate easily with the server when an integration test is performed.
 
-The various external services used by the system are supposed to be completely functional and always available for the correct functionality of the application, so testing will performed mainly on the output of the manipulation of the data return from these services.
+The various external services used by the system are supposed to be completely functional and always available for the correct functionality of the application, so testing will performed mainly on the output of the manipulation of the data returned from these services.
 
-As a preliminary step for choosing the implementation order and testing importance of each module we performed a non rigorous analysis to estimate the complexity of each module and their relevance for SafeStreets' customers.
+As a preliminary step for choosing the implementation order and testing importance of each module we performed a qualitative analysis to estimate the complexity of each module and their relevance for SafeStreets' customers.
 
 \bigskip
-\begin{tabular}{|c|c|c|c|}
+\begin{tabular}{|p{5cm}|p{4.5cm}|p{2.2cm}|p{2cm}|}
 	\hline 
 	Functionality & Relevance for customers & \multicolumn{2}{c|}{Implementation complexity} \\ 
 	& & server & client \\
