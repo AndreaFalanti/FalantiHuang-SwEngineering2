@@ -2,7 +2,7 @@ To fulfill the goal of the software to be, it's important that the requirements 
 
 It is important to note that the router component is used in all interactions between clients and application server because it handles all requests received through the API endpoints, and calls the components responsible for the functionality related to the request and also return a response to the client. Its behaviour is consistent for each requirement and because of this it will be omitted from the analysis.
 
-Also LoginManager and RegistrationManager are not listed in the traceability analysis. Even if essential for all users to access the functionalities of the system, requirements are focused on the actual services that SafeStreets provides to its customers, so login and registration only participate in them indirectly. In fact, all users need to register and then login to access the system, and all active accesses are then stored in a session database and the various managers can retrieve from it who made the request and which type of authorizations the client has.
+Also LoginManager and SignUpManager are not listed in the traceability analysis. Even if essential for all users to access the functionalities of the system, requirements are focused on the actual services that SafeStreets provides to its customers, so login and registration only participate in them indirectly. In fact, all users need to register and then login to access the system, and all active accesses are then stored in a session database and the various managers can retrieve from it who made the request and which type of authorizations the client has.
 
 \bigskip
 \begin{itemize}[label={}]
@@ -38,9 +38,13 @@ Also LoginManager and RegistrationManager are not listed in the traceability ana
 		\item \textbf{DataAnalysisManager:} allows authorities to analyze freely all data about reports, so that they have all the necessary data to improve their efficiency and punish quickly the transgressor.
 		\item \textbf{ReportVisualizationManager:} allows authorities to retrieve a list about all reports of violations happened in their city (bound on account info when registered to the server). From that list they are able to check all these violations in detail. 
 	\end{itemize}
+	\item \myref{R_domain_registration}
+	\begin{itemize}
+		\item \textbf{OrganizationRegistrationManager:} allows SafeStreets operators to insert the data of an organization along with its PEC domain. The data is provided by the organization that, after contacting SafeStreets operators, decided to sign a contract and give its data to use the service.
+	\end{itemize}
 	\item \myref{R_institution_certification}
 	\begin{itemize}
-		\item \textbf{RegistrationManager:} contains a function for communicating with an external API of the public register of PEC addresses, passing to it the PEC address sent in the registration form by the client. It then wait the response and analyze the data received to identify the institution from the PEC domain, associating it to the right type of account.
+		\item \textbf{SignUpManager:} contains a function for checking that the domain of the PEC address inserted by the client is present among the organizations registered to SafeStreets. If present, the component associates the account to the organization with that PEC domain, so that have the privileges offered by its organization type.
 	\end{itemize}
 	\item \myref{R_report_reception}
 	\begin{itemize}

@@ -55,7 +55,7 @@ Event flow & \begin{enumerate}
 \hline
 Exit condition & The email is authenticated and the actor is redirected to login form.\\
 \hline
-Exception & Email is already in use, or is not a PEC email, or confirm password field content diverge from password, in this case the actor is alerted with a proper message on screen and asked to correct the data.\\
+Exception & Email is already in use or confirm password field content diverge from password, in this case the actor is alerted with a proper message on screen and asked to correct the data. If the PEC address domain is not present in the domains of the organizations registered to SafeStreets, the actor is instead alerted that their organization is not registered to the service. \\
 \hline
 \end{tabular}
 
