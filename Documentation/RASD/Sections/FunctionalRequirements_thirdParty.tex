@@ -15,6 +15,29 @@
 \vskip 0.2in
 \begin{tabular}{|p{3.1cm}|p{11.6cm}|}
 \hline
+Name & Domain registration\\
+\hline
+Actors & Authorities or municipalities\\
+\hline
+Entry Condition & The head of the authorities or municipality of a city wants to use the service provided by SafeStreets\\
+\hline
+Event flow & \begin{enumerate}
+                \item The actor contacts a SafeStreets's operator to sign a contract to use SafeStreets' services.
+                \item The actor provides the domain and data of his organization.
+                \item The SafeStreets's operator checks that the requesting client has provided a valid domain from the list of all possible PEC domains.
+                \item The operator registers the domain and the organization's data in the database.
+                \item The operator confirms the registration of the domain.
+            \end{enumerate}\\
+\hline
+Exit condition & The operator completes the contract with the actor.\\
+\hline
+Exception & The domain provided by the actor cannot be found in the list of PEC domains, so the operator asks for the domain to the actor again.\\
+\hline
+\end{tabular}
+
+\vskip 0.2in
+\begin{tabular}{|p{3.1cm}|p{11.6cm}|}
+\hline
 Name & Registration\\
 \hline
 Actors & Authorities or municipalities\\
@@ -25,7 +48,7 @@ Event flow & \begin{enumerate}
                 \item The actor inserts his official public certified email (PEC) given for his public office.
                 \item The actor inserts the desired password.
                 \item The actor confirms his password.
-                \item The system checks the authenticity of the email using its domain.
+                \item The system checks the authenticity of the email by cross-checking its domain with those registered in the database.
                 \item The system sends a confirmation email to the PEC address inserted by the actor.
                 \item The actor clicks on the link in the confirmation email to activate its account.
             \end{enumerate}\\
@@ -46,6 +69,8 @@ Actors & Authorities and municipality\\
 Entry Condition & The actor opens the app.\\
 \hline
 Event flow & \begin{enumerate}
+				\item The citizen inserts his last name.
+				\item The citizen inserts his first name.
                 \item The actor inserts his PEC address.
                 \item The actor inserts his password.
                 \item The actor press the login button.
