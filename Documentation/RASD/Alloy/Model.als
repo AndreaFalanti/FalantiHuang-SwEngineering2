@@ -5,7 +5,7 @@ one sig INVALIDATED extends ReportStatus{}
 
 sig PhotoUrl{}
 sig Address{}
-sig State{}
+sig Region{}
 sig Email{}
 sig LicensePlate{}
 sig Password{}
@@ -22,7 +22,7 @@ sig Report{
 	reportLocation: one Location,
 	submitter: one Citizen,
 	violationType: one TrafficViolation,
-	vehicle: one Vehicle,
+	licensePlate: one LicensePlate,
 	photo: some PhotoUrl,
 	supervisor: lone Authority,
 	status: one ReportStatus,
@@ -45,11 +45,7 @@ sig Place{
 }
 
 sig City{
-	state: one State
-}
-
-sig Vehicle{
-	licensePlate: one LicensePlate
+	region : one Region
 }
 
 sig DataRequest{
@@ -99,12 +95,8 @@ fact PhotoUrlReportCompositionConstraint {
 	all p: PhotoUrl | one r: Report | p in r.photo
 }
 
-fact VehicleReportCompositionConstraint {
-	all v: Vehicle | some r: Report | v in r.vehicle
-}
-
-fact LicensePlateVehicleCompositionConstraint {
-	all l: LicensePlate | one v: Vehicle | l in v.licensePlate
+fact LicensePlateReportCompositionConstraint {
+	all l: LicensePlate | some r: Report | l in r.licensePlate
 }
 
 fact PlaceLocationCompositionConstraint {
@@ -128,8 +120,8 @@ fact EmailUserCompositionConstraint {
 	all e: Email | one u: User | e in u.email
 }
 
-fact StateCityCompositionConstraint {
-	all s: State | some c: City | s in c.state
+fact RegionCityCompositionConstraint {
+	all r: Region | some c: City | r in c.region
 }
 
 // other constraints
