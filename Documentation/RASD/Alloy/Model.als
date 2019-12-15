@@ -3,18 +3,26 @@ one sig PENDING extends ReportStatus{}
 one sig VALIDATED extends ReportStatus{}
 one sig INVALIDATED extends ReportStatus{}
 
+abstract sig OrganizationType{}
+one sig AUTH_ORG extends OrganizationType{}
+one sig MUN_ORG extends OrganizationType{}
+
 sig PhotoUrl{}
 sig Address{}
 sig Region{}
-sig Email{}
 sig LicensePlate{}
 sig Password{}
 sig TrafficViolation{}
 sig InterventionType{}
+sig Domain{}
 
 // Simplified version of timestamp, using only int to avoid a granular subdivision of time not useful for our constraints
 sig Timestamp{
 	timestamp: one Int
+}
+
+sig Email{
+	domain: one Domain
 }
 
 sig Report{
@@ -24,12 +32,12 @@ sig Report{
 	violationType: one TrafficViolation,
 	licensePlate: one LicensePlate,
 	photo: some PhotoUrl,
-	supervisor: lone Authority,
+	supervisor: lone AuthorityUser,
 	status: one ReportStatus,
-	visualizedBy: set Authority
+	visualizedBy: set AuthorityUser
 }{
 	no supervisor iff status = PENDING
-	some supervisor implies supervisor.city = reportLocation.place.city
+	some supervisor implies supervisor.organization.city = reportLocation.place.city
 }
 
 sig Location{
@@ -63,18 +71,30 @@ sig DataRequest{
 sig Intervention{
 	interventionLocation: one Location,
 	type: one InterventionType,
-	accessedBy: one Municipality
+	accessedBy: one MunicipalityUser
+}
+
+sig Organization{
+	orgType: one OrganizationType,
+	city: one City,
+	domain: one Domain
 }
 
 abstract sig User{
 	email: one Email,
 	password: one Password
 }
-sig Municipality extends User{
-	city: one City
+sig MunicipalityUser extends User{
+	organization: one Organization
+}{
+	organization.orgType = MUN_ORG
+	organization.domain = email.domain
 }
-sig Authority extends User{
-	city: one City
+sig AuthorityUser extends User{
+	organization: one Organization
+}{
+	organization.orgType = AUTH_ORG
+	organization.domain = email.domain
 }
 sig Citizen extends User{}
 
@@ -83,7 +103,6 @@ sig Citizen extends User{}
 fact LocationReportInterventionCompositionConstraint {
 	all l: Location | (some r: Report | l in r.reportLocation) or
 	(some i: Intervention | l in i.interventionLocation)
-	//all l: Location, r: Report | l in r.reportLocation
 }
 
 fact TimestampReportDataRequestCompositionConstraint {
@@ -107,9 +126,9 @@ fact AddressPlaceCompositionConstraint {
 	all a: Address | some p: Place | a in p.address
 }
 
-fact CityPlaceAuthorityMunicipalityCompositionConstraint {
+fact CityPlaceAuthorityMunicipalityUserCompositionConstraint {
 	all c: City | (some p: Place | c in p.city) or 
-	(some m: Municipality |c in m.city) or  (some a: Authority |c in a.city)
+	(some m: MunicipalityUser| c in m.organization.city) or (some a: AuthorityUser| c in a.organization.city)
 }
 
 fact PasswordUserCompositionConstraint {
@@ -136,18 +155,25 @@ fact SelectOnlyReportsThatSatisfyRequestFilters {
 	and (d.violationType != none implies r.violationType = d.violationType))
 }
 
-fact NoMunicipalityWithSameCity {
-	no disj m1,m2: Municipality | m1.city = m2.city
+fact NoSameOrganizationTypeWithSameCity {
+	no disj o1,o2: Organization | (o1.city = o2.city) and (o1.orgType = o2.orgType)
 }
 
-fact InterventionMunicipalityLocationConsistency {
-	all i: Intervention, m: Municipality | m in i.accessedBy iff
-	i.interventionLocation.place.city = m.city
+fact NoSameOrganizationTypeWithSameDomain {
+	no disj o1,o2: Organization | (o1.domain = o2.domain)
+}
+
+fact NoCitizenWithOrganizationDomain {
+	no c: Citizen | c.email.domain in Organization.domain
+}
+fact InterventionMunicipalityUserLocationConsistency {
+	all i: Intervention, m: MunicipalityUser | m in i.accessedBy iff
+	i.interventionLocation.place.city = m.organization.city
 }
 
 fact ReportVisualizedByCompetentAuthorities {
-	all r: Report, a: Authority | a in r.visualizedBy iff
-	r.reportLocation.place.city = a.city
+	all r: Report, a: AuthorityUser | a in r.visualizedBy iff
+	r.reportLocation.place.city = a.organization.city
 }
 
 fact NoDifferentInterventionsWithSameLocation {
@@ -162,8 +188,8 @@ fact NoSameReportFromSameCitizenAtTheSameTime {
 	no r1, r2: Report | r1.submitter = r2.submitter and r1 != r2
 }
 
-fact NoInterventionsWithoutMunicipality {
-	all i: Intervention | some m: Municipality | i.interventionLocation.place.city = m.city
+fact NoInterventionsWithoutMunicipalityUser {
+	all i: Intervention | some m: MunicipalityUser | i.interventionLocation.place.city = m.organization.city
 }
 
 /* ------------------------- assertions ------------------------ */
@@ -172,11 +198,20 @@ assert ReportSupervisorCanAlsoVisualize {
 }
 check ReportSupervisorCanAlsoVisualize for 10
 
-assert AuthorityCanAccessOnlyReportsFromHisCity {
-	all r: Report | no a: Authority | a.city != r.reportLocation.place.city and a in r.visualizedBy
+assert AuthorityUserCanAccessOnlyReportsFromHisCity {
+	all r: Report | no a: AuthorityUser | a.organization.city != r.reportLocation.place.city and a in r.visualizedBy
 }
-check AuthorityCanAccessOnlyReportsFromHisCity for 10
+check AuthorityUserCanAccessOnlyReportsFromHisCity for 10
 
+assert AuthorityOfSameOrganizationVisualizeSameReports{
+	all disj a1,a2: AuthorityUser | #visualizedBy.a1 > 0 implies (a1.organization = a2.organization iff visualizedBy.a1 = visualizedBy.a2)
+}
+check AuthorityOfSameOrganizationVisualizeSameReports for 10
+
+assert MunicipalityOfSameOrganizationVisualizeSameInterventions{
+	all disj m1,m2: MunicipalityUser | #accessedBy.m1 > 0 implies (m1.organization = m2.organization iff accessedBy.m1 = accessedBy.m2)
+}
+check MunicipalityOfSameOrganizationVisualizeSameInterventions for 10
 /* ------------------------- worlds ------------------------ */
 // shows a world with one data request with at least one valid report
 pred dataRequestWithValidReport {
@@ -184,7 +219,7 @@ pred dataRequestWithValidReport {
 	#(status :> PENDING) = 1
 	#validReports >= 1
 }
-run dataRequestWithValidReport for 3 but exactly 2 Report, exactly 1 DataRequest, 1 City,  1 TrafficViolation, 0 Intervention, 0 Municipality
+run dataRequestWithValidReport for 3 but exactly 2 Report, exactly 1 DataRequest, 1 City,  1 TrafficViolation, 0 Intervention, 0 MunicipalityUser
 
 // shows a world with one data request with zero valid reports
 pred dataRequestWithNoValidReport {
@@ -192,13 +227,13 @@ pred dataRequestWithNoValidReport {
 	#(status :> INVALIDATED)  = 1
 	#validReports = 0
 }
-run dataRequestWithNoValidReport for 3 but exactly 2 Report, exactly 1 DataRequest, 1 City,  1 TrafficViolation, 0 Intervention, 0 Municipality
+run dataRequestWithNoValidReport for 3 but exactly 2 Report, exactly 1 DataRequest, 1 City,  1 TrafficViolation, 0 Intervention, 0 MunicipalityUser
 
-// shows a world in which interventions are accessible only from municipality in which they are located in
+// shows a world in which interventions are accessible only from MunicipalityUser in which they are located in
 pred interventionAccessibility {
 	some i1, i2: Intervention | i1.interventionLocation.place.city != i2.interventionLocation.place.city
 }
-run interventionAccessibility for 3 but exactly 2 Municipality, exactly 3 Intervention, exactly 2 Location, 0 Authority, 0 Citizen, 0 Report, 0 DataRequest
+run interventionAccessibility for 3 but exactly 2 MunicipalityUser, exactly 3 Intervention, exactly 2 Location, 0 AuthorityUser, 0 Citizen, 0 Report, 0 DataRequest
 
 // shows a world in which some reports are accessible from some authorities and others are not
 pred reportAccessibility {
@@ -206,4 +241,4 @@ pred reportAccessibility {
 	some r: Report | r.visualizedBy = none
 }
 // at least n+1 entities, where n is number of authorities, because at least 1 citizen is needed for reports and so n+1 emails are needed
-run reportAccessibility for 4 but exactly 2 Authority, exactly 2 Report, 2 Location, 0 Municipality, 0 DataRequest, 0 Intervention
+run reportAccessibility for 4 but exactly 2 AuthorityUser, exactly 2 Report, 2 Location, 0 MunicipalityUser, 0 DataRequest, 0 Intervention
