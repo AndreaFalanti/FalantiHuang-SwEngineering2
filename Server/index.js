@@ -1,5 +1,7 @@
 'use strict';
 
+let {setupDataLayer} = require("./other/service/DataLayer");
+
 var fs = require('fs'),
     path = require('path'),
     http = require('http');
@@ -48,9 +50,10 @@ oas3Tools.initializeMiddleware(swaggerDoc, function (middleware) {
   app.use(serveStatic(path.join(__dirname, "public")));
 
   // Start the server
-  http.createServer(app).listen(serverPort, function () {
-    console.log('Your server is listening on port %d (http://localhost:%d)', serverPort, serverPort);
-    console.log('Swagger-ui is available on http://localhost:%d/docs', serverPort);
-  });
-
+  setupDataLayer().then(
+      http.createServer(app).listen(serverPort, function () {
+        console.log('Your server is listening on port %d (http://localhost:%d)', serverPort, serverPort);
+        console.log('Swagger-ui is available on http://localhost:%d/docs', serverPort);
+      })
+  );
 });

@@ -1,0 +1,17 @@
+[
+  {
+    "id": 0,
+    "name": "Milano",
+    "region": "Lombardia"
+  },
+  {
+    "id": 1,
+    "name": "Como",
+    "region": "Lombardia"
+  },
+  {
+    "id": 2,
+    "name": "Varese",
+    "region": "Lombardia"
+  }
+]
