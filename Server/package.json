@@ -4,8 +4,8 @@
   "description": "SafeStreets API for software engineering 2 project 2019/2020",
   "main": "index.js",
   "scripts": {
-	"prestart": "npm install",
-	"start": "node index.js"
+    "prestart": "npm install",
+    "start": "node index.js"
   },
   "keywords": [
     "swagger"
@@ -14,7 +14,12 @@
   "private": true,
   "dependencies": {
     "connect": "^3.2.0",
+    "cookie-parser": "^1.4.4",
+    "cookie-session": "^1.3.3",
     "js-yaml": "^3.3.0",
-    "oas3-tools": "^1.0.1"
+    "knex": "^0.20.4",
+    "oas3-tools": "^1.0.1",
+    "pg": "^7.14.0",
+    "serve-static": "^1.14.1"
   }
 }
