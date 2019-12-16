@@ -1,0 +1,20 @@
+{
+  "name": "safestreets-api",
+  "version": "1.0.0",
+  "description": "SafeStreets API for software engineering 2 project 2019/2020",
+  "main": "index.js",
+  "scripts": {
+	"prestart": "npm install",
+	"start": "node index.js"
+  },
+  "keywords": [
+    "swagger"
+  ],
+  "license": "Unlicense",
+  "private": true,
+  "dependencies": {
+    "connect": "^3.2.0",
+    "js-yaml": "^3.3.0",
+    "oas3-tools": "^1.0.1"
+  }
+}
