@@ -1,1 +1,27 @@
-[]
+[
+  {
+    "latitude": 45.809325,
+    "longitude": 8.836170,
+    "place_id": 3
+  },
+  {
+    "latitude": 45.475772,
+    "longitude": 9.234391,
+    "place_id": 0
+  },
+  {
+    "latitude": 45.477570,
+    "longitude": 9.234367,
+    "place_id": 0
+  },
+  {
+    "latitude": 45.480658,
+    "longitude": 9.211220,
+    "place_id": 2
+  },
+  {
+    "latitude": 45.807807,
+    "longitude": 9.079936,
+    "place_id": 1
+  }
+]

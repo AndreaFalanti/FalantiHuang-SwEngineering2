@@ -1,1 +1,22 @@
-[]
+[
+  {
+    "id": 0,
+    "address": "via camillo golgi",
+    "city_id": 0
+  },
+  {
+    "id": 1,
+    "address": "viale varese",
+    "city_id": 1
+  },
+  {
+    "id": 2,
+    "address": "corso buenos aires",
+    "city_id": 0
+  },
+  {
+    "id": 3,
+    "address": "viale luigi borri",
+    "city_id": 2
+  }
+]

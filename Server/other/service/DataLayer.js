@@ -53,6 +53,7 @@ organizationDbSetup = function(database) {
                 table.text("name");
                 table.text("domain").unique();
                 table.enum("type", ["system", "authority"]);
+                table.integer("city_id").index().references("id").inTable("city");
                 console.log(`${tableName} database created`);
             }).then(() => {
                 return Promise.all(

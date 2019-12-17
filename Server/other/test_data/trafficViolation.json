@@ -1,1 +1,26 @@
-[]
+[
+  {
+    "type": "double_parking",
+    "description": "occurs when a vehicle is parked on the street, adjacent to an already taken parking spot"
+  },
+  {
+    "type": "invalid_handicap_parking",
+    "description": "occurs when a vehicle is parked in an parking spot for handicapped people, without exposing the apposite label"
+  },
+  {
+    "type": "bike_lane_parking",
+    "description": "occurs when a vehicle is parked in a bike lane"
+  },
+  {
+    "type": "red_zone_parking",
+    "description": "occurs when a vehicle is parked in an area where parking is forbidden"
+  },
+  {
+    "type": "parking_disk_violation",
+    "description": "occurs when a vehicle is parked in short-stay area and the parking disk is already exausted"
+  },
+  {
+    "type": "other",
+    "description": "any violation that doesn't enter in the other categories"
+  }
+]
