@@ -1,6 +1,5 @@
 'use strict';
 
-
 /**
  * Gets a single user's data
  * Returns logged user non-sensitive data or an error if not authenticated.
@@ -27,11 +26,28 @@ exports.usersDataGET = function() {
  * body Login 
  * no response value expected for this operation
  **/
-exports.usersLoginPOST = function(body) {
+exports.usersLoginPOST = function(login) {
   return new Promise(function(resolve, reject) {
-    resolve();
+    try {
+      return sqlDb("usr")
+          .select()
+          .where("email", login.email)
+          .where("password", login.password)
+          .first()
+          .timeout(2000, {cancel: true})
+          .then(user => {
+            if (user) {
+              resolve(user);
+            } else {
+              reject("Invalid login");
+            }
+          });
+    }
+    catch (e) {
+      reject(e);
+    }
   });
-}
+};
 
 
 /**

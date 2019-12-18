@@ -21,6 +21,8 @@ let sqlDb = sqlDbFactory({
     debug: true
 });
 
+global.sqlDb = sqlDb;
+
 cityDbSetup = function(database) {
     let tableName = "city";
     return database.schema.hasTable(tableName).then(exists => {
