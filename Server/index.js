@@ -6,8 +6,9 @@ var fs = require('fs'),
     path = require('path'),
     http = require('http');
 
-var app = require('connect')();
-var oas3Tools = require('oas3-tools');
+var express = require('express');
+var app = express();
+var oasTools = require('oas-tools');
 var jsyaml = require('js-yaml');
 var serverPort = process.env.PORT || 8080;
 
@@ -24,6 +25,19 @@ var options = {
   useStubs: process.env.NODE_ENV === 'development' // Conditionally turn on stubs (mock mode)
 };
 
+var options_object = {
+    controllers: path.join(dirToOther, './controllers'),
+    checkControllers: true,
+    docs: {
+        apiDocs: '/api-docs',
+        apiDocsPrefix: '',
+        swaggerUi: '/docs',
+        swaggerUiPrefix: ''
+    }
+};
+
+oasTools.configure(options_object);
+
 // The Swagger document (require it, build it programmatically, fetch it from a URL, ...)
 var spec = fs.readFileSync(path.join(dirToOther,'api/swagger.yaml'), 'utf8');
 var swaggerDoc = jsyaml.safeLoad(spec);
@@ -33,7 +47,7 @@ app.use(cookieParser());
 app.use(cookieSession({name: "session", keys: ["id", "accountType"]}));
 
 // Initialize the Swagger middleware
-oas3Tools.initializeMiddleware(swaggerDoc, function (middleware) {
+oasTools.initializeMiddleware(swaggerDoc,  app,function (middleware) {
 
   // Interpret Swagger resources and attach metadata to request - must be first in swagger-tools middleware chain
   app.use(middleware.swaggerMetadata());

@@ -67,6 +67,7 @@ paths:
       description: Login into the system.
       operationId: usersLoginPOST
       requestBody:
+        x-name: login
         content:
           application/json:
             schema:
@@ -104,6 +105,7 @@ paths:
       description: Citizen registration into SafeStreets system.
       operationId: usersRegisterCitizenPOST
       requestBody:
+        x-name: body
         description: Data inserted by the citizen in the registration form
         content:
           application/json:
@@ -202,6 +204,7 @@ paths:
       description: Receive report form compiled from a citizen.
       operationId: reportsSubmitPOST
       requestBody:
+        x-name: report
         description: Report form data
         content:
           application/json:
@@ -229,6 +232,7 @@ paths:
         of the vehicle can be recognised.
       operationId: reportsPhotoUploadPOST
       requestBody:
+        x-name: photo
         description: First photo of the report
         content:
           image/jpeg:
@@ -298,6 +302,7 @@ paths:
         schema:
           type: integer
       requestBody:
+        x-name: status
         description: New status to set
         content:
           application/json:
@@ -324,6 +329,7 @@ paths:
         operator had signed a contract with it.
       operationId: adminOrganizationsRegisterPOST
       requestBody:
+        x-name: body
         description: Data of the organization to register in the system
         content:
           application/json:
@@ -368,6 +374,7 @@ paths:
         register an organization.
       operationId: adminCitiesRegisterPOST
       requestBody:
+        x-name: body
         description: Data of the city to register in the system
         content:
           application/json:
