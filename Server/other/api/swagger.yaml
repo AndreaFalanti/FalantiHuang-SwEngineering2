@@ -129,6 +129,7 @@ paths:
       description: Authority registration into SafeStreets system.
       operationId: usersRegisterAuthorityPOST
       requestBody:
+        x-name: body
         description: Data inserted by the authority in the registration form
         content:
           application/json:

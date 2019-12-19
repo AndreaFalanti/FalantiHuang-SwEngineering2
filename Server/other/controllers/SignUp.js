@@ -21,8 +21,8 @@ module.exports.usersRegisterAuthorityPOST = function usersRegisterAuthorityPOST(
                 res.end();
             })
             .catch(function (response) {
-                res.statusCode = 400;
-                res.statusMessage = "Email already taken";
+                res.statusCode = (response === "Server error") ? 500 : 400;
+                res.statusMessage = response;
                 res.end();
             });
     }
@@ -47,8 +47,8 @@ module.exports.usersRegisterCitizenPOST = function usersRegisterCitizenPOST(req,
                 res.end();
             })
             .catch(function (response) {
-                res.statusCode = 400;
-                res.statusMessage = "Email already taken";
+                res.statusCode = (response === "Server error") ? 500 : 400;
+                res.statusMessage = response;
                 res.end();
             });
     }
