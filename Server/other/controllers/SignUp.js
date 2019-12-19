@@ -3,24 +3,53 @@
 var utils = require('../utils/writer.js');
 var SignUp = require('../service/SignUpService');
 
-module.exports.usersRegisterAuthorityPOST = function usersRegisterAuthorityPOST (req, res, next) {
-  var body = req.swagger.params['body'].value;
-  SignUp.usersRegisterAuthorityPOST(body)
-    .then(function (response) {
-      utils.writeJson(res, response);
-    })
-    .catch(function (response) {
-      utils.writeJson(res, response);
-    });
+module.exports.usersRegisterAuthorityPOST = function usersRegisterAuthorityPOST(req, res, next) {
+    var body = req.swagger.params['body'].value;
+    if (body.password !== body.confirmPassword) {
+        res.statusCode = 400;
+        res.statusMessage = "Password mismatch";
+        res.end();
+    }
+    else {
+        // remove now useless confirmPassword field
+        delete body.confirmPassword;
+
+        SignUp.usersRegisterAuthorityPOST(body)
+            .then(function (response) {
+                res.statusCode = 204;
+                res.statusMessage = "Successful registration";
+                res.end();
+            })
+            .catch(function (response) {
+                res.statusCode = 400;
+                res.statusMessage = "Email already taken";
+                res.end();
+            });
+    }
 };
 
-module.exports.usersRegisterCitizenPOST = function usersRegisterCitizenPOST (req, res, next) {
-  var body = req.swagger.params['body'].value;
-  SignUp.usersRegisterCitizenPOST(body)
-    .then(function (response) {
-      utils.writeJson(res, response);
-    })
-    .catch(function (response) {
-      utils.writeJson(res, response);
-    });
+// TODO: refactor code to avoid duplication with case above
+module.exports.usersRegisterCitizenPOST = function usersRegisterCitizenPOST(req, res, next) {
+    var body = req.swagger.params['body'].value;
+    if (body.password !== body.confirmPassword) {
+        res.statusCode = 400;
+        res.statusMessage = "Password mismatch";
+        res.end();
+    }
+    else {
+        // remove now useless confirmPassword field
+        delete body.confirmPassword;
+
+        SignUp.usersRegisterCitizenPOST(body)
+            .then(function (response) {
+                res.statusCode = 204;
+                res.statusMessage = "Successful registration";
+                res.end();
+            })
+            .catch(function (response) {
+                res.statusCode = 400;
+                res.statusMessage = "Email already taken";
+                res.end();
+            });
+    }
 };

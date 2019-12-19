@@ -6,17 +6,27 @@
  *
  * returns inline_response_200
  **/
-exports.usersDataGET = function() {
+exports.usersDataGET = function(id) {
   return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = "";
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
+    try {
+      return sqlDb("usr")
+          .select()
+          .where("id", id)
+          .first()
+          .timeout(2000, {cancel: true})
+          .then(user => {
+            if (user) {
+              resolve(user);
+            } else {
+              reject("User not found");
+            }
+          });
+    }
+    catch (e) {
+      reject(e);
     }
   });
-}
+};
 
 
 /**
@@ -48,17 +58,3 @@ exports.usersLoginPOST = function(login) {
     }
   });
 };
-
-
-/**
- * Logout
- * Logout user.
- *
- * no response value expected for this operation
- **/
-exports.usersLogoutPOST = function() {
-  return new Promise(function(resolve, reject) {
-    resolve();
-  });
-}
-
