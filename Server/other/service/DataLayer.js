@@ -1,4 +1,4 @@
-const sqlDbFactory = require("knex");
+const knex = require("knex");
 
 let cityJson = require("../test_data/city.json");
 let organizationJson = require("../test_data/organization.json");
@@ -9,7 +9,7 @@ let userJson = require("../test_data/user.json");
 let reportJson = require("../test_data/report.json");
 
 
-let sqlDb = sqlDbFactory({
+let sqlDb = knex({
     client: "pg",
     connection: process.env.DATABASE_URL || {
         host : "localhost",
@@ -37,7 +37,10 @@ cityDbSetup = function(database) {
                     cityJson.map(e => {
                         return sqlDb(tableName).insert(e);
                     })
-                );
+                ).then(() => {
+                    let stm = "setval('" + tableName + "_id_seq', (SELECT MAX(id) from " + tableName + "));";
+                    return database.select(database.raw(stm));
+                });
             });
         }
         else {
@@ -62,7 +65,10 @@ organizationDbSetup = function(database) {
                     organizationJson.map(e => {
                         return sqlDb(tableName).insert(e);
                     })
-                );
+                ).then(() => {
+                    let stm = "setval('" + tableName + "_id_seq', (SELECT MAX(id) from " + tableName + "));";
+                    return database.select(database.raw(stm));
+                });
             });
         }
         else {
@@ -107,7 +113,10 @@ placeDbSetup = function(database) {
                     placeJson.map(e => {
                         return sqlDb(tableName).insert(e);
                     })
-                );
+                ).then(() => {
+                    let stm = "setval('" + tableName + "_id_seq', (SELECT MAX(id) from " + tableName + "));";
+                    return database.select(database.raw(stm));
+                });
             });
         }
         else {
@@ -159,7 +168,10 @@ userDbSetup = function(database) {
                     userJson.map(e => {
                         return sqlDb(tableName).insert(e);
                     })
-                );
+                ).then(() => {
+                    let stm = "setval('" + tableName + "_id_seq', (SELECT MAX(id) from " + tableName + "));";
+                    return database.select(database.raw(stm));
+                });
             });
         }
         else {
@@ -190,7 +202,10 @@ reportDbSetup = function(database) {
                     reportJson.map(e => {
                         return sqlDb(tableName).insert(e);
                     })
-                );
+                ).then(() => {
+                    let stm = "setval('" + tableName + "_id_seq', (SELECT MAX(id) from " + tableName + "));";
+                    return database.select(database.raw(stm));
+                });
             });
         }
         else {
