@@ -284,3 +284,4 @@ TSWLatexianTemp*
 ## SERVER
 Server/node_modules/
 Server/.swagger-codegen/
+.env
