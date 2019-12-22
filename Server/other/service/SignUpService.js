@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * Checks if a user with the selected email is already present in the database
+ * Generate the query for getting the user with the given email
  * @param email Email to check
- * @returns {Knex.QueryBuilder<TRecord, TResult>}
+ * @returns Knex promise with the query
  */
 let checkIfEmailIsAlreadyTaken = function(email) {
     return sqlDb("usr")
@@ -12,11 +12,26 @@ let checkIfEmailIsAlreadyTaken = function(email) {
         .timeout(2000, {cancel: true})
 };
 
+/**
+ * Generate the query for getting the organization with the given domain
+ * @param domain Domain to search
+ * @returns Knex promise with the query
+ */
 let searchOrganizationWithDomain = function(domain) {
     return sqlDb("organization")
         .first()
         .where("domain", domain)
         .timeout(2000, {cancel: true})
+};
+
+/**
+ * Insert a user into the database
+ * @param user User data to insert
+ */
+let insertUserInDb = function(user) {
+    sqlDb("usr")
+        .insert(user)
+        .timeout(2000, {cancel: true});
 };
 
 /**
@@ -47,10 +62,7 @@ exports.usersRegisterAuthorityPOST = function(body) {
                                     // add organization_id to the data of registration form
                                     body.organization_id = organization.id;
 
-                                    result = sqlDb("usr")
-                                        .insert(body)
-                                        .timeout(2000, {cancel: true});
-
+                                    result = insertUserInDb(body);
                                     resolve(result);
                                 }
                                 else {
@@ -89,10 +101,7 @@ exports.usersRegisterCitizenPOST = function(body) {
                     else {
                         // TODO: check also that the domain of the email provided by the citizen is not present among
                         //  the ones registered for organizations, that should be used only for organization officers (admins and authorities)
-                        result = sqlDb("usr")
-                            .insert(body)
-                            .timeout(2000, {cancel: true});
-
+                        result = insertUserInDb(body);
                         resolve(result);
                     }
                 });
