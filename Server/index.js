@@ -7,7 +7,6 @@ var fs = require('fs'),
     http = require('http');
 
 require('dotenv').config({path: path.join(__dirname, '.env')});
-console.log(path.join(__dirname, '.env'));
 
 var express = require('express');
 var app = express();
@@ -74,3 +73,5 @@ oasTools.initializeMiddleware(swaggerDoc,  app,function (middleware) {
       })
   );
 });
+
+module.exports = {app, swaggerDoc};
