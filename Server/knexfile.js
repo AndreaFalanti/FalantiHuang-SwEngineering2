@@ -10,7 +10,7 @@ module.exports = {
       host : "localhost",
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME || 'safestreets'
+      database: process.env.DB_NAME_DEV || 'safestreets'
     },
     ssl: true,
     debug: true,
@@ -28,7 +28,7 @@ module.exports = {
       host : "localhost",
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME || 'safestreets'
+      database: process.env.DB_NAME_TEST || 'safestreets'
     },
     ssl: true,
     debug: true,
@@ -46,7 +46,7 @@ module.exports = {
       host : "localhost",
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME || 'safestreets'
+      database: process.env.DB_NAME_DEV || 'safestreets_test'
     },
     ssl: true,
     debug: true,

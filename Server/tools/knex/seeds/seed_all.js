@@ -18,13 +18,13 @@ let tableObjs = [
 
 // TODO: if possible refactor this code to actually create dynamically a chain of promises
 exports.seed = function (knex) {
-    seedTable(knex, tableObjs[0])
-        .then(() => seedTable(knex, tableObjs[1]))
-        .then(() => seedTable(knex, tableObjs[2]))
-        .then(() => seedTable(knex, tableObjs[3]))
-        .then(() => seedTable(knex, tableObjs[4]))
-        .then(() => seedTable(knex, tableObjs[5]))
-        .then(() => seedTable(knex, tableObjs[6]))
+    return seedTable(knex, tableObjs[0])
+        .then(() => seedTable(knex, tableObjs[1])
+            .then(() => seedTable(knex, tableObjs[2])
+                .then(() => seedTable(knex, tableObjs[3])
+                    .then(() => seedTable(knex, tableObjs[4])
+                        .then(() => seedTable(knex, tableObjs[5])
+                            .then(() => seedTable(knex, tableObjs[6])))))));
 };
 
 let seedTable = function (knex, tableObj) {

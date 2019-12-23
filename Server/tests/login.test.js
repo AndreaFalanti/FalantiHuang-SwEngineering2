@@ -4,8 +4,9 @@ const app = require('../index').app;
 /**
  * Make sure that the database tables are present and that their schemas are the more recent provided ones
  */
-beforeAll(() => {
-    return sqlDb.migrate.latest();
+beforeAll(async () => {
+    await sqlDb.migrate.rollback();
+    await sqlDb.migrate.latest();
 });
 
 /**

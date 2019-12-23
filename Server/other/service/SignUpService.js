@@ -5,7 +5,7 @@
  * @param email Email to check
  * @returns Knex promise with the query
  */
-let checkIfEmailIsAlreadyTaken = function(email) {
+let queryUserByEmail = function(email) {
     return sqlDb("usr")
         .first()
         .where("email", email)
@@ -17,7 +17,7 @@ let checkIfEmailIsAlreadyTaken = function(email) {
  * @param domain Domain to search
  * @returns Knex promise with the query
  */
-let searchOrganizationWithDomain = function(domain) {
+let queryOrganizationByDomain = function(domain) {
     return sqlDb("organization")
         .first()
         .where("domain", domain)
@@ -45,7 +45,7 @@ exports.usersRegisterAuthorityPOST = function(body) {
     return new Promise(function(resolve, reject) {
         let result;
         try {
-            checkIfEmailIsAlreadyTaken(body.email)
+            queryUserByEmail(body.email)
                 .then(user => {
                     // another user with that email is already existing, so return an error
                     if (user) {
@@ -54,9 +54,8 @@ exports.usersRegisterAuthorityPOST = function(body) {
                     // continue with the registration
                     else {
                         let domain = body.email.split("@")[1];
-                        console.log(domain);
 
-                        searchOrganizationWithDomain(domain)
+                        queryOrganizationByDomain(domain)
                             .then(organization => {
                                 if (organization && organization.type === "authority") {
                                     // add organization_id to the data of registration form
@@ -91,7 +90,7 @@ exports.usersRegisterCitizenPOST = function(body) {
     return new Promise(function(resolve, reject) {
         let result;
         try {
-            checkIfEmailIsAlreadyTaken(body.email)
+            queryUserByEmail(body.email)
                 .then(user => {
                     // another user with that email is already existing, so return an error
                     if (user) {
@@ -99,10 +98,19 @@ exports.usersRegisterCitizenPOST = function(body) {
                     }
                     // continue with the registration
                     else {
-                        // TODO: check also that the domain of the email provided by the citizen is not present among
-                        //  the ones registered for organizations, that should be used only for organization officers (admins and authorities)
-                        result = insertUserInDb(body);
-                        resolve(result);
+                        let domain = body.email.split("@")[1];
+
+                        queryOrganizationByDomain(domain)
+                            .then(organization => {
+                                // an organization with that domain is present, therefore is not a valid citizen account
+                                if (organization) {
+                                    reject("Registering as citizen with an organization domain");
+                                }
+                                else {
+                                    result = insertUserInDb(body);
+                                    resolve(result);
+                                }
+                            });
                     }
                 });
         }
