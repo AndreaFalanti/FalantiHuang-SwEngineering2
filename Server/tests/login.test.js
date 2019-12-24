@@ -27,15 +27,16 @@ describe('POST /users/login', () => {
                 password: "qwerty456"
             });
         expect(res.statusCode).toEqual(204);
+
         let setCookies = res.get('Set-cookie');
-        let regex = /([\w|.]*)=[\w|\d]*;\s*path=\/;\s*httponly/;
+        let regex = /([\w|.]*)=[^;]*;\s*path=\/;\s*httponly/;
         expect(setCookies.length).toEqual(2);
         for (let cookie of setCookies) {
             /**
              * cookie to be set follow desired structure
              * example: [
-                 'session=eyJsb2dnZWRpbiI6dHJ1ZSwiaWQiOjJ9; path=/; httponly',
-                 'session.sig=LCMUipf6Grf_pD5bCELHXgJeGUI; path=/; httponly'
+                 'session=eyJsb2dnZWRpbiI6dHJ1ZSwiaWQiOjIsImFjY291bnRfdHlwZSI6ImNpdGl6ZW4ifQ==; path=/; httponly',
+                 'session.sig=-asnx2H39OHRmq3Q7INU0MUpFbk; path=/; httponly'
                  ]
              */
             expect(regex.test(cookie)).toBeTruthy();

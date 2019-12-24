@@ -43,7 +43,6 @@ let insertUserInDb = function(user) {
  **/
 exports.usersRegisterAuthorityPOST = function(body) {
     return new Promise(function(resolve, reject) {
-        let result;
         try {
             queryUserByEmail(body.email)
                 .then(user => {
@@ -61,7 +60,7 @@ exports.usersRegisterAuthorityPOST = function(body) {
                                     // add organization_id to the data of registration form
                                     body.organization_id = organization.id;
 
-                                    result = insertUserInDb(body);
+                                    let result = insertUserInDb(body);
                                     resolve(result);
                                 }
                                 else {
@@ -88,7 +87,6 @@ exports.usersRegisterAuthorityPOST = function(body) {
  **/
 exports.usersRegisterCitizenPOST = function(body) {
     return new Promise(function(resolve, reject) {
-        let result;
         try {
             queryUserByEmail(body.email)
                 .then(user => {
@@ -107,7 +105,7 @@ exports.usersRegisterCitizenPOST = function(body) {
                                     reject("Registering as citizen with an organization domain");
                                 }
                                 else {
-                                    result = insertUserInDb(body);
+                                    let result = insertUserInDb(body);
                                     resolve(result);
                                 }
                             });

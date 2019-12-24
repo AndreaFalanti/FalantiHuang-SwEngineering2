@@ -42,6 +42,14 @@ function queryUserByPasswordAndEmail (password, email) {
         .timeout(2000, {cancel: true})
 }
 
+function queryOrganizationByIdForItsType(id) {
+    return sqlDb("organization")
+        .select("type")
+        .where("id", id)
+        .first()
+        .timeout(2000, {cancel: true})
+}
+
 /**
  * Gets a single user's data
  * Returns logged user non-sensitive data or an error if not authenticated.
@@ -95,7 +103,17 @@ exports.usersLoginPOST = function (login) {
            queryUserByPasswordAndEmail(login.password, login.email)
                 .then(user => {
                     if (user) {
-                        resolve(user);
+                        if (user.organization_id !== null) {
+                            return queryOrganizationByIdForItsType(user.organization_id)
+                                .then(organization => {
+                                    user.account_type = organization.type;
+                                    resolve(user);
+                                });
+                        }
+                        else {
+                            user.account_type = "citizen";
+                            resolve(user);
+                        }
                     } else {
                         reject("Invalid login");
                     }

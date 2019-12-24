@@ -28,6 +28,8 @@ module.exports.usersLoginPOST = function usersLoginPOST(req, res, next) {
             if (!req.session.loggedin) {
                 req.session.loggedin = true;
                 req.session.id = response.id;
+                req.session.account_type = response.account_type;
+                //console.log(req.session.id + ", " + req.session.account_type);
             }
 
             res.statusCode = 204;

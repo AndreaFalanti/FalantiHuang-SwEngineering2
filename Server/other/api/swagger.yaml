@@ -341,11 +341,11 @@ paths:
         "204":
           description: Organization successfully registered
           content: {}
+        "400":
+          description: Missing data
+          content: {}
         "401":
           description: Not authenticated or insufficient permissions
-          content: {}
-        "404":
-          description: Missing data
           content: {}
       x-swagger-router-controller: OrganizationRegistration
   /admin/cities:
