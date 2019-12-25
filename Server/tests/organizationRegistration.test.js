@@ -122,7 +122,7 @@ describe('POST /admin/organizations/register', () => {
                         city_id: 1,
                         domain: "poliziacomo.it",
                         name: "Polizia locale di Como",
-                        org_type: "authority"
+                        type: "authority"
                     })
             });
         expect(res.statusCode).toEqual(204);
@@ -134,7 +134,7 @@ describe('POST /admin/organizations/register', () => {
                 city_id: 1,
                 domain: "poliziacomo.it",
                 name: "Polizia locale di Como",
-                org_type: "authority"
+                type: "authority"
             });
         expect(res.statusCode).toEqual(401);
         expect(res.res.statusMessage).toEqual("Not authenticated");
@@ -154,7 +154,7 @@ describe('POST /admin/organizations/register', () => {
                         city_id: 1,
                         domain: "poliziacomo.it",
                         name: "Polizia locale di Como",
-                        org_type: "authority"
+                        type: "authority"
                     })
             });
         expect(res.statusCode).toEqual(401);

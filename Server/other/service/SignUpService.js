@@ -1,38 +1,6 @@
 'use strict';
 
-/**
- * Generate the query for getting the user with the given email
- * @param email Email to check
- * @returns Knex promise with the query
- */
-let queryUserByEmail = function(email) {
-    return sqlDb("usr")
-        .first()
-        .where("email", email)
-        .timeout(2000, {cancel: true})
-};
-
-/**
- * Generate the query for getting the organization with the given domain
- * @param domain Domain to search
- * @returns Knex promise with the query
- */
-let queryOrganizationByDomain = function(domain) {
-    return sqlDb("organization")
-        .first()
-        .where("domain", domain)
-        .timeout(2000, {cancel: true})
-};
-
-/**
- * Insert a user into the database
- * @param user User data to insert
- */
-let insertUserInDb = function(user) {
-    sqlDb("usr")
-        .insert(user)
-        .timeout(2000, {cancel: true});
-};
+let {queryUserByEmail,queryOrganizationByDomain, insertUserInDb} = require("./DataLayer");
 
 /**
  * Register
@@ -60,8 +28,8 @@ exports.usersRegisterAuthorityPOST = function(body) {
                                     // add organization_id to the data of registration form
                                     body.organization_id = organization.id;
 
-                                    let result = insertUserInDb(body);
-                                    resolve(result);
+                                    insertUserInDb(body)
+                                        .then(result => resolve(result));
                                 }
                                 else {
                                     reject("Invalid domain")
@@ -105,8 +73,8 @@ exports.usersRegisterCitizenPOST = function(body) {
                                     reject("Registering as citizen with an organization domain");
                                 }
                                 else {
-                                    let result = insertUserInDb(body);
-                                    resolve(result);
+                                    insertUserInDb(body)
+                                        .then(result => resolve(result));
                                 }
                             });
                     }

@@ -1,54 +1,6 @@
 'use strict';
 
-/**
- * Generate the query for getting a user without sensitive data, given its id.
- * @param id User id to search
- * @returns Knex promise with the query
- */
-function queryUserById(id) {
-    return sqlDb("usr")
-        .select("email", "firstname", "lastname", "organization_id")
-        .where("id", id)
-        .first()
-        .timeout(2000, {cancel: true})
-}
-
-/**
- * Generate the query for getting useful data of an organization, given its id.
- * @param id Organization id to search
- * @returns Knex promise with the query
- */
-function queryOrganizationById(id) {
-    return sqlDb("organization")
-        .innerJoin("city", "city.id", "organization.city_id")
-        .select("organization.name", "type", "city.name AS city_name")
-        .where("organization.id", user.organization_id)
-        .first()
-        .timeout(2000, {cancel: true})
-}
-
-/**
- * Generate query for getting a user from the database, that matches the login credentials.
- * @param password Password inserted in login form
- * @param email Email inserted in login form
- * @returns Knex promise with the query
- */
-function queryUserByPasswordAndEmail (password, email) {
-    return sqlDb("usr")
-        .select()
-        .where("email", email)
-        .where("password", password)
-        .first()
-        .timeout(2000, {cancel: true})
-}
-
-function queryOrganizationByIdForItsType(id) {
-    return sqlDb("organization")
-        .select("type")
-        .where("id", id)
-        .first()
-        .timeout(2000, {cancel: true})
-}
+let {queryUserById, queryOrganizationByIdForUserProfile, queryUserByPasswordAndEmail, queryOrganizationByIdForItsType} = require("./DataLayer");
 
 /**
  * Gets a single user's data
@@ -63,7 +15,7 @@ exports.usersDataGET = function (id) {
                 .then(user => {
                     if (user) {
                         if(user.organization_id !== null) {
-                            queryOrganizationById(user.organization_id)
+                            queryOrganizationByIdForUserProfile(user.organization_id)
                                 .then(orgData => {
                                     // add fields regarding the organization to accounts that have one
                                     console.log(JSON.stringify(orgData));

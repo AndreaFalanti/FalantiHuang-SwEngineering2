@@ -1,34 +1,6 @@
 'use strict';
 
-/**
- * Generate the query for getting all the cities registered to the system
- * @returns Knex promise with the query
- */
-let queryAllCities = function () {
-    return sqlDb("city")
-        .select()
-        .timeout(2000, {cancel: true})
-};
-
-/**
- * Insert city into the database
- * @param city City data to insert
- */
-let insertCityInDb = function(city) {
-    sqlDb("city")
-        .insert(city)
-        .timeout(2000, {cancel: true});
-};
-
-/**
- * Insert organization into the database
- * @param organization Organization data to insert
- */
-let insertOrganizationInDb = function(organization) {
-    sqlDb("organization")
-        .insert(organization)
-        .timeout(2000, {cancel: true});
-};
+let {queryAllCities, insertCityInDb, insertOrganizationInDb} = require("./DataLayer");
 
 /**
  * Return all cities
@@ -53,8 +25,8 @@ exports.adminCitiesGET = function () {
  **/
 exports.adminCitiesRegisterPOST = function (body) {
     return new Promise(function (resolve, reject) {
-        let result = insertCityInDb(body);
-        resolve(result);
+        insertCityInDb(body)
+            .then(result => resolve(result));
     });
 };
 
@@ -68,8 +40,8 @@ exports.adminCitiesRegisterPOST = function (body) {
  **/
 exports.adminOrganizationsRegisterPOST = function (body) {
     return new Promise(function (resolve, reject) {
-        let result = insertOrganizationInDb(body);
-        resolve(result);
+        insertOrganizationInDb(body)
+            .then(result => resolve(result));
     });
 };
 

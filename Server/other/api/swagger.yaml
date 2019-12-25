@@ -601,14 +601,14 @@ components:
       - city_id
       - domain
       - name
-      - org_type
+      - type
       type: object
       properties:
         name:
           type: string
         domain:
           type: string
-        org_type:
+        type:
           type: string
           enum:
           - system
@@ -618,7 +618,7 @@ components:
       example:
         name: Polizia Locale Milano
         domain: comunemilano.it
-        org_type: authority
+        type: authority
         city_id: 0
     CityData:
       required:
