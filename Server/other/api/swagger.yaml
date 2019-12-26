@@ -236,11 +236,14 @@ paths:
         x-name: photo
         description: First photo of the report
         content:
-          image/jpeg:
+          multipart/form-data:
             schema:
-              type: string
-              format: binary
-        required: true
+              type: object
+              properties:
+                photo:
+                  type: string
+                  format: binary
+        required: false
       responses:
         "200":
           description: Recognised license plate
