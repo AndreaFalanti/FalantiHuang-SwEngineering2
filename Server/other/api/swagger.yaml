@@ -208,10 +208,10 @@ paths:
         x-name: report
         description: Report form data
         content:
-          application/json:
+          multipart/form-data:
             schema:
               $ref: '#/components/schemas/ReportForm'
-        required: true
+        required: false
       responses:
         "204":
           description: Report processed successfully

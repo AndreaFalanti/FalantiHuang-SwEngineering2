@@ -96,6 +96,7 @@ exports.queryOrganizationByDomain = function(domain) {
 /**
  * Insert a user into the database
  * @param user User data to insert
+ * @returns Promise with SQL command for inserting the data
  */
 exports.insertUserInDb = function(user) {
     return sqlDb("usr")
@@ -116,6 +117,7 @@ exports.queryAllCities = function () {
 /**
  * Insert city into the database
  * @param city City data to insert
+ * @returns Promise with SQL command for inserting the data
  */
 exports.insertCityInDb = function(city) {
     return sqlDb("city")
@@ -126,11 +128,33 @@ exports.insertCityInDb = function(city) {
 /**
  * Insert organization into the database
  * @param organization Organization data to insert
+ * @returns Promise with SQL command for inserting the data
  */
 exports.insertOrganizationInDb = function(organization) {
     return sqlDb("organization")
         .insert(organization)
         .timeout(2000, {cancel: true});
+};
+
+/**
+ * Insert report into the database
+ * @param report Report data to insert
+ * @returns Promise with SQL command for inserting the data
+ */
+exports.insertReportInDb = function (report) {
+    return sqlDb("report")
+        .insert(report)
+        .timeout(2000, {cancel: true});
+};
+
+/**
+ * Generate the query for getting the current value of an id sequence, given its table name
+ * @param tableName Name of the table containing the sequence
+ * @returns Knex promise with the query
+ */
+exports.queryCurrValOfIdSequence = function (tableName) {
+    let stm = "currval('" + tableName + "_id_seq');";
+    return sqlDb.select(sqlDb.raw(stm));
 };
 
 //module.exports = { setupDataLayer };

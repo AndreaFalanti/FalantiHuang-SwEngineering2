@@ -3,6 +3,7 @@
 const fetch = require('node-fetch');
 const FormData = require('form-data');
 const fs = require('fs');
+const {insertReportInDb, queryCurrValOfIdSequence} = require("./DataLayer");
 
 const OCR_API_key = "85a286ccaae965db66624f6eb603660e87bfc7e9";
 
@@ -14,28 +15,35 @@ const OCR_API_key = "85a286ccaae965db66624f6eb603660e87bfc7e9";
  * returns String
  **/
 exports.reportsPhotoUploadPOST = function (photo) {
-    let image_path = photo.path;
+    let image_path = photo.path + '.jpg';
     let OCR_body = new FormData();
     OCR_body.append('upload', fs.createReadStream(image_path));
     //OCR_body.append('regions', 'it');
     return new Promise(function (resolve, reject) {
         console.log("performing request to OCR service");
-        fetch("https://api.platerecognizer.com/v1/plate-reader/", {
+
+        let options = {
             method: 'POST',
+            body: OCR_body,
             headers: {
-                "Content-Type": "multipart/form-data",
                 "Authorization": "Token 85a286ccaae965db66624f6eb603660e87bfc7e9"
             },
-            body: OCR_body,
             timeout: 0
-        }).then(res => res.json())
+        };
+
+        fetch("https://api.platerecognizer.com/v1/plate-reader/", options)
+            .then(res => res.json())
             .then(json => {
                 console.log(json);
                 resolve(json.results[0].plate);
             })
             .catch((err) => {
                 reject(err);
-            });
+            })
+            .finally(() => fs.unlink(photo.path + '.jpg', () => {
+                console.log("Temporary image eliminated")
+                })
+            )
     });
 };
 
@@ -49,7 +57,18 @@ exports.reportsPhotoUploadPOST = function (photo) {
  **/
 exports.reportsSubmitPOST = function (body) {
     return new Promise(function (resolve, reject) {
-        resolve();
+        //TODO: choose service for geocoding and add city, place and location (if not present) in the db, then
+        // procede with the report insertion in the database
+
+        insertReportInDb(body)
+            .then(() => {
+                queryCurrValOfIdSequence('report')
+                    .then(value => {
+                        console.log(value);
+                        //TODO: put photos in folder named after report id and add the paths to the db tuple with an update
+                        resolve();
+                    });
+            });
     });
 };
 
