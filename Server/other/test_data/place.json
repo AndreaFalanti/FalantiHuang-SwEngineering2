@@ -1,22 +1,22 @@
 [
   {
     "id": 0,
-    "address": "via camillo golgi",
+    "address": "Via Camillo Golgi",
     "city_id": 0
   },
   {
     "id": 1,
-    "address": "viale varese",
+    "address": "Viale Varese",
     "city_id": 1
   },
   {
     "id": 2,
-    "address": "corso buenos aires",
+    "address": "Corso Buenos Aires",
     "city_id": 0
   },
   {
     "id": 3,
-    "address": "viale luigi borri",
+    "address": "Viale Luigi Borri",
     "city_id": 2
   }
 ]

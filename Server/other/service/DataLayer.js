@@ -117,11 +117,12 @@ exports.queryAllCities = function () {
 /**
  * Insert city into the database
  * @param city City data to insert
- * @returns Promise with SQL command for inserting the data
+ * @returns Promise with SQL command for inserting the data, that will return the inserted city's ID
  */
 exports.insertCityInDb = function(city) {
     return sqlDb("city")
         .insert(city)
+        .returning("id")
         .timeout(2000, {cancel: true});
 };
 
@@ -139,22 +140,91 @@ exports.insertOrganizationInDb = function(organization) {
 /**
  * Insert report into the database
  * @param report Report data to insert
- * @returns Promise with SQL command for inserting the data
+ * @returns Promise with SQL command for inserting the data, that will return the inserted report's ID
  */
 exports.insertReportInDb = function (report) {
     return sqlDb("report")
         .insert(report)
+        .returning("id")
+        .timeout(2000, {cancel: true});
+};
+/*
+/!**
+ * Generate the query for getting the current value of an id sequence, given its table name
+ * @param tableName Name of the table containing the sequence
+ * @returns Knex promise with the query
+ *!/
+exports.queryCurrValOfIdSequence = function (tableName) {
+    let stm = "currval('" + tableName + "_id_seq');";
+    return sqlDb.select(sqlDb.raw(stm));
+};*/
+
+/**
+ * Generate the query for retrieving a city from its name and region
+ * @param name City's name
+ * @param region City's region
+ * @returns Knex promise with the query
+ */
+exports.queryCityByNameAndRegion = function (name, region) {
+    return sqlDb("city")
+        .select()
+        .first()
+        .where("name", name)
+        .where("region", region)
+        .timeout(2000, {cancel: true})
+};
+
+/**
+ * Generate the query for retrieving a place from its city and address
+ * @param city_id Id of the city where the place is in
+ * @param address Address of the place
+ * @returns Knex promise with the query
+ */
+exports.queryPlaceByCityAndAddress = function (city_id, address) {
+    return sqlDb("place")
+        .select()
+        .first()
+        .where("city_id", city_id)
+        .where("region", address)
+        .timeout(2000, {cancel: true})
+};
+
+/**
+ * Generate the query for retrieving a location from its latitude and longitude
+ * @param lat Latitude
+ * @param lon Longitude
+ * @returns Knex promise with the query
+ */
+exports.queryLocationByLatAndLon = function (lat, lon) {
+    return sqlDb("location")
+        .select()
+        .first()
+        .where("latitude", lat)
+        .where("longitude", lon)
+        .timeout(2000, {cancel: true})
+};
+
+/**
+ * Insert place into the database
+ * @param place Place data to insert
+ * @returns Promise with SQL command for inserting the data, that will return the inserted place's ID
+ */
+exports.insertPlaceInDb = function(place) {
+    return sqlDb("place")
+        .insert(place)
+        .returning("id")
         .timeout(2000, {cancel: true});
 };
 
 /**
- * Generate the query for getting the current value of an id sequence, given its table name
- * @param tableName Name of the table containing the sequence
- * @returns Knex promise with the query
+ * Insert location into the database
+ * @param location Location data to insert
+ * @returns Promise with SQL command for inserting the data
  */
-exports.queryCurrValOfIdSequence = function (tableName) {
-    let stm = "currval('" + tableName + "_id_seq');";
-    return sqlDb.select(sqlDb.raw(stm));
+exports.insertLocationInDb = function(location) {
+    return sqlDb("location")
+        .insert(location)
+        .timeout(2000, {cancel: true});
 };
 
 //module.exports = { setupDataLayer };

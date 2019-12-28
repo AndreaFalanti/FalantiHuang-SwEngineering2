@@ -69,10 +69,14 @@ module.exports.reportsSubmitPOST = function reportsSubmitPOST(req, res, next) {
         //res.status(200).end();
         ReportReceiver.reportsSubmitPOST(body)
             .then(function (response) {
-                res.status(204).send('Report processed successfully');
+                res.statusCode = 204;
+                res.statusMessage = 'Report processed successfully';
+                res.end();
             })
             .catch(function (response) {
-                res.status(400).send('Invalid data');
+                res.statusCode = 400;
+                res.statusMessage = 'Invalid data';
+                res.end();
             })
             .finally(() => removePhotos(body.photo_files));
     }
