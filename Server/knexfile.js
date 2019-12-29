@@ -22,7 +22,7 @@ module.exports = {
     }
   },
 
-  testing: {
+  test: {
     client: "pg",
     connection: process.env.DATABASE_URL || {
       host : "localhost",

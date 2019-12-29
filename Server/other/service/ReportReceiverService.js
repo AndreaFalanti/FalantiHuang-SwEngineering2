@@ -159,7 +159,7 @@ exports.reportsPhotoUploadPOST = function (photo) {
             .then(res => res.json())
             .then(json => {
                 console.log(json);
-                resolve(json.results[0].plate.toUpperCase());
+                resolve({"license_plate": json.results[0].plate.toUpperCase()});
             })
             .catch((err) => {
                 reject(err);

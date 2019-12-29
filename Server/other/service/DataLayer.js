@@ -2,6 +2,8 @@ const knex = require("knex");
 let knexConfig = require("../../knexfile");
 require('dotenv').config();
 
+const TIMEOUT_TIME = 2000;  // in milliseconds
+
 let sqlDb = knex(knexConfig[process.env.NODE_ENV]);
 global.sqlDb = sqlDb;
 
@@ -24,7 +26,7 @@ exports.queryUserById = function (id) {
         .select("email", "firstname", "lastname", "organization_id")
         .where("id", id)
         .first()
-        .timeout(2000, {cancel: true})
+        .timeout(TIMEOUT_TIME, {cancel: true})
 };
 
 /**
@@ -38,7 +40,7 @@ exports.queryOrganizationByIdForUserProfile = function (id) {
         .select("organization.name", "type", "city.name AS city_name")
         .where("organization.id", id)
         .first()
-        .timeout(2000, {cancel: true})
+        .timeout(TIMEOUT_TIME, {cancel: true})
 };
 
 /**
@@ -53,7 +55,7 @@ exports.queryUserByPasswordAndEmail = function (password, email) {
         .where("email", email)
         .where("password", password)
         .first()
-        .timeout(2000, {cancel: true})
+        .timeout(TIMEOUT_TIME, {cancel: true})
 };
 
 /**
@@ -66,7 +68,7 @@ exports.queryOrganizationByIdForItsType = function (id) {
         .select("type")
         .where("id", id)
         .first()
-        .timeout(2000, {cancel: true})
+        .timeout(TIMEOUT_TIME, {cancel: true})
 };
 
 /**
@@ -78,7 +80,7 @@ exports.queryUserByEmail = function(email) {
     return sqlDb("usr")
         .first()
         .where("email", email)
-        .timeout(2000, {cancel: true})
+        .timeout(TIMEOUT_TIME, {cancel: true})
 };
 
 /**
@@ -90,7 +92,7 @@ exports.queryOrganizationByDomain = function(domain) {
     return sqlDb("organization")
         .first()
         .where("domain", domain)
-        .timeout(2000, {cancel: true})
+        .timeout(TIMEOUT_TIME, {cancel: true})
 };
 
 /**
@@ -101,7 +103,7 @@ exports.queryOrganizationByDomain = function(domain) {
 exports.insertUserInDb = function(user) {
     return sqlDb("usr")
         .insert(user)
-        .timeout(2000, {cancel: true});
+        .timeout(TIMEOUT_TIME, {cancel: true});
 };
 
 /**
@@ -111,7 +113,7 @@ exports.insertUserInDb = function(user) {
 exports.queryAllCities = function () {
     return sqlDb("city")
         .select()
-        .timeout(2000, {cancel: true})
+        .timeout(TIMEOUT_TIME, {cancel: true})
 };
 
 /**
@@ -123,7 +125,7 @@ exports.insertCityInDb = function(city) {
     return sqlDb("city")
         .insert(city)
         .returning("id")
-        .timeout(2000, {cancel: true});
+        .timeout(TIMEOUT_TIME, {cancel: true});
 };
 
 /**
@@ -134,7 +136,7 @@ exports.insertCityInDb = function(city) {
 exports.insertOrganizationInDb = function(organization) {
     return sqlDb("organization")
         .insert(organization)
-        .timeout(2000, {cancel: true});
+        .timeout(TIMEOUT_TIME, {cancel: true});
 };
 
 /**
@@ -146,18 +148,8 @@ exports.insertReportInDb = function (report) {
     return sqlDb("report")
         .insert(report)
         .returning("id")
-        .timeout(2000, {cancel: true});
+        .timeout(TIMEOUT_TIME, {cancel: true});
 };
-/*
-/!**
- * Generate the query for getting the current value of an id sequence, given its table name
- * @param tableName Name of the table containing the sequence
- * @returns Knex promise with the query
- *!/
-exports.queryCurrValOfIdSequence = function (tableName) {
-    let stm = "currval('" + tableName + "_id_seq');";
-    return sqlDb.select(sqlDb.raw(stm));
-};*/
 
 /**
  * Generate the query for retrieving a city from its name and region
@@ -171,7 +163,7 @@ exports.queryCityByNameAndRegion = function (name, region) {
         .first()
         .where("name", name)
         .where("region", region)
-        .timeout(2000, {cancel: true})
+        .timeout(TIMEOUT_TIME, {cancel: true})
 };
 
 /**
@@ -186,7 +178,7 @@ exports.queryPlaceByCityAndAddress = function (city_id, address) {
         .first()
         .where("city_id", city_id)
         .where("address", address)
-        .timeout(2000, {cancel: true})
+        .timeout(TIMEOUT_TIME, {cancel: true})
 };
 
 /**
@@ -201,7 +193,7 @@ exports.queryLocationByLatAndLon = function (lat, lon) {
         .first()
         .where("latitude", lat)
         .where("longitude", lon)
-        .timeout(2000, {cancel: true})
+        .timeout(TIMEOUT_TIME, {cancel: true})
 };
 
 /**
@@ -213,7 +205,7 @@ exports.insertPlaceInDb = function(place) {
     return sqlDb("place")
         .insert(place)
         .returning("id")
-        .timeout(2000, {cancel: true});
+        .timeout(TIMEOUT_TIME, {cancel: true});
 };
 
 /**
@@ -224,7 +216,7 @@ exports.insertPlaceInDb = function(place) {
 exports.insertLocationInDb = function(location) {
     return sqlDb("location")
         .insert(location)
-        .timeout(2000, {cancel: true});
+        .timeout(TIMEOUT_TIME, {cancel: true});
 };
 
 /**
@@ -237,6 +229,15 @@ exports.updateReportWithPhotoPaths = function (id, photos) {
     return sqlDb("report")
         .where("id", id)
         .update({"photos": photos})
+        .timeout(TIMEOUT_TIME, {cancel: true})
+};
+
+exports.queryReportById = function (id) {
+    return sqlDb("report")
+        .select()
+        .first()
+        .where("id", id)
+        .timeout(TIMEOUT_TIME, {cancel: true})
 };
 
 //module.exports = { setupDataLayer };

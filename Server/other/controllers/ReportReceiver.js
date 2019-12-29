@@ -38,7 +38,9 @@ module.exports.reportsPhotoUploadPOST = function reportsPhotoUploadPOST(req, res
                         utils.writeJson(res, response);
                     })
                     .catch(function (response) {
-                        utils.writeJson(res, response);
+                        res.statusCode = 500;
+                        res.statusMessage = 'Server error';
+                        res.end();
                     });
             }
         });

@@ -93,7 +93,7 @@ describe('Queries on organization table', () => {
                 })
             })
     });
-    it('get organization type, by provided id', () => {
+    it('Get organization type, by provided id', () => {
         dataLayer.queryOrganizationByIdForItsType(1)
             .then(orgData => {
                 expect(orgData).toEqual({
@@ -101,7 +101,7 @@ describe('Queries on organization table', () => {
                 })
             })
     });
-    it('search an organization by its domain', () => {
+    it('Search an organization by its domain', () => {
         dataLayer.queryOrganizationByDomain("poliziavarese.it")
             .then(orgData => {
                 expect(orgData).toEqual({
@@ -123,8 +123,8 @@ describe('Queries on organization table', () => {
         })
             .then(() => {
                 dataLayer.queryOrganizationByDomain("poliziacomo.it")
-                    .then(user => {
-                        expect(user).toEqual({
+                    .then(organization => {
+                        expect(organization).toEqual({
                             "id": 3,
                             "name": "Polizia locale di Como",
                             "domain": "poliziacomo.it",
@@ -137,10 +137,10 @@ describe('Queries on organization table', () => {
 });
 
 describe('Queries on city table', () => {
-    it('get all cities registered in database', () => {
+    it('Get all cities registered in database', () => {
         dataLayer.queryAllCities()
-            .then(orgData => {
-                expect(orgData).toEqual([
+            .then(cities => {
+                expect(cities).toEqual([
                     {
                         "id": 0,
                         "name": "Milano",
@@ -159,6 +159,16 @@ describe('Queries on city table', () => {
                 ])
             })
     });
+    it('Get a city given its name and region', () => {
+        dataLayer.queryCityByNameAndRegion("Varese", "Lombardia")
+            .then(city => {
+                expect(city).toEqual({
+                    "id": 2,
+                    "name": "Varese",
+                    "region": "Lombardia"
+                })
+            })
+    });
     it('Insert new city into the database', () => {
         dataLayer.insertCityInDb({
             "id": 3,
@@ -167,8 +177,8 @@ describe('Queries on city table', () => {
         })
             .then(() => {
                 dataLayer.queryAllCities()
-                    .then(orgData => {
-                        expect(orgData).toEqual([
+                    .then(cities => {
+                        expect(cities).toEqual([
                             {
                                 "id": 0,
                                 "name": "Milano",
@@ -193,4 +203,41 @@ describe('Queries on city table', () => {
                     })
             })
     });
+});
+
+describe('Queries on place table', () => {
+   it('Get a place given its city id and address', () => {
+       dataLayer.queryPlaceByCityAndAddress(0, "Via Camillo Golgi")
+           .then(place => {
+               expect(place).toEqual({
+                   "id": 0,
+                   "address": "Via Camillo Golgi",
+                   "city_id": 0
+               })
+           })
+   })
+});
+
+describe('Queries on location table', () => {
+    it('Get a location given its latitude and longitude', () => {
+        dataLayer.queryLocationByLatAndLon(45.480658, 9.211220)
+            .then(location => {
+                expect(location).toEqual({
+                    "latitude": 45.480658,
+                    "longitude": 9.211220,
+                    "place_id": 2
+                })
+            })
+    })
+});
+
+describe('Queries on report table', () => {
+    it('Update a report tuple with its photo paths', () => {
+        let newPhotoPaths = ["aaa", "bbb"];
+        dataLayer.updateReportWithPhotoPaths(0, newPhotoPaths)
+            .then(() => {
+                dataLayer.queryReportById(0)
+                    .then(report => expect(report.photos).toEqual(newPhotoPaths))
+            })
+    })
 });

@@ -6,7 +6,7 @@
   "scripts": {
     "prestart": "npm install",
     "start": "node index.js",
-    "test": "jest"
+    "test": "cross-env NODE_ENV=test jest -i --force-exit"
   },
   "keywords": [
     "swagger"
@@ -38,6 +38,7 @@
     "serve-static": "^1.14.1"
   },
   "devDependencies": {
+    "cross-env": "^6.0.3",
     "jest": "^24.9.0",
     "supertest": "^4.0.2"
   }

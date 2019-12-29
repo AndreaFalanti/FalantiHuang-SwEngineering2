@@ -250,9 +250,10 @@ paths:
           content:
             application/json:
               schema:
-                type: string
-                example: AA000AA
-                x-content-type: application/json
+                properties:
+                  license_plate:
+                    type: string
+                    example: AA000AA
         "400":
           description: License plate not recognised
           content: {}
