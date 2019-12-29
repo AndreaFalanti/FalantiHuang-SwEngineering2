@@ -74,8 +74,8 @@ module.exports.reportsSubmitPOST = function reportsSubmitPOST(req, res, next) {
                 res.end();
             })
             .catch(function (response) {
-                res.statusCode = 400;
-                res.statusMessage = 'Invalid data';
+                res.statusCode = 500;
+                res.statusMessage = 'Server error';
                 res.end();
             })
             .finally(() => removePhotos(body.photo_files));

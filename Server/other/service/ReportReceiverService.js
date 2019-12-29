@@ -4,23 +4,132 @@ const url = require('url');
 const fetch = require('node-fetch');
 const FormData = require('form-data');
 const fs = require('fs');
-const {insertReportInDb, queryCurrValOfIdSequence ,queryCityByNameAndRegion ,insertCityInDb, insertPlaceInDb,
-    insertLocationInDb} = require("./DataLayer");
+const path = require('path');
+const {insertReportInDb,queryCityByNameAndRegion ,insertCityInDb, insertPlaceInDb, insertLocationInDb,
+    updateReportWithPhotoPaths, queryPlaceByCityAndAddress, queryLocationByLatAndLon} = require("./DataLayer");
 
 const OCR_API_KEY = "85a286ccaae965db66624f6eb603660e87bfc7e9";
-/* GEOCODING provided by Google Maps, unusable because i can't register the billing with my prepaid card
-    and i don't have a credit card because i'm poor :(
-const GEOCODING_API_KEY = "AIzaSyDvpnWg_uKaAdhrdsfP3om11wkp0hGhTjc";
-const GEOCODE_URI = "https://maps.googleapis.com/maps/api/geocode/json";
-let geocodingURL = url.format({
-    protocol: 'https',
-    hostname: 'maps.googleapis.com',
-    pathname: '/maps/api/geocode/json',
-    query: {
-        latlng: `${body.latitude},${body.longitude}`,
-        key: GEOCODING_API_KEY
-    }
-});*/
+
+/**
+ * Generate the url for reverse geocoding, setting up the query parameters
+ * @param latitude Latitude of the location
+ * @param longitude Longitude of the location
+ * @returns String containing URL used for reverse geocoding the location
+ */
+function generateReverseGeocodingUrl (latitude, longitude) {
+    return url.format({
+        protocol: 'https',
+        hostname: 'nominatim.openstreetmap.org',
+        pathname: '/reverse',
+        query: {
+            lat: latitude,
+            lon: longitude,
+            zoom: 17,               //streets
+            format: 'jsonv2'
+        }
+    });
+}
+
+/**
+ * Generate city data for db insertion
+ * @param name City's name
+ * @param region City's region
+ * @returns {{name: *, region: *}}
+ */
+function generateCityData(name, region) {
+    return {
+        name: name,
+        region: region
+    };
+}
+
+/**
+ * Generate place data for db insertion
+ * @param address Place's address
+ * @param city_id Id of city where place is located
+ * @returns {{address: *, city_id: *}}
+ */
+function generatePlaceData(address, city_id) {
+    return {
+        address: address,
+        city_id: city_id
+    };
+}
+
+/**
+ * Generate location data for db insertion
+ * @param report Report form
+ * @param place_id Id of the place where location is placed
+ * @returns {{latitude: number, place_id: *, longitude: number}}
+ */
+function generateLocationData(report, place_id) {
+    return {
+        latitude: report.latitude,
+        longitude: report.longitude,
+        place_id: place_id
+    };
+}
+
+/**
+ * Create a folder for report photos and same them there
+ * @param photos Photos to save
+ * @param report_id Report's id
+ * @returns Promise with the operation
+ */
+function savePhotos (photos, report_id) {
+    return new Promise(((resolve, reject) => {
+        let photo_paths = [];
+        let folderPath = path.join(process.cwd(), 'public', 'reports', report_id.toString());
+
+        fs.mkdir(folderPath, err => {
+            if (err && err.code !== 'EEXIST') {
+                reject(err);
+            }
+
+            for (let photo of photos) {
+                let newPath = path.join(folderPath, photo.filename + '.jpg');
+                fs.rename(photo.path, newPath, err => {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        // take only the path after public folder
+                        let splitPath = newPath.split("public\\")[1];
+                        photo_paths.push(splitPath);
+                        // all photos have been processed
+                        if (photo_paths.length === photos.length) {
+                            resolve(photo_paths);
+                        }
+                    }
+                });
+            }
+        });
+    }))
+}
+
+/**
+ * Insert in db the report data and update it with the saved photos
+ * @param body Report form
+ * @returns Promise with the operation
+ */
+function finalizeReportInsertion (body) {
+    return new Promise((async (resolve, reject) => {
+        let bodyDeepCopy = JSON.parse(JSON.stringify(body));
+        delete bodyDeepCopy.photo_files;
+
+        let report_id = await insertReportInDb(bodyDeepCopy);
+
+        let photo_paths = await savePhotos(body.photo_files, report_id[0]);
+        // reject if there was an error in photos saving
+        if (photo_paths === null) {
+            console.log("error while saving photos");
+            reject();
+        }
+
+        await updateReportWithPhotoPaths(report_id[0], photo_paths);
+        resolve();
+    }))
+}
 
 /**
  * Upload first photo of a report
@@ -41,7 +150,7 @@ exports.reportsPhotoUploadPOST = function (photo) {
             method: 'POST',
             body: OCR_body,
             headers: {
-                "Authorization": "Token 85a286ccaae965db66624f6eb603660e87bfc7e9"
+                "Authorization": "Token " + OCR_API_KEY
             },
             timeout: 0
         };
@@ -50,7 +159,7 @@ exports.reportsPhotoUploadPOST = function (photo) {
             .then(res => res.json())
             .then(json => {
                 console.log(json);
-                resolve(json.results[0].plate);
+                resolve(json.results[0].plate.toUpperCase());
             })
             .catch((err) => {
                 reject(err);
@@ -73,74 +182,69 @@ exports.reportsPhotoUploadPOST = function (photo) {
 exports.reportsSubmitPOST = function (body) {
     return new Promise(function (resolve, reject) {
         //TODO: choose service for geocoding and add city, place and location (if not present) in the db, then
-        // procede with the report insertion in the database
-        let geocodingURL = url.format({
-            protocol: 'https',
-            hostname: 'nominatim.openstreetmap.org',
-            pathname: '/reverse',
-            query: {
-                lat: body.latitude,
-                lon: body.longitude,
-                zoom: 17,               //streets
-                format: 'jsonv2'
-            }
-        });
+        // proceed with the report insertion in the database
+        let geocodingURL = generateReverseGeocodingUrl(body.latitude, body.longitude);
         console.log(geocodingURL);
 
         fetch(geocodingURL, {method: 'GET'})
             .then(res => res.json())
-            .then(json => {
+            .then(async json => {
                 console.log(json);
 
                 //check if the city is already present in the db
-                queryCityByNameAndRegion(json.address.city, json.address.state)
-                    .then(city => {
-                        //not present
-                        if (!city) {
-                            let cityData = {
-                                name: json.address.city,
-                                region: json.address.state
-                            };
+                let city = await queryCityByNameAndRegion(json.address.city, json.address.state);
+                //not present
+                if (!city) {
+                    let cityData = generateCityData(json.address.city, json.address.state);
 
-                            insertCityInDb(cityData)
-                                .then(city_id => {
-                                    // if city wasn't in db, then also place can't be present
-                                    let placeData = {
-                                        address: json.address.road,
-                                        city_id: city_id[0]
-                                    };
+                    // if city wasn't in db, then also place can't be present
+                    let city_id = await insertCityInDb(cityData);
+                    let placeData = generatePlaceData(json.address.road, city_id[0]);
 
-                                    insertPlaceInDb(placeData)
-                                        .then(place_id => {
-                                            // if place wasn't in db, then also the location can't be present
-                                            let locationData = {
-                                                latitude: body.latitude,
-                                                longitude: body.longitude,
-                                                place_id: place_id[0]
-                                            };
+                    // if place wasn't in db, then also the location can't be present
+                    let place_id = await insertPlaceInDb(placeData);
+                    let locationData = generateLocationData(body, place_id[0]);
 
-                                            insertLocationInDb(locationData)
-                                                .then(() => {
-                                                    let photos = body.photo_files;
-                                                    delete body.photo_files;
+                    await insertLocationInDb(locationData);
 
-                                                    insertReportInDb(body)
-                                                        .then(report_id => {
-                                                            //TODO: put photos in folder named after report id and add the paths to the db tuple with an update
-                                                            resolve();
-                                                        });
-                                                })
-                                        })
-                                })
-                        }
-                        else {
-                            console.log("wrong resolve");
+                    await finalizeReportInsertion(body);
+                    resolve();
+                }
+                else {
+                    let place = await queryPlaceByCityAndAddress(city.id, json.address.road);
+
+                    if (!place) {
+                        let placeData = generatePlaceData(json.address.road, city.id);
+
+                        // if place wasn't in db, then also the location can't be present
+                        let place_id = await insertPlaceInDb(placeData);
+                        let locationData = generateLocationData(body, place_id[0]);
+
+                        await insertLocationInDb(locationData);
+
+                        await finalizeReportInsertion(body);
+                        resolve();
+                    }
+                    else {
+                        let location = await queryLocationByLatAndLon(body.latitude, body.longitude);
+
+                        if(!location) {
+                            let locationData = generateLocationData(body, place.id);
+
+                            await insertLocationInDb(locationData);
+
+                            await finalizeReportInsertion(body);
                             resolve();
                         }
-                    });
-                resolve();
+                        else {
+                            await finalizeReportInsertion(body);
+                            resolve();
+                        }
+                    }
+                }
             })
             .catch((err) => {
+                console.error(err);
                 reject(err);
             });
     });

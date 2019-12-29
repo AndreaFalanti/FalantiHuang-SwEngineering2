@@ -286,3 +286,5 @@ Server/node_modules/
 Server/.swagger-codegen/
 Server/tmp
 .env
+Server/public/reports/*
+!Server/public/reports/placeholder.txt

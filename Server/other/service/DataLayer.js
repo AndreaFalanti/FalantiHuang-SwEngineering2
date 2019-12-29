@@ -185,7 +185,7 @@ exports.queryPlaceByCityAndAddress = function (city_id, address) {
         .select()
         .first()
         .where("city_id", city_id)
-        .where("region", address)
+        .where("address", address)
         .timeout(2000, {cancel: true})
 };
 
@@ -225,6 +225,18 @@ exports.insertLocationInDb = function(location) {
     return sqlDb("location")
         .insert(location)
         .timeout(2000, {cancel: true});
+};
+
+/**
+ * Update report with given id with photo paths
+ * @param id Report ID
+ * @param photos Photo's paths
+ * @returns Promise with SQL command to update the tuple
+ */
+exports.updateReportWithPhotoPaths = function (id, photos) {
+    return sqlDb("report")
+        .where("id", id)
+        .update({"photos": photos})
 };
 
 //module.exports = { setupDataLayer };
