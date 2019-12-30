@@ -3,6 +3,11 @@
 let { queryReportsBySubmitterId, queryReportsByCityId, queryUserById, queryReportById,
     queryLocationForCityId } = require("./DataLayer");
 
+/**
+ * Add submitter and supervisor objects to each report of the given array
+ * @param reports Array of reports
+ * @returns Promise that returns the updated array of reports
+ */
 function completeReportsWithUsersData (reports) {
     return new Promise((resolve, reject) => {
         let results = [];
@@ -47,8 +52,8 @@ exports.reportsIdGET = function (id, user_id, user_type, user_city_id) {
                 }
                 else {
                     queryLocationForCityId(report.latitude, report.longitude)
-                        .then(city_id => {
-                            if(city_id === user_city_id) {
+                        .then(obj => {
+                            if(obj.city_id === user_city_id) {
                                 resolve(report);
                             }
                             else {

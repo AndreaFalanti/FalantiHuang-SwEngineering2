@@ -232,6 +232,11 @@ exports.updateReportWithPhotoPaths = function (id, photos) {
         .timeout(TIMEOUT_TIME, {cancel: true})
 };
 
+/**
+ * Generate the query for retrieving a report from its id
+ * @param id Report's id
+ * @returns Knex promise with the query
+ */
 exports.queryReportById = function (id) {
     return sqlDb("report")
         .select()
@@ -240,6 +245,11 @@ exports.queryReportById = function (id) {
         .timeout(TIMEOUT_TIME, {cancel: true})
 };
 
+/**
+ * Generate the query for retrieving a report from its submitter's id
+ * @param id Report's submitter id
+ * @returns Knex promise with the query
+ */
 exports.queryReportsBySubmitterId = function (id) {
     return sqlDb("report")
         .select("report.id", "report.timestamp", "report.license_plate", "report.photos",
@@ -254,6 +264,11 @@ exports.queryReportsBySubmitterId = function (id) {
         .where("report.submitter_id", id)
 };
 
+/**
+ * Generate the query for retrieving a report from its city's id
+ * @param id Report's city id
+ * @returns Knex promise with the query
+ */
 exports.queryReportsByCityId = function (id) {
     return sqlDb("report")
         .select("report.*", "place.address", "city.name")
@@ -266,6 +281,12 @@ exports.queryReportsByCityId = function (id) {
         .where("city.id", id)
 };
 
+/**
+ * Generate the query for retrieving the city id from a given location
+ * @param latitude Latitude
+ * @param longitude Longitude
+ * @returns Knex promise with the query
+ */
 exports.queryLocationForCityId = function (latitude, longitude) {
     return sqlDb("report")
         .select("place.city_id")
@@ -278,5 +299,3 @@ exports.queryLocationForCityId = function (latitude, longitude) {
         .where("location.latitude", latitude)
         .where("location.longitude", longitude)
 };
-
-//module.exports = { setupDataLayer };
