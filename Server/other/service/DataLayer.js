@@ -262,6 +262,7 @@ exports.queryReportsBySubmitterId = function (id) {
         .innerJoin("place", "place.id", "location.place_id")
         .innerJoin("city", "city.id", "place.city_id")
         .where("report.submitter_id", id)
+        .timeout(TIMEOUT_TIME, {cancel: true})
 };
 
 /**
@@ -279,6 +280,7 @@ exports.queryReportsByCityId = function (id) {
         .innerJoin("place", "place.id", "location.place_id")
         .innerJoin("city", "city.id", "place.city_id")
         .where("city.id", id)
+        .timeout(TIMEOUT_TIME, {cancel: true})
 };
 
 /**
@@ -298,4 +300,12 @@ exports.queryLocationForCityId = function (latitude, longitude) {
         .innerJoin("place", "place.id", "location.place_id")
         .where("location.latitude", latitude)
         .where("location.longitude", longitude)
+        .timeout(TIMEOUT_TIME, {cancel: true})
+};
+
+exports.updateReportStatus = function (id, status, supervisor_id) {
+    return sqlDb("report")
+        .where("id", id)
+        .update({"report_status": status, "supervisor_id": supervisor_id})
+        .timeout(TIMEOUT_TIME, {cancel: true})
 };

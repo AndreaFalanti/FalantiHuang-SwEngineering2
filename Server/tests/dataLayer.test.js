@@ -250,6 +250,18 @@ describe('Queries on report table', () => {
                     .then(report => expect(report.photos).toEqual(newPhotoPaths))
             })
     });
+    it('Update a report tuple with a new status', () => {
+        let newStatus = 'invalidated';
+        let newSupId = 3;
+        dataLayer.updateReportStatus(0, newStatus, newSupId)
+            .then(() => {
+                dataLayer.queryReportById(0)
+                    .then(report => {
+                        expect(report.report_status).toEqual(newStatus);
+                        expect(report.supervisor_id).toEqual(newSupId);
+                    })
+            })
+    });
     it('Get all report done by a citizen', () => {
         dataLayer.queryReportsBySubmitterId(2)
             .then(reports => {

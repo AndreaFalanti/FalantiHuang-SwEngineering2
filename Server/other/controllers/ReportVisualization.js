@@ -34,10 +34,10 @@ module.exports.usersReportsGET = function usersReportsGET(req, res, next) {
         res.end();
     }
     else {
-        let user_id = req.session.id;
-        let user_type = req.session.account_type;
-        let user_city_id = req.session.city_id;
-        ReportVisualization.usersReportsGET(user_id, user_type, user_city_id)
+        let userId = req.session.id;
+        let userType = req.session.account_type;
+        let userCityId = req.session.city_id;
+        ReportVisualization.usersReportsGET(userId, userType, userCityId)
             .then(function (response) {
                 utils.writeJson(res, response);
             })

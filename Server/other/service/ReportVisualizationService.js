@@ -72,15 +72,15 @@ exports.reportsIdGET = function (id, user_id, user_type, user_city_id) {
  *
  * returns inline_response_200_1
  **/
-exports.usersReportsGET = function (user_id, user_type, user_city_id) {
+exports.usersReportsGET = function (userId, userType, userCityId) {
     return new Promise(function (resolve, reject) {
-        if (user_type === 'citizen') {
-            queryReportsBySubmitterId(user_id)
+        if (userType === 'citizen') {
+            queryReportsBySubmitterId(userId)
                 .then(reports => resolve(reports))
                 .catch(err => reject(err))
         }
         else {
-            queryReportsByCityId(user_city_id)
+            queryReportsByCityId(userCityId)
                 .then(reports => {
                     completeReportsWithUsersData(reports)
                         .then(reports => resolve(reports))
