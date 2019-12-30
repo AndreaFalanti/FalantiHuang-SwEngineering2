@@ -35,6 +35,7 @@
     "node-fetch": "^2.6.0",
     "oas-tools": "^2.1.7",
     "pg": "^7.14.0",
+    "rimraf": "^3.0.0",
     "serve-static": "^1.14.1"
   },
   "devDependencies": {

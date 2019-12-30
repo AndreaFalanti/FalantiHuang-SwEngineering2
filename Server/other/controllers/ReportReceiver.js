@@ -28,8 +28,9 @@ module.exports.reportsPhotoUploadPOST = function reportsPhotoUploadPOST(req, res
         // add .jpg extension to photo (not necessary but useful for testing)
         fs.rename(photo.path, photo.path + '.jpg', err => {
             if(err){
-                console.log("Something wrong");
-                res.status(400).send("Invalid upload");
+                res.statusCode = 400;
+                res.statusMessage = "Invalid upload";
+                res.end();
             }
             else{
                 console.log("File OK");
@@ -38,8 +39,8 @@ module.exports.reportsPhotoUploadPOST = function reportsPhotoUploadPOST(req, res
                         utils.writeJson(res, response);
                     })
                     .catch(function (response) {
-                        res.statusCode = 500;
-                        res.statusMessage = 'Server error';
+                        res.statusCode = response.code;
+                        res.statusMessage = response.message;
                         res.end();
                     });
             }

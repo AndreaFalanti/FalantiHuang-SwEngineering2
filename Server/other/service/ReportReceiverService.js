@@ -159,10 +159,16 @@ exports.reportsPhotoUploadPOST = function (photo) {
             .then(res => res.json())
             .then(json => {
                 console.log(json);
-                resolve({"license_plate": json.results[0].plate.toUpperCase()});
+                // no results from OCR, invalid photo or OCR fault? Let the user choose the license plate
+                if (json.results.length === 0) {
+                    reject({code: 400, message: 'License plate not recognised'})
+                }
+                else {
+                    resolve({"license_plate": json.results[0].plate.toUpperCase()});
+                }
             })
             .catch((err) => {
-                reject(err);
+                reject({code: 500, message: 'OCR service is offline'});
             })
             .finally(() => fs.unlink(photo.path + '.jpg', () => {
                 console.log("Temporary image eliminated")
