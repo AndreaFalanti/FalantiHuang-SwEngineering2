@@ -29,6 +29,7 @@ module.exports.usersLoginPOST = function usersLoginPOST(req, res, next) {
                 req.session.loggedin = true;
                 req.session.id = response.id;
                 req.session.account_type = response.account_type;
+                req.session.city_id = response.city_id;
                 //console.log(req.session.id + ", " + req.session.account_type);
             }
 

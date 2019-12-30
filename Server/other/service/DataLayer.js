@@ -59,13 +59,13 @@ exports.queryUserByPasswordAndEmail = function (password, email) {
 };
 
 /**
- * Generate the query for getting type of an organization, given its id.
+ * Generate the query for getting an organization, given its id.
  * @param id Organization id to search
  * @returns Knex promise with the query
  */
-exports.queryOrganizationByIdForItsType = function (id) {
+exports.queryOrganizationById = function (id) {
     return sqlDb("organization")
-        .select("type")
+        .select()
         .where("id", id)
         .first()
         .timeout(TIMEOUT_TIME, {cancel: true})
@@ -238,6 +238,45 @@ exports.queryReportById = function (id) {
         .first()
         .where("id", id)
         .timeout(TIMEOUT_TIME, {cancel: true})
+};
+
+exports.queryReportsBySubmitterId = function (id) {
+    return sqlDb("report")
+        .select("report.id", "report.timestamp", "report.license_plate", "report.photos",
+            "report.report_status", "report.violation_type", "report.latitude",
+            "report.longitude", "place.address", "city.name")
+        .join("location", function () {
+            this.on("location.latitude", "report.latitude")
+                .on("location.longitude", "report.longitude")
+        })
+        .innerJoin("place", "place.id", "location.place_id")
+        .innerJoin("city", "city.id", "place.city_id")
+        .where("report.submitter_id", id)
+};
+
+exports.queryReportsByCityId = function (id) {
+    return sqlDb("report")
+        .select("report.*", "place.address", "city.name")
+        .join("location", function () {
+            this.on("location.latitude", "report.latitude")
+                .on("location.longitude", "report.longitude")
+        })
+        .innerJoin("place", "place.id", "location.place_id")
+        .innerJoin("city", "city.id", "place.city_id")
+        .where("city.id", id)
+};
+
+exports.queryLocationForCityId = function (latitude, longitude) {
+    return sqlDb("report")
+        .select("place.city_id")
+        .first()
+        .join("location", function () {
+            this.on("location.latitude", "report.latitude")
+                .on("location.longitude", "report.longitude")
+        })
+        .innerJoin("place", "place.id", "location.place_id")
+        .where("location.latitude", latitude)
+        .where("location.longitude", longitude)
 };
 
 //module.exports = { setupDataLayer };

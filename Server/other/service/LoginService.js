@@ -1,6 +1,6 @@
 'use strict';
 
-let {queryUserById, queryOrganizationByIdForUserProfile, queryUserByPasswordAndEmail, queryOrganizationByIdForItsType} = require("./DataLayer");
+let {queryUserById, queryOrganizationByIdForUserProfile, queryUserByPasswordAndEmail, queryOrganizationById} = require("./DataLayer");
 
 /**
  * Gets a single user's data
@@ -56,14 +56,16 @@ exports.usersLoginPOST = function (login) {
                 .then(user => {
                     if (user) {
                         if (user.organization_id !== null) {
-                            return queryOrganizationByIdForItsType(user.organization_id)
+                            return queryOrganizationById(user.organization_id)
                                 .then(organization => {
                                     user.account_type = organization.type;
+                                    user.city_id = organization.city_id;
                                     resolve(user);
                                 });
                         }
                         else {
                             user.account_type = "citizen";
+                            user.city_id = null;
                             resolve(user);
                         }
                     } else {

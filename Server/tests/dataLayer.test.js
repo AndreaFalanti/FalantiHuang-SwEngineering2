@@ -93,11 +93,15 @@ describe('Queries on organization table', () => {
                 })
             })
     });
-    it('Get organization type, by provided id', () => {
-        dataLayer.queryOrganizationByIdForItsType(1)
+    it('Search an organization by its id', () => {
+        dataLayer.queryOrganizationById(1)
             .then(orgData => {
                 expect(orgData).toEqual({
-                    type: "authority"
+                    "id": 1,
+                    "name": "Polizia locale di Milano",
+                    "domain": "poliziamilano.it",
+                    "type": "authority",
+                    "city_id": 0
                 })
             })
     });
@@ -228,6 +232,12 @@ describe('Queries on location table', () => {
                     "place_id": 2
                 })
             })
+    });
+    it('Get city id of a location', () => {
+        dataLayer.queryLocationForCityId(45.480658, 9.211220)
+            .then(id => {
+                expect(id).toEqual(0)
+            })
     })
 });
 
@@ -238,6 +248,71 @@ describe('Queries on report table', () => {
             .then(() => {
                 dataLayer.queryReportById(0)
                     .then(report => expect(report.photos).toEqual(newPhotoPaths))
+            })
+    });
+    it('Get all report done by a citizen', () => {
+        dataLayer.queryReportsBySubmitterId(2)
+            .then(reports => {
+                expect(reports).toEqual([
+                    {
+                        "id": 0,
+                        "timestamp": "2019-12-17T14:13:00Z",
+                        "license_plate": "AA000AA",
+                        "photos": [
+                            "path/0/0.jpg",
+                            "path/0/1.jpg",
+                            "path/0/2.jpg"
+                        ],
+                        "report_status": "pending",
+                        "violation_type": "double_parking",
+                        "latitude": 45.475772,
+                        "longitude": 9.234391,
+                        "place": "Via Camillo Golgi",
+                        "city": "Milano"
+                    }
+                ])
+            })
+    });
+    it('Get all report in a selected city', () => {
+        dataLayer.queryReportsByCityId(0)
+            .then(reports => {
+                expect(reports).toEqual([
+                    {
+                        "id": 0,
+                        "timestamp": "2019-12-17T14:13:00Z",
+                        "license_plate": "AA000AA",
+                        "photos": [
+                            "path/0/0.jpg",
+                            "path/0/1.jpg",
+                            "path/0/2.jpg"
+                        ],
+                        "report_status": "pending",
+                        "violation_type": "double_parking",
+                        "latitude": 45.475772,
+                        "longitude": 9.234391,
+                        "submitter_id": 2,
+                        "supervisor_id": null,
+                        "place": "Via Camillo Golgi",
+                        "city": "Milano"
+                    },
+                    {
+                        "id": 1,
+                        "timestamp": "2019-12-17T14:13:00Z",
+                        "license_plate": "BB000AA",
+                        "photos": [
+                            "path/1/0.jpg",
+                            "path/1/1.jpg"
+                        ],
+                        "report_status": "validated",
+                        "violation_type": "bike_lane_parking",
+                        "latitude": 45.477570,
+                        "longitude": 9.234367,
+                        "submitter_id": 5,
+                        "supervisor_id": 3,
+                        "place": "Via Camillo Golgi",
+                        "city": "Milano"
+                    }
+                ])
             })
     })
 });
