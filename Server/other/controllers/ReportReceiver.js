@@ -49,7 +49,7 @@ module.exports.reportsPhotoUploadPOST = function reportsPhotoUploadPOST(req, res
 };
 
 module.exports.reportsSubmitPOST = function reportsSubmitPOST(req, res, next) {
-    var body = req.swagger.params['report'].value;
+    let body = req.swagger.params['report'].value;
 
     if (!req.session.loggedin) {
         removePhotos(body.photo_files);

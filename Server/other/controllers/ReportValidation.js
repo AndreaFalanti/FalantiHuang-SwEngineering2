@@ -4,8 +4,8 @@ var utils = require('../utils/writer.js');
 var ReportValidation = require('../service/ReportValidationService');
 
 module.exports.reportsIdSetStatusPOST = function reportsIdSetStatusPOST(req, res, next) {
-    var body = req.swagger.params['status'].value;
-    var id = req.swagger.params['id'].value;
+    let body = req.swagger.params['status'].value;
+    let id = req.swagger.params['id'].value;
 
     if (!req.session.loggedin) {
         res.statusCode = 401;

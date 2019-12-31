@@ -24,7 +24,7 @@ module.exports.usersDataGET = function usersDataGET(req, res, next) {
 };
 
 module.exports.usersLoginPOST = function usersLoginPOST(req, res, next) {
-    var body = req.swagger.params['login'].value;
+    let body = req.swagger.params['login'].value;
     Login.usersLoginPOST(body)
         .then(function (response) {
             if (!req.session.loggedin) {

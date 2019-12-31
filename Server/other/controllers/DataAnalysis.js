@@ -4,10 +4,10 @@ var utils = require('../utils/writer.js');
 var DataAnalysis = require('../service/DataAnalysisService');
 
 module.exports.reportsGET = function reportsGET(req, res, next) {
-    var city = req.swagger.params['city'].value;
-    var from = req.swagger.params['from'].value;
-    var to = req.swagger.params['to'].value;
-    var type = req.swagger.params['type'].value;
+    let city = req.swagger.params['city'].value;
+    let from = req.swagger.params['from'].value;
+    let to = req.swagger.params['to'].value;
+    let type = req.swagger.params['type'].value;
 
     if (from) {
         from = new Date(from);

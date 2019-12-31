@@ -81,9 +81,9 @@ function savePhotos (photos, report_id) {
         let photo_paths = [];
         let folderPath = path.join(process.cwd(), 'public', 'reports', report_id.toString());
 
-        fs.mkdir(folderPath, err => {
-            if (err && err.code !== 'EEXIST') {
-                reject(err);
+        fs.mkdir(folderPath, folderErr => {
+            if (folderErr && folderErr.code !== 'EEXIST') {
+                reject(folderErr);
             }
 
             for (let photo of photos) {

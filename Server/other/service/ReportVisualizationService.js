@@ -56,7 +56,7 @@ exports.usersReportsGET = function (userId, userType, userCityId) {
             queryReportsByCityId(userCityId)
                 .then(reports => {
                     completeReportsWithUsersData(reports)
-                        .then(reports => resolve(reports))
+                        .then(completedReports => resolve(completedReports))
                         .catch(err => reject(err))
                 })
         }

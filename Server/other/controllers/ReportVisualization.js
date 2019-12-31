@@ -1,10 +1,10 @@
 'use strict';
 
-var utils = require('../utils/writer.js');
-var ReportVisualization = require('../service/ReportVisualizationService');
+let utils = require('../utils/writer.js');
+let ReportVisualization = require('../service/ReportVisualizationService');
 
 module.exports.reportsIdGET = function reportsIdGET(req, res, next) {
-    var id = req.swagger.params['id'].value;
+    let id = req.swagger.params['id'].value;
 
     if (!req.session.loggedin) {
         res.statusCode = 401;

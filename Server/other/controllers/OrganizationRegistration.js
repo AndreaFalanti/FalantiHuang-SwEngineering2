@@ -28,7 +28,7 @@ module.exports.adminCitiesGET = function adminCitiesGET(req, res, next) {
 };
 
 module.exports.adminCitiesRegisterPOST = function adminCitiesRegisterPOST(req, res, next) {
-    var body = req.swagger.params['body'].value;
+    let body = req.swagger.params['body'].value;
 
     if (!req.session.loggedin) {
         res.statusCode = 401;

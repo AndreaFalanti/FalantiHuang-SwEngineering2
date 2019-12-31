@@ -2,21 +2,21 @@
 
 let {setupDataLayer} = require("./other/service/DataLayer");
 
-var fs = require('fs'),
+let fs = require('fs'),
     path = require('path'),
     http = require('http');
 
 require('dotenv').config({path: path.join(__dirname, '.env')});
 
-var express = require('express');
-var app = express();
-var oasTools = require('oas-tools');
-var jsyaml = require('js-yaml');
-var serverPort = process.env.PORT || 8080;
-var bodyParser = require('body-parser');
-var _ = require('lodash');
-var multer = require('multer');
-var upload = multer({dest: path.join(__dirname, '/tmp')});
+let express = require('express');
+let app = express();
+let oasTools = require('oas-tools');
+let jsyaml = require('js-yaml');
+let serverPort = process.env.PORT || 8080;
+let bodyParser = require('body-parser');
+let _ = require('lodash');
+let multer = require('multer');
+let upload = multer({dest: path.join(__dirname, '/tmp')});
 
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit: 50000}));
@@ -31,13 +31,13 @@ let cookieParser = require("cookie-parser");
 let serveStatic = require("serve-static");
 
 // swaggerRouter configuration
-var options = {
+let options = {
     swaggerUi: path.join(dirToOther, '/swagger.json'),
     controllers: path.join(dirToOther, './controllers'),
     useStubs: process.env.NODE_ENV === 'development' // Conditionally turn on stubs (mock mode)
 };
 
-var options_object = {
+let options_object = {
     controllers: path.join(dirToOther, './controllers'),
     checkControllers: true,
     docs: {
@@ -51,8 +51,8 @@ var options_object = {
 oasTools.configure(options_object);
 
 // The Swagger document (require it, build it programmatically, fetch it from a URL, ...)
-var spec = fs.readFileSync(path.join(dirToOther, 'api/swagger.yaml'), 'utf8');
-var swaggerDoc = jsyaml.safeLoad(spec);
+let spec = fs.readFileSync(path.join(dirToOther, 'api/swagger.yaml'), 'utf8');
+let swaggerDoc = jsyaml.safeLoad(spec);
 
 // Add cookies to responses
 app.use(cookieParser());
