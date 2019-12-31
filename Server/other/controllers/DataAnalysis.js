@@ -28,6 +28,7 @@ module.exports.reportsGET = function reportsGET(req, res, next) {
                 utils.writeJson(res, response);
             })
             .catch(function (response) {
+                console.error(response);
                 res.statusCode = 500;
                 res.statusMessage = "Server error";
                 res.end();

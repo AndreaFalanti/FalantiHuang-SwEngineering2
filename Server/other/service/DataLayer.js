@@ -254,7 +254,7 @@ exports.queryReportsBySubmitterId = function (id) {
     return sqlDb("report")
         .select("report.id", "report.timestamp", "report.license_plate", "report.photos",
             "report.report_status", "report.violation_type", "report.latitude",
-            "report.longitude", "place.address", "city.name")
+            "report.longitude", "place.address AS place", "city.name AS city")
         .join("location", function () {
             this.on("location.latitude", "report.latitude")
                 .on("location.longitude", "report.longitude")
@@ -272,7 +272,7 @@ exports.queryReportsBySubmitterId = function (id) {
  */
 exports.queryReportsByCityId = function (id) {
     return sqlDb("report")
-        .select("report.*", "place.address", "city.name")
+        .select("report.*", "place.address AS place", "city.name AS city")
         .join("location", function () {
             this.on("location.latitude", "report.latitude")
                 .on("location.longitude", "report.longitude")
@@ -331,10 +331,10 @@ exports.queryReportsForAnalysis = function (from, to, type, city, restricted) {
         .modify(query => {
             if (restricted) {
                 query.select( "report.timestamp", "report.report_status", "report.violation_type",
-                    "report.latitude", "report.longitude", "place.address", "city.name")
+                    "report.latitude", "report.longitude", "place.address AS place", "city.name AS city")
             }
             else {
-                query.select("report.*", "place.address", "city.name")
+                query.select("report.*", "place.address AS place", "city.name AS city")
             }
         })
         .join("location", function () {

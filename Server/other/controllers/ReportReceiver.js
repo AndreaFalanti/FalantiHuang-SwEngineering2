@@ -77,6 +77,7 @@ module.exports.reportsSubmitPOST = function reportsSubmitPOST(req, res, next) {
                 res.end();
             })
             .catch(function (response) {
+                console.error(response)
                 res.statusCode = 500;
                 res.statusMessage = 'Server error';
                 res.end();

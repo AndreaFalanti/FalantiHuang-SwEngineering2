@@ -16,7 +16,7 @@ exports.usersRegisterAuthorityPOST = function(body) {
                 .then(user => {
                     // another user with that email is already existing, so return an error
                     if (user) {
-                        reject("Email already taken");
+                        reject({code: 400, message: "Email already taken"});
                     }
                     // continue with the registration
                     else {
@@ -32,7 +32,7 @@ exports.usersRegisterAuthorityPOST = function(body) {
                                         .then(result => resolve(result));
                                 }
                                 else {
-                                    reject("Invalid domain")
+                                    reject({code: 400, message: "Invalid domain"})
                                 }
                             });
                     }
@@ -40,7 +40,7 @@ exports.usersRegisterAuthorityPOST = function(body) {
         }
         catch (e) {
             console.error(e);
-            reject("Server error");
+            reject({code: 500, message: "Server error"});
         }
     });
 };

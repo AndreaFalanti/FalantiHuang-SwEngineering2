@@ -13,7 +13,7 @@ module.exports = {
       database: process.env.DB_NAME_DEV || 'safestreets'
     },
     ssl: true,
-    debug: true,
+    debug: false,
     migrations: {
       directory: './tools/knex/migrations'
     },
@@ -31,7 +31,7 @@ module.exports = {
       database: process.env.DB_NAME_TEST || 'safestreets'
     },
     ssl: true,
-    debug: true,
+    debug: false,
     migrations: {
       directory: './tools/knex/migrations'
     },
@@ -49,7 +49,7 @@ module.exports = {
       database: process.env.DB_NAME_DEV || 'safestreets_test'
     },
     ssl: true,
-    debug: true,
+    debug: false,
     migrations: {
       directory: './tools/knex/migrations'
     },

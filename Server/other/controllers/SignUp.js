@@ -21,8 +21,8 @@ module.exports.usersRegisterAuthorityPOST = function usersRegisterAuthorityPOST(
                 res.end();
             })
             .catch(function (response) {
-                res.statusCode = (response === "Server error") ? 500 : 400;
-                res.statusMessage = response;
+                res.statusCode = response.code;
+                res.statusMessage = response.message;
                 res.end();
             });
     }

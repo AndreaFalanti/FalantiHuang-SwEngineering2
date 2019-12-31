@@ -76,6 +76,7 @@ module.exports.adminOrganizationsRegisterPOST = function adminOrganizationsRegis
                 res.end();
             })
             .catch(function (response) {
+                console.error(response);
                 res.statusCode = 500;
                 res.statusMessage = "Server error";
                 res.end();
