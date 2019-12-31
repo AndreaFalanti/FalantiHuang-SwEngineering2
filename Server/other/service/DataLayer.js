@@ -303,9 +303,54 @@ exports.queryLocationForCityId = function (latitude, longitude) {
         .timeout(TIMEOUT_TIME, {cancel: true})
 };
 
+/**
+ * Update report with given id with a new status and supervisor
+ * @param id Report's id
+ * @param status New status of the report
+ * @param supervisor_id Id of the supervisor who submitted the new status
+ * @returns Promise with SQL command to update the tuple
+ */
 exports.updateReportStatus = function (id, status, supervisor_id) {
     return sqlDb("report")
         .where("id", id)
         .update({"report_status": status, "supervisor_id": supervisor_id})
+        .timeout(TIMEOUT_TIME, {cancel: true})
+};
+
+/**
+ * Generate the query for getting reports that satisfy the request filters
+ * @param from Date from which the reports must be searched
+ * @param to Date to which the reports must be searched
+ * @param type String with the type of violation
+ * @param city Integer with city's id
+ * @returns Knex promise with the query
+ */
+exports.queryReportsForAnalysis = function (from, to, type, city) {
+    return sqlDb("report")
+        .select("report.*", "place.address", "city.name")
+        .join("location", function () {
+            this.on("location.latitude", "report.latitude")
+                .on("location.longitude", "report.longitude")
+        })
+        .innerJoin("place", "place.id", "location.place_id")
+        .innerJoin("city", "city.id", "place.city_id")
+        .where("report_status", "validated")
+        .modify(query => {
+            if (type) {
+                query.where('violation_type', type)
+            }
+            if (city) {
+                query.where('city.id', city)
+            }
+            if (from && to) {
+                query.whereBetween('timestamp', [from, to])
+            }
+            else if (from) {
+                query.where('timestamp', '>=', from)
+            }
+            else if (to) {
+                query.where('timestamp', '<=', to)
+            }
+        })
         .timeout(TIMEOUT_TIME, {cancel: true})
 };

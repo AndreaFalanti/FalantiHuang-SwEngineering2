@@ -150,8 +150,7 @@ paths:
       tags:
       - dataAnalysis
       summary: Get a list of reports
-      description: Returns list of reports, optionally filtered by type, city and
-        date.
+      description: Returns list of reports, optionally filtered by type, city and date.
       operationId: reportsGET
       parameters:
       - name: from
@@ -181,7 +180,7 @@ paths:
       - name: city
         in: query
         description: City location filter to apply
-        required: true
+        required: false
         style: form
         explode: true
         schema:
@@ -691,7 +690,7 @@ components:
       name: city
       in: query
       description: City location filter to apply
-      required: true
+      required: false
       style: form
       explode: true
       schema:

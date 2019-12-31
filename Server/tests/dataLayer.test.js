@@ -326,5 +326,55 @@ describe('Queries on report table', () => {
                     }
                 ])
             })
+    });
+    it('Get all report that satisfy filters (partial filters applied)', () => {
+        dataLayer.queryReportsForAnalysis(undefined, undefined, 'bike_lane_parking', 0)
+            .then(reports => {
+                expect(reports).toEqual([
+                    {
+                        "id": 1,
+                        "timestamp": "2019-12-17T14:13:00Z",
+                        "license_plate": "BB000AA",
+                        "photos": [
+                            "path/1/0.jpg",
+                            "path/1/1.jpg"
+                        ],
+                        "report_status": "validated",
+                        "violation_type": "bike_lane_parking",
+                        "latitude": 45.477570,
+                        "longitude": 9.234367,
+                        "submitter_id": 5,
+                        "supervisor_id": 3,
+                        "place": "Via Camillo Golgi",
+                        "city": "Milano"
+                    }
+                ])
+            })
+    });
+    it('Get all report that satisfy filters (all filters)', () => {
+        let from = new Date('2019-12-16T03:24:00');
+        let to = new Date('2019-12-20T03:24:00');
+        dataLayer.queryReportsForAnalysis(from, to, 'bike_lane_parking', 0)
+            .then(reports => {
+                expect(reports).toEqual([
+                    {
+                        "id": 1,
+                        "timestamp": "2019-12-17T14:13:00Z",
+                        "license_plate": "BB000AA",
+                        "photos": [
+                            "path/1/0.jpg",
+                            "path/1/1.jpg"
+                        ],
+                        "report_status": "validated",
+                        "violation_type": "bike_lane_parking",
+                        "latitude": 45.477570,
+                        "longitude": 9.234367,
+                        "submitter_id": 5,
+                        "supervisor_id": 3,
+                        "place": "Via Camillo Golgi",
+                        "city": "Milano"
+                    }
+                ])
+            })
     })
 });
