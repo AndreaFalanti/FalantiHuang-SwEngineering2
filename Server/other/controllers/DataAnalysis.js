@@ -22,7 +22,8 @@ module.exports.reportsGET = function reportsGET(req, res, next) {
         res.end();
     }
     else {
-        DataAnalysis.reportsGET(city, from, to, type)
+        let userType = req.session.account_type;
+        DataAnalysis.reportsGET(city, from, to, type, userType)
             .then(function (response) {
                 utils.writeJson(res, response);
             })

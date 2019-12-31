@@ -1,6 +1,7 @@
 'use strict';
 
 let { queryReportsForAnalysis } = require("./DataLayer");
+let { completeReportsWithUsersData } = require('../utils/reportHelper');
 
 /**
  * Get a list of reports
@@ -12,10 +13,19 @@ let { queryReportsForAnalysis } = require("./DataLayer");
  * type String Type filter to apply (optional)
  * returns inline_response_200_2
  **/
-exports.reportsGET = function (city, from, to, type) {
+exports.reportsGET = function (city, from, to, type, userType) {
     return new Promise(function (resolve, reject) {
-        queryReportsForAnalysis(from, to, type, city)
-            .then(reports => resolve(reports))
+        let restricted = userType === 'citizen';
+        queryReportsForAnalysis(from, to, type, city, restricted)
+            .then(reports => {
+                if (userType === 'citizen') {
+                    resolve(reports);
+                }
+                else {
+                    completeReportsWithUsersData(reports)
+                        .then(completedReports => resolve(completedReports));
+                }
+            })
             .catch(err => reject(err))
     });
 };

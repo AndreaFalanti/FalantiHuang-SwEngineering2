@@ -328,7 +328,7 @@ describe('Queries on report table', () => {
             })
     });
     it('Get all report that satisfy filters (partial filters applied)', () => {
-        dataLayer.queryReportsForAnalysis(undefined, undefined, 'bike_lane_parking', 0)
+        dataLayer.queryReportsForAnalysis(undefined, undefined, 'bike_lane_parking', 0, false)
             .then(reports => {
                 expect(reports).toEqual([
                     {
@@ -354,7 +354,7 @@ describe('Queries on report table', () => {
     it('Get all report that satisfy filters (all filters)', () => {
         let from = new Date('2019-12-16T03:24:00');
         let to = new Date('2019-12-20T03:24:00');
-        dataLayer.queryReportsForAnalysis(from, to, 'bike_lane_parking', 0)
+        dataLayer.queryReportsForAnalysis(from, to, 'bike_lane_parking', 0, false)
             .then(reports => {
                 expect(reports).toEqual([
                     {
@@ -379,7 +379,7 @@ describe('Queries on report table', () => {
     });
     it('Get all report that satisfy filters (only from filter)', () => {
         let from = new Date('2019-12-17');
-        dataLayer.queryReportsForAnalysis(from, undefined, undefined, undefined)
+        dataLayer.queryReportsForAnalysis(from, undefined, undefined, undefined, false)
             .then(reports => {
                 expect(reports).toEqual([
                     {
@@ -420,7 +420,7 @@ describe('Queries on report table', () => {
     });
     it('Get all report that satisfy filters (only from filter)', () => {
         let to = new Date('2019-12-17');
-        dataLayer.queryReportsForAnalysis(undefined, to, undefined, undefined)
+        dataLayer.queryReportsForAnalysis(undefined, to, undefined, undefined, false)
             .then(reports => {
                 expect(reports).toEqual([
                     {
@@ -436,6 +436,24 @@ describe('Queries on report table', () => {
                         "longitude": 8.836170,
                         "submitter_id": 6,
                         "supervisor_id": 4
+                    }
+                ])
+            })
+    });
+    it('Get all report that satisfy filters (all filters, citizen restrictions)', () => {
+        let from = new Date('2019-12-16T03:24:00');
+        let to = new Date('2019-12-20T03:24:00');
+        dataLayer.queryReportsForAnalysis(from, to, 'bike_lane_parking', 0, true)
+            .then(reports => {
+                expect(reports).toEqual([
+                    {
+                        "timestamp": "2019-12-17T14:13:00Z",
+                        "report_status": "validated",
+                        "violation_type": "bike_lane_parking",
+                        "latitude": 45.477570,
+                        "longitude": 9.234367,
+                        "place": "Via Camillo Golgi",
+                        "city": "Milano"
                     }
                 ])
             })

@@ -1,35 +1,8 @@
 'use strict';
 
-let { queryReportsBySubmitterId, queryReportsByCityId, queryUserById, queryReportById,
-    queryLocationForCityId } = require("./DataLayer");
+let { queryReportsBySubmitterId, queryReportsByCityId, queryReportById, queryLocationForCityId } = require("./DataLayer");
 
-/**
- * Add submitter and supervisor objects to each report of the given array
- * @param reports Array of reports
- * @returns Promise that returns the updated array of reports
- */
-function completeReportsWithUsersData (reports) {
-    return new Promise((resolve, reject) => {
-        let results = [];
-        reports.forEach(async report => {
-            let submitterData = await queryUserById(report.submitter_id);
-            let supervisorData = null;
-            if (report.supervisor_id !== null) {
-                supervisorData = await queryUserById(report.supervisor_id);
-                delete supervisorData.organization_id;
-            }
-
-            delete submitterData.organization_id;
-            report.submitter = submitterData;
-            report.supervisor = supervisorData;
-
-            results.push(report);
-            if (results.length === reports.length) {
-                resolve(results);
-            }
-        })
-    })
-}
+let { completeReportsWithUsersData } = require('../utils/reportHelper');
 
 /**
  * Get a single report
@@ -38,12 +11,12 @@ function completeReportsWithUsersData (reports) {
  * id Integer
  * returns inline_response_200_3
  **/
-exports.reportsIdGET = function (id, user_id, user_type, user_city_id) {
+exports.reportsIdGET = function (id, userId, userType, userCityId) {
     return new Promise(function (resolve, reject) {
         queryReportById(id)
             .then(report => {
-                if (user_type === 'citizen') {
-                    if (report.submitter_id === user_id) {
+                if (userType === 'citizen') {
+                    if (report.submitter_id === userId) {
                         resolve(report);
                     }
                     else {
@@ -53,7 +26,7 @@ exports.reportsIdGET = function (id, user_id, user_type, user_city_id) {
                 else {
                     queryLocationForCityId(report.latitude, report.longitude)
                         .then(obj => {
-                            if(obj.city_id === user_city_id) {
+                            if(obj.city_id === userCityId) {
                                 resolve(report);
                             }
                             else {

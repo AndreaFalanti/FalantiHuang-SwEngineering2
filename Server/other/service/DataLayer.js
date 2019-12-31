@@ -323,11 +323,20 @@ exports.updateReportStatus = function (id, status, supervisor_id) {
  * @param to Date to which the reports must be searched
  * @param type String with the type of violation
  * @param city Integer with city's id
+ * @param restricted Boolean that indicate if need to restrict the data returned
  * @returns Knex promise with the query
  */
-exports.queryReportsForAnalysis = function (from, to, type, city) {
+exports.queryReportsForAnalysis = function (from, to, type, city, restricted) {
     return sqlDb("report")
-        .select("report.*", "place.address", "city.name")
+        .modify(query => {
+            if (restricted) {
+                query.select( "report.timestamp", "report.report_status", "report.violation_type",
+                    "report.latitude", "report.longitude", "place.address", "city.name")
+            }
+            else {
+                query.select("report.*", "place.address", "city.name")
+            }
+        })
         .join("location", function () {
             this.on("location.latitude", "report.latitude")
                 .on("location.longitude", "report.longitude")
