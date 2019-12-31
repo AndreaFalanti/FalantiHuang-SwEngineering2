@@ -10,8 +10,9 @@ module.exports.usersDataGET = function usersDataGET(req, res, next) {
                 utils.writeJson(res, response);
             })
             .catch(function (response) {
-                console.log("There is an error with session, this branch shouldn't be taken");
-                utils.writeJson(res, response);
+                res.statusCode = 500;
+                res.statusMessage = "Server error";
+                res.end();
             });
     }
     else {

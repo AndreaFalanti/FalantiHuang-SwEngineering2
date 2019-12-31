@@ -57,7 +57,7 @@ describe('POST /users/login', () => {
 });
 
 describe('GET /users/data', () => {
-    it('try get data after successful login', async () => {
+    it('try get data after successful login (citizen)', async () => {
         // use same agent session for both requests
         let agent = request.agent(app);
         const res = await agent
@@ -72,13 +72,27 @@ describe('GET /users/data', () => {
             });
         expect(res.statusCode).toEqual(200);
         expect(res.get('content-type')).toEqual('application/json');
-        //expect(res).toHaveProperty('post');
+    });
+    it('try get data after successful login (authority)', async () => {
+        // use same agent session for both requests
+        let agent = request.agent(app);
+        const res = await agent
+            .post('/v2/users/login')
+            .send({
+                email: "asd@poliziamilano.it",
+                password: "qwerty789"
+            })
+            .then(() => {
+                return agent
+                    .get('/v2/users/data')
+            });
+        expect(res.statusCode).toEqual(200);
+        expect(res.get('content-type')).toEqual('application/json');
     });
     it('try get data without login', async () => {
         const res = await request(app)
             .get('/v2/users/data');
         expect(res.statusCode).toEqual(401);
-        //expect(res).toHaveProperty('post');
     });
 });
 

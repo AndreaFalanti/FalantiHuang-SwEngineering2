@@ -376,5 +376,68 @@ describe('Queries on report table', () => {
                     }
                 ])
             })
-    })
+    });
+    it('Get all report that satisfy filters (only from filter)', () => {
+        let from = new Date('2019-12-17');
+        dataLayer.queryReportsForAnalysis(from, undefined, undefined, undefined)
+            .then(reports => {
+                expect(reports).toEqual([
+                    {
+                        "id": 0,
+                        "timestamp": "2019-12-17T14:13:00Z",
+                        "license_plate": "AA000AA",
+                        "photos": [
+                            "path/0/0.jpg",
+                            "path/0/1.jpg",
+                            "path/0/2.jpg"
+                        ],
+                        "report_status": "pending",
+                        "violation_type": "double_parking",
+                        "latitude": 45.475772,
+                        "longitude": 9.234391,
+                        "submitter_id": 2,
+                        "supervisor_id": null
+                    },
+                    {
+                        "id": 1,
+                        "timestamp": "2019-12-17T14:13:00Z",
+                        "license_plate": "BB000AA",
+                        "photos": [
+                            "path/1/0.jpg",
+                            "path/1/1.jpg"
+                        ],
+                        "report_status": "validated",
+                        "violation_type": "bike_lane_parking",
+                        "latitude": 45.477570,
+                        "longitude": 9.234367,
+                        "submitter_id": 5,
+                        "supervisor_id": 3,
+                        "place": "Via Camillo Golgi",
+                        "city": "Milano"
+                    }
+                ])
+            })
+    });
+    it('Get all report that satisfy filters (only from filter)', () => {
+        let to = new Date('2019-12-17');
+        dataLayer.queryReportsForAnalysis(undefined, to, undefined, undefined)
+            .then(reports => {
+                expect(reports).toEqual([
+                    {
+                        "id": 2,
+                        "timestamp": "2019-12-16T14:53:00Z",
+                        "license_plate": "BB000AA",
+                        "photos": [
+                            "path/3/0.jpg"
+                        ],
+                        "report_status": "validated",
+                        "violation_type": "invalid_handicap_parking",
+                        "latitude": 45.809325,
+                        "longitude": 8.836170,
+                        "submitter_id": 6,
+                        "supervisor_id": 4
+                    }
+                ])
+            })
+    });
 });

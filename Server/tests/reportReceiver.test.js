@@ -114,6 +114,58 @@ describe('POST /reports/submit', () => {
         // remove the folder to avoid problems with further testing or development
         rimraf(photoFolder, () => { console.log("photo folder removed"); });
     });
+    it('try submitting a report form with a logged citizen account (only location not present in db)',
+        async () => {
+            let agent = request.agent(app);
+            const res = await agent
+                .post('/v2/users/login')
+                .send({
+                    email: "asd@gmail.com",
+                    password: "qwerty456"
+                })
+                .then(() => {
+                    return agent
+                        .post('/v2/reports/submit')
+                        .field('latitude', 45.802565)   // Viale Luigi Borri, Varese (Lombardia)
+                        .field('longitude', 8.842043)
+                        .field('violation_type', 'double_parking')
+                        .field('license_plate', 'AA000AA')
+                        .attach('photo_files', testPhotoPath)
+                        .attach('photo_files', invalidTestPhotoPath)
+                });
+            expect(res.statusCode).toEqual(204);
+
+            // path where the photos will be inserted if test is successful
+            let photoFolder = path.join(process.cwd(), 'public', 'reports', '3');
+            // remove the folder to avoid problems with further testing or development
+            rimraf(photoFolder, () => { console.log("photo folder removed"); });
+        });
+    it('try submitting a report form with a logged citizen account (place and location not present in db)',
+        async () => {
+            let agent = request.agent(app);
+            const res = await agent
+                .post('/v2/users/login')
+                .send({
+                    email: "asd@gmail.com",
+                    password: "qwerty456"
+                })
+                .then(() => {
+                    return agent
+                        .post('/v2/reports/submit')
+                        .field('latitude', 45.477154)   // Milano (Lombardia)
+                        .field('longitude', 9.223922)
+                        .field('violation_type', 'invalid_handicap_parking')
+                        .field('license_plate', 'AA000AA')
+                        .attach('photo_files', testPhotoPath)
+                        .attach('photo_files', invalidTestPhotoPath)
+                });
+            expect(res.statusCode).toEqual(204);
+
+            // path where the photos will be inserted if test is successful
+            let photoFolder = path.join(process.cwd(), 'public', 'reports', '3');
+            // remove the folder to avoid problems with further testing or development
+            rimraf(photoFolder, () => { console.log("photo folder removed"); });
+        });
     it('try submitting a report form without a proper login', async () => {
         const res = await request(app)
             .post('/v2/reports/submit')

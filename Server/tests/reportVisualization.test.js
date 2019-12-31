@@ -59,7 +59,7 @@ describe('GET /users/reports', () => {
     });
 });
 
-describe('GET /users/reports', () => {
+describe('GET /reports/:id', () => {
     it('try to get an accessible report after successful citizen login', async () => {
         // use same agent session for both requests
         let agent = request.agent(app);
@@ -94,7 +94,7 @@ describe('GET /users/reports', () => {
     });
     it('try to get accessible reports\' data without login', async () => {
         const res = await request(app)
-            .get('/v2/users/reports');
+            .get('/v2/reports/0');
         expect(res.statusCode).toEqual(401);
         expect(res.res.statusMessage).toEqual("Not authenticated");
     });

@@ -111,9 +111,22 @@ describe('POST /users/register/authority', () => {
         expect(res.statusCode).toEqual(400);
         expect(res.res.statusMessage).toEqual("Email already taken");
     });
-    it('registering with a password mismatch', async () => {
+    it('registering with a password mismatch (citizen)', async () => {
         const res = await request(app)
             .post('/v2/users/register/citizen')
+            .send({
+                firstname: "Ajeje",
+                lastname: "Brazorf",
+                email: "ajeje@gmail.com",
+                password: "qwerty789",
+                confirmPassword: "wrongPW"
+            });
+        expect(res.statusCode).toEqual(400);
+        expect(res.res.statusMessage).toEqual("Password mismatch");
+    });
+    it('registering with a password mismatch (authority)', async () => {
+        const res = await request(app)
+            .post('/v2/users/register/authority')
             .send({
                 firstname: "Ajeje",
                 lastname: "Brazorf",

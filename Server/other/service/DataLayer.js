@@ -339,7 +339,7 @@ exports.queryReportsForAnalysis = function (from, to, type, city) {
             if (type) {
                 query.where('violation_type', type)
             }
-            if (city) {
+            if (typeof city !== 'undefined') {
                 query.where('city.id', city)
             }
             if (from && to) {
