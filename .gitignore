@@ -288,3 +288,5 @@ Server/tmp
 .env
 Server/public/reports/*
 !Server/public/reports/placeholder.txt
+/Server/coverage/
+/Server/.scannerwork/

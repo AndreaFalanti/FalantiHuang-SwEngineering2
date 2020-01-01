@@ -77,17 +77,21 @@ oasTools.initializeMiddleware(swaggerDoc, app, function (middleware) {
 
     app.use(function (req, res, next) {
         _.extend(req.body, req.files);
-        //_.extend(req.body, req.file);
         next();
     });
 
-    // Start the server
-    setupDataLayer().then(
-        http.createServer(app).listen(serverPort, function () {
-            console.log('Your server is listening on port %d (http://localhost:%d)', serverPort, serverPort);
-            console.log('Swagger-ui is available on http://localhost:%d/docs', serverPort);
-        })
-    );
+    // This avoids jest tests to throw errors for port already in use (a port is not required in tests, so no problem)
+    // See also: https://blog.campvanilla.com/jest-expressjs-and-the-eaddrinuse-error-bac39356c33a
+    if (process.env.NODE_ENV !== 'test') {
+        // Start the server
+        setupDataLayer().then(
+            http.createServer(app).listen(serverPort, function () {
+                console.log('Your server is listening on port %d (http://localhost:%d)', serverPort, serverPort);
+                console.log('Swagger-ui is available on http://localhost:%d/docs', serverPort);
+            })
+        );
+    }
+
 });
 
 module.exports = {app, swaggerDoc};

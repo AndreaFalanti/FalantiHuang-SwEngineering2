@@ -1,7 +1,7 @@
 {
-  "name": "safestreets-api",
+  "name": "safestreets",
   "version": "1.0.0",
-  "description": "SafeStreets API for software engineering 2 project 2019/2020",
+  "description": "SafeStreets server for software engineering 2 project 2019/2020",
   "main": "index.js",
   "scripts": {
     "prestart": "npm install",
@@ -15,6 +15,11 @@
     "testEnvironment": "node",
     "coveragePathIgnorePatterns": [
       "/node_modules/"
+    ],
+    "collectCoverage": true,
+    "coverageReporters": [
+      "json",
+      "lcov"
     ]
   },
   "license": "Unlicense",
