@@ -1,0 +1,82 @@
+\input{config}
+\usepackage{subfiles}
+
+\begin{document}
+% title page
+\clearpage
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{Logo_Politecnico_Milano.png}
+    \label{fig:my_label}
+\end{figure}
+
+
+{
+    \centering
+    \Huge Software Engineering 2\\
+    \LARGE Implementation and Test deliverable Document\\
+    \LARGE SafeStreets\\
+    \bigskip
+    \large Version 1.0 - 12/01/2020\\
+    \vspace*{\fill}
+    \begingroup
+        \small
+        \renewcommand*{\arraystretch}{1.5}
+        \noindent
+        \begin{tabularx}{\linewidth}{@{}lXl@{}}
+        \textit{Authors:}  & & \textit{Professor:} \\
+        Andrea Falanti      & & Prof.\@ Elisabetta Di Nitto        \\
+        Andrea Huang \\
+        \end{tabularx}
+    \endgroup
+    \par
+}
+    
+\thispagestyle{empty}
+
+\newpage
+\tableofcontents
+
+% content pages
+\newpage
+
+\chapter{Introduction}
+    \section{Purpose and Scope}
+        \subfile{Sections/PurposeAndScope}
+    \section{Definitions, Acronyms, Abbreviations}
+    	\subfile{Sections/Definitions}
+    \section{Revision history}
+    	\subfile{Sections/RevisionHistory}
+    \section{Reference Documents}
+        \subfile{Sections/ReferenceDocuments}
+    \section{Document Structure}
+    	\subfile{Sections/DocumentStructure}
+    
+\newpage
+\chapter{Implemented functionalities}
+    \section{Introduction}
+    \section{Functionalities included in the prototype}
+    \section{Functionalities excluded from the prototype}
+    
+\newpage
+\chapter{Adopted development frameworks}
+    \section{Server}
+        \subsection{Programming languages}
+        \subsection{Middleware}
+        \subsection{API}
+    \section{Client}
+	    \subsection{Programming languages}
+	    \subsection{Middleware}
+	    \subsection{API}
+
+\newpage
+\chapter{Testing methodology}
+\newpage
+\chapter{Installation instructions}
+\newpage
+\chapter{Effort Spent}
+    \subfile{Sections/EffortSpent}
+\chapter{References}
+	\subfile{Sections/References}
+
+\end{document}
