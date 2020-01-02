@@ -93,8 +93,8 @@ function savePhotos (photos, report_id) {
                         reject(err);
                     }
                     else {
-                        // take only the path after public folder
-                        let splitPath = newPath.split("public\\")[1];
+                        // take only the path after public folder (without slash or backslash)
+                        let splitPath = newPath.split("public")[1].slice(1);
                         photo_paths.push(splitPath);
                         // all photos have been processed
                         if (photo_paths.length === photos.length) {
