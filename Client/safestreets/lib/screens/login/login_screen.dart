@@ -16,6 +16,7 @@ class LoginScreen extends StatefulWidget {
 
 class LoginScreenState extends State<LoginScreen>
     implements LoginScreenContract, AuthStateListener {
+
   BuildContext _ctx;
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
 
@@ -239,13 +240,18 @@ class LoginScreenState extends State<LoginScreen>
 
   @override
   void onLoginSuccess(User user) async {
-    logger.d("login success: "+user.firstname + " " + user.lastname);
+    String orgName = (user.orgName == null) ? "" : user.orgName;
+    logger.d("login success: "+user.firstName + " " + user.lastName + "\nOrgName: " + orgName);
 
-    _showSnackBar(user.firstname + " " + user.lastname
+    _showSnackBar(user.firstName + " " + user.lastName
         + " your login was successful!", false);
 
     setState(() => _isLoading = false);
-    Navigator.pushReplacementNamed(context, '/home');
+    if (user.orgName == null) {
+      Navigator.pushReplacementNamed(context, '/citizen_home');
+    } else {
+      Navigator.pushReplacementNamed(context, '/authority_home');
+    }
 
 //    var db = new DatabaseHelper();
 //    await db.saveUser(user);

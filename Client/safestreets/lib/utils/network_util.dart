@@ -36,11 +36,12 @@ class NetworkUtil {
 
   Future<dynamic> get(String url) {
     return http.get(url, headers: cookie).then((http.Response response) {
+      logger.d("get to: " + url);
       final String res = response.body;
       final int statusCode = response.statusCode;
 
       updateCookie(response);
-      logger.d("get: " + res);
+      logger.d("get body: " + res);
       logger.d(statusCode);
       if (statusCode < 200 || statusCode > 400 || json == null) {
         throw new Exception("Error while fetching data");
@@ -53,8 +54,8 @@ class NetworkUtil {
 
     Map<String,String> postHeaders = {};
 
-    logger.d(url);
-    logger.d(body);
+    logger.d("post to: " + url);
+    logger.d("post body: "+body.toString());
 
     logger.d("saved cookie: "+cookie.toString());
     if (headers == null) {
@@ -69,7 +70,7 @@ class NetworkUtil {
       final String res = response.body;
       final int statusCode = response.statusCode;
 
-      logger.d("post response: "+res);
+      logger.d("post response body: "+res);
       logger.d(statusCode);
       logger.d("cookie: "+response.headers["set-cookie"].toString());
 

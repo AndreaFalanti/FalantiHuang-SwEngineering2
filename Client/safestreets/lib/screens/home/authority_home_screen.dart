@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+class AuthorityHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Home"),
+        title: new Text("SafeStreets for Authorities"),
         actions: <Widget>[
           new IconButton(
               icon: new Icon(Icons.exit_to_app),
@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
               })
         ],),
       body: new Center(
-        child: new Text("Welcome home!"),
+        child: new Text("Welcome to authority home!"),
       ),
 
     );

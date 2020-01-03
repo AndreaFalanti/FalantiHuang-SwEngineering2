@@ -10,19 +10,19 @@ class RestDatasource {
   static final LOGIN_URL = BASE_URL + "/users/login";
   static final LOGOUT_URL = BASE_URL + "/users/logout";
   static final DATA_URL = BASE_URL + "/users/data";
-  static final CITIZEN_URL = BASE_URL + "/users/register/citizen";
-  static final AUTHORITY_URL = BASE_URL + "/users/register/authority";
+  static final USER_REPORTS_URL = BASE_URL + "/users/reports";
+  static final CITIZEN_SIGNUP_URL = BASE_URL + "/users/register/citizen";
+  static final AUTHORITY_SIGNUP_URL = BASE_URL + "/users/register/authority";
 
   static const Map<String, String> JSON_CONTENT = {"Content-Type": "application/json"};
 
   var logger = Logger();
 
-  //static final _API_KEY = "somerandomkey";
 
   Future<dynamic> signUpCitizen(String firstName, String lastName, String email,
       String password, String confirmPassword) {
     logger.d("User: "+firstName + " " +lastName);
-    return _netUtil.post(CITIZEN_URL,
+    return _netUtil.post(CITIZEN_SIGNUP_URL,
         body: {
           "firstname": firstName,
           "lastname": lastName,
@@ -38,7 +38,7 @@ class RestDatasource {
 
   Future<dynamic> signUpAuthority(String firstName, String lastName, String email,
       String password, String confirmPassword) {
-    return _netUtil.post(AUTHORITY_URL,
+    return _netUtil.post(AUTHORITY_SIGNUP_URL,
         body: {
           "firstname": firstName,
           "lastname": lastName,
@@ -62,7 +62,7 @@ class RestDatasource {
         headers: JSON_CONTENT)
         .then((dynamic res) {
           logger.d("post login: "+res.toString());
-          return getData();
+          return getUserData();
         });
   }
 
@@ -70,12 +70,20 @@ class RestDatasource {
     return _netUtil.post(LOGOUT_URL);
   }
 
-  Future<User> getData() {
+  Future<User> getUserData() {
     return _netUtil.get(DATA_URL)
         .then((user) {
-          logger.d(user);
+          logger.d("GetUserData: "+user.toString());
           var usr = new User.map(user);
           return usr;
+        });
+  }
+
+  Future<void> getUserReports() {
+    return _netUtil.get(USER_REPORTS_URL)
+        .then((reports) {
+          // List of dictionaries of reports
+          logger.d("Reports: "+ reports);
         });
   }
 }
