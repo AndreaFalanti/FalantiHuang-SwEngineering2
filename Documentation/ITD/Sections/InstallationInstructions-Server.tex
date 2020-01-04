@@ -1,0 +1,41 @@
+\subsubsection{Prerequisites}
+\begin{itemize}
+	\item Node.js (v12.13.1)
+	\item PostgreSQL (v12.1)
+	\item Postman (v7.14.0)
+	\item SonarQube (v8.1.0.31237)	[Optional]
+	
+	Make sure to install npm along node.js and pgAdmin during PostgreSQL if you want to avoid to use the terminal commands. If you want to use the PostgreSQL CLI, make sure "INSTALLATION\_PATH/PostgreSQL/12/bin" is inserted into paths system variable.
+\end{itemize}
+
+\subsubsection{Setup}
+\begin{enumerate}
+	\item Install all the required software
+	\item Clone the repository
+	\item Create two databases using pgAdmin (located in "PostgreSQL/12/pgAdmin 4/bin/pgAdmin4.exe") or the PostgreSQL cli. With pgAdmin, wait for the browser interface to show up and insert the password inserted during installation, then right-click on databases to create database (name it as you want, for example "safestreets" and "safestreets\_test")
+	\item Go into "Server" folder of the cloned repository and add a .env file (without name), containing these fields:\\
+	NODE\_ENV=development\\
+	DB\_USER=\textit{your postgreSQL username}\\
+	DB\_PASSWORD=\textit{your postgreSQL password}\\
+	DB\_NAME\_DEV=\textit{name of first database}\\
+	DB\_NAME\_TEST=\textit{name of second database}\\
+	\item Open the terminal and position yourself into "Server" folder.
+	\item Start the server with command: \textbf{npm start}, the first time it's executed will require a bit of time because all required npm packages will be installed in repository's folder and the database structure will be generated.
+	\item After the server is successfully started, run this command in "Server" folder: \textbf{knex seed:run --env development} to populate the development database with data provided in json files located in "Server/other/test\_data". You can run the command any time to reset the database to these values.
+\end{enumerate}
+
+\subsubsection{Testing and Analysis}
+After performing all setup tests:
+\begin{itemize}
+	\item In "Server" folder use command: \textbf{npm test}, to run the tests and generate a coverage report in "Server/coverage" folder.
+	\item While the server is running you can use Postman or the client to send requests (see also postman setup below).
+	\item If you have installed sonarQube, you can run an analysis by installing globally the package with this command: \textbf{npm install -g sonarqube-scanner}, then while sonarQube is running its possible to generate a report by using the command \textbf{sonar-scanner} in the "Server" folder. To have the coverage set in sonar report, it's important that the tests have been already ran so that the coverage file is available.
+\end{itemize}
+
+\subsubsection{Postman Setup}
+\begin{enumerate}
+	\item Click import button, select paste raw text and paste all the content of "Server/other/api/swagger.yaml", this will import the API into postman creating the collection.
+	\item Edit the collection to use http instead of https
+	\item Edit the two POST operations inside "report" to use in body a file for "photo" and "photo\_files" keys. Just put your cursor on the key name and a dropdown will appear on the right of the cell. If correct, you will see a "select file" button in the value cell.
+	\item Change body values of all requests with the wanted ones before executing.
+\end{enumerate}
