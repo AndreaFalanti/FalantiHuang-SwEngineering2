@@ -1,7 +1,7 @@
 'use strict';
 
-var utils = require('../utils/writer.js');
-var DataAnalysis = require('../service/DataAnalysisService');
+let utils = require('../utils/writer.js');
+let DataAnalysis = require('../service/DataAnalysisService');
 
 module.exports.reportsGET = function reportsGET(req, res, next) {
     let city = req.swagger.params['city'].value;

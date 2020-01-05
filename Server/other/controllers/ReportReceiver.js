@@ -1,7 +1,7 @@
 'use strict';
 
-var utils = require('../utils/writer.js');
-var ReportReceiver = require('../service/ReportReceiverService');
+let utils = require('../utils/writer.js');
+let ReportReceiver = require('../service/ReportReceiverService');
 const fs = require('fs');
 
 function removePhotos (photos) {

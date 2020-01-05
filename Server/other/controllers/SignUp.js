@@ -1,7 +1,6 @@
 'use strict';
 
-var utils = require('../utils/writer.js');
-var SignUp = require('../service/SignUpService');
+let SignUp = require('../service/SignUpService');
 
 module.exports.usersRegisterAuthorityPOST = function usersRegisterAuthorityPOST(req, res, next) {
     let body = req.swagger.params['body'].value;
@@ -29,7 +28,6 @@ module.exports.usersRegisterAuthorityPOST = function usersRegisterAuthorityPOST(
     }
 };
 
-// TODO: refactor code to avoid duplication with case above
 module.exports.usersRegisterCitizenPOST = function usersRegisterCitizenPOST(req, res, next) {
     let body = req.swagger.params['body'].value;
 

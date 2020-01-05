@@ -1,7 +1,7 @@
 'use strict';
 
-var utils = require('../utils/writer.js');
-var Login = require('../service/LoginService');
+let utils = require('../utils/writer.js');
+let Login = require('../service/LoginService');
 
 module.exports.usersDataGET = function usersDataGET(req, res, next) {
     if (req.session.loggedin) {

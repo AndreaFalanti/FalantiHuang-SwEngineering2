@@ -187,8 +187,6 @@ exports.reportsPhotoUploadPOST = function (photo) {
  **/
 exports.reportsSubmitPOST = function (body) {
     return new Promise(function (resolve, reject) {
-        //TODO: choose service for geocoding and add city, place and location (if not present) in the db, then
-        // proceed with the report insertion in the database
         let geocodingURL = generateReverseGeocodingUrl(body.latitude, body.longitude);
         console.log(geocodingURL);
 

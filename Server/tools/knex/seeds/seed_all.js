@@ -16,15 +16,11 @@ let tableObjs = [
     {name: "report", json: reportJson, setSequence: true}
 ];
 
-// TODO: if possible refactor this code to actually create dynamically a chain of promises
-exports.seed = function (knex) {
-    return seedTable(knex, tableObjs[0])
-        .then(() => seedTable(knex, tableObjs[1])
-            .then(() => seedTable(knex, tableObjs[2])
-                .then(() => seedTable(knex, tableObjs[3])
-                    .then(() => seedTable(knex, tableObjs[4])
-                        .then(() => seedTable(knex, tableObjs[5])
-                            .then(() => seedTable(knex, tableObjs[6])))))));
+exports.seed = async function (knex) {
+    for (let tableObj of tableObjs) {
+        await seedTable(knex, tableObj);
+        console.log("Seeded table " + tableObj.name);
+    }
 };
 
 let seedTable = function (knex, tableObj) {

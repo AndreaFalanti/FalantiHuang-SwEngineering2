@@ -1,7 +1,7 @@
 'use strict';
 
-var utils = require('../utils/writer.js');
-var OrganizationRegistration = require('../service/OrganizationRegistrationService');
+let utils = require('../utils/writer.js');
+let OrganizationRegistration = require('../service/OrganizationRegistrationService');
 
 module.exports.adminCitiesGET = function adminCitiesGET(req, res, next) {
     if (!req.session.loggedin) {

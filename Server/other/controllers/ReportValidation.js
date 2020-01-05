@@ -1,7 +1,7 @@
 'use strict';
 
-var utils = require('../utils/writer.js');
-var ReportValidation = require('../service/ReportValidationService');
+let utils = require('../utils/writer.js');
+let ReportValidation = require('../service/ReportValidationService');
 
 module.exports.reportsIdSetStatusPOST = function reportsIdSetStatusPOST(req, res, next) {
     let body = req.swagger.params['status'].value;
