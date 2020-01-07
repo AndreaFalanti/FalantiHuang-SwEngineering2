@@ -26,7 +26,8 @@ exports.adminCitiesGET = function () {
 exports.adminCitiesRegisterPOST = function (body) {
     return new Promise(function (resolve, reject) {
         insertCityInDb(body)
-            .then(result => resolve(result));
+            .then(result => resolve(result))
+            .catch(err => reject(err))      // domain is unique, so an error is thrown if already present
     });
 };
 
@@ -41,7 +42,8 @@ exports.adminCitiesRegisterPOST = function (body) {
 exports.adminOrganizationsRegisterPOST = function (body) {
     return new Promise(function (resolve, reject) {
         insertOrganizationInDb(body)
-            .then(result => resolve(result));
+            .then(result => resolve(result))
+            .catch(err => reject(err))      // (name, region) pair is unique, so an error is thrown if already present
     });
 };
 

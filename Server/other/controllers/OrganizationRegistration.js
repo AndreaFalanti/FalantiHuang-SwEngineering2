@@ -48,8 +48,8 @@ module.exports.adminCitiesRegisterPOST = function adminCitiesRegisterPOST(req, r
                 res.end();
             })
             .catch(function (response) {
-                res.statusCode = 500;
-                res.statusMessage = "Server error";
+                res.statusCode = 400;
+                res.statusMessage = "Already registered";
                 res.end();
             });
     }
@@ -77,8 +77,8 @@ module.exports.adminOrganizationsRegisterPOST = function adminOrganizationsRegis
             })
             .catch(function (response) {
                 console.error(response);
-                res.statusCode = 500;
-                res.statusMessage = "Server error";
+                res.statusCode = 400;
+                res.statusMessage = "Domain already registered";
                 res.end();
             });
     }

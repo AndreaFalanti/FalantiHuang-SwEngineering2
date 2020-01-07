@@ -5,6 +5,7 @@ exports.up = function(knex) {
         table.increments("id").primary().index();
         table.text("name");
         table.text("region");
+        table.unique(["name", "region"]);
         console.log(`${tableName} database created`);
     });
 };
