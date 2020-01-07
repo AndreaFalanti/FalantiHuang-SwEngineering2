@@ -31,7 +31,7 @@ describe('POST /users/register/citizen', () => {
             });
         expect(res.statusCode).toEqual(204);
     });
-    it('registering with a domain reserved by an organization', async () => {
+    it('registering with a domain reserved by an organization (citizen)', async () => {
         const res = await request(app)
             .post('/v2/users/register/citizen')
             .send({
@@ -56,6 +56,32 @@ describe('POST /users/register/citizen', () => {
             });
         expect(res.statusCode).toEqual(400);
         expect(res.res.statusMessage).toEqual("Email already taken");
+    });
+    it('registering with an invalid email', async () => {
+        const res = await request(app)
+            .post('/v2/users/register/citizen')
+            .send({
+                firstname: "Ajeje",
+                lastname: "Brazorf",
+                email: "asd.invalid.com",
+                password: "qwerty456",
+                confirmPassword: "qwerty456"
+            });
+        expect(res.statusCode).toEqual(400);
+        expect(res.res.statusMessage).toEqual("Invalid email");
+    });
+    it('registering with an invalid password', async () => {
+        const res = await request(app)
+            .post('/v2/users/register/citizen')
+            .send({
+                firstname: "Ajeje",
+                lastname: "Brazorf",
+                email: "ajeje@gmail.com",
+                password: "short",
+                confirmPassword: "short"
+            });
+        expect(res.statusCode).toEqual(400);
+        expect(res.res.statusMessage).toEqual("Invalid password");
     });
     it('registering with a password mismatch', async () => {
         const res = await request(app)
@@ -111,20 +137,33 @@ describe('POST /users/register/authority', () => {
         expect(res.statusCode).toEqual(400);
         expect(res.res.statusMessage).toEqual("Email already taken");
     });
-    it('registering with a password mismatch (citizen)', async () => {
+    it('registering with an invalid email', async () => {
         const res = await request(app)
             .post('/v2/users/register/citizen')
             .send({
                 firstname: "Ajeje",
                 lastname: "Brazorf",
-                email: "ajeje@gmail.com",
+                email: "ajeje.invalid.it",
                 password: "qwerty789",
-                confirmPassword: "wrongPW"
+                confirmPassword: "qwerty789"
             });
         expect(res.statusCode).toEqual(400);
-        expect(res.res.statusMessage).toEqual("Password mismatch");
+        expect(res.res.statusMessage).toEqual("Invalid email");
     });
-    it('registering with a password mismatch (authority)', async () => {
+    it('registering with an invalid password', async () => {
+        const res = await request(app)
+            .post('/v2/users/register/citizen')
+            .send({
+                firstname: "Ajeje",
+                lastname: "Brazorf",
+                email: "ajeje@poliziamilano.it",
+                password: "short",
+                confirmPassword: "short"
+            });
+        expect(res.statusCode).toEqual(400);
+        expect(res.res.statusMessage).toEqual("Invalid password");
+    });
+    it('registering with a password mismatch', async () => {
         const res = await request(app)
             .post('/v2/users/register/authority')
             .send({

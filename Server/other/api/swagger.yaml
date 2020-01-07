@@ -117,7 +117,7 @@ paths:
           description: Successful registration
           content: {}
         "400":
-          description: Email already registered or wrong password
+          description: Email already registered or invalid email or invalid password or password mismatch
           content: {}
       x-swagger-router-controller: SignUp
       x-codegen-request-body-name: body
@@ -141,7 +141,7 @@ paths:
           description: Successful registration
           content: {}
         "400":
-          description: Invalid data
+          description: Invalid data or invalid email or invalid password or password mismatch
           content: {}
       x-swagger-router-controller: SignUp
       x-codegen-request-body-name: body
