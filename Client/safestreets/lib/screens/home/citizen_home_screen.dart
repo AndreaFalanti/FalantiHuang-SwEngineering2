@@ -16,16 +16,33 @@ class CitizenHomeScreenState extends State<CitizenHomeScreen>
 
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
 
+  final scaffoldKey = new GlobalKey<ScaffoldState>();
   HomeScreenPresenter _presenter;
+
+  var logger = Logger();
 
   CitizenHomeScreenState() {
     _presenter = new HomeScreenPresenter(this);
   }
 
+  void _showSnackBar(String text, bool error) {
+    Color color = error ? Colors.red : Colors.green;
+
+    final snackBar = new SnackBar(
+      content: new Text(text),
+      duration: new Duration(seconds: 2),
+      backgroundColor: color,
+      action: new SnackBarAction(label: "Ok", onPressed: (){
+        print("Press Ok on SnackBar");
+      }),
+    );
+    scaffoldKey.currentState.showSnackBar(snackBar);
+  }
+
   @override
   Widget build(BuildContext context) {
 
-    var reportTVBtn = Card(
+    var reportViolationsBtn = Card(
       elevation: 15.0,
       shape: RoundedRectangleBorder(
           side: BorderSide(
@@ -35,7 +52,7 @@ class CitizenHomeScreenState extends State<CitizenHomeScreen>
       ),
       child: new InkWell(
         onTap: () {
-          _presenter.doGetUserReports();
+          Navigator.pushNamed(context, '/citizen_home/report_violations');
         },
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20.0),
@@ -70,7 +87,7 @@ class CitizenHomeScreenState extends State<CitizenHomeScreen>
       ),
       child: new InkWell(
         onTap: () {
-          _presenter.doGetUserReports();
+          // TODO push screen
         },
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20.0),
@@ -105,7 +122,8 @@ class CitizenHomeScreenState extends State<CitizenHomeScreen>
       ),
       child: new InkWell(
         onTap: () {
-          _presenter.doGetUserReports();
+          Navigator.pushNamed(context, '/citizen_home/user_reports');
+          //_presenter.doGetUserReports();
         },
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20.0),
@@ -132,6 +150,7 @@ class CitizenHomeScreenState extends State<CitizenHomeScreen>
 
 
     return new Scaffold(
+      key: scaffoldKey,
       appBar: new AppBar(
         title: new Text("SafeStreets for Citizen"),
         actions: <Widget>[
@@ -148,7 +167,7 @@ class CitizenHomeScreenState extends State<CitizenHomeScreen>
         child: Column(
           children: <Widget>[
             SizedBox(height: 10,),
-            reportTVBtn,
+            reportViolationsBtn,
             SizedBox(height: 10,),
             analyzeDataBtn,
             SizedBox(height: 10,),
@@ -161,23 +180,26 @@ class CitizenHomeScreenState extends State<CitizenHomeScreen>
   }
 
   @override
-  void onDataAnalysisRetrievalSuccess() {
-    // TODO: implement onDataAnalysisRetrievalSuccess
-  }
-
-  @override
   void onDataRetrievalError(String errorTxt) {
-    // TODO: implement onDataRetrievalError
+    String errorMsg = errorTxt;
+    String errorCode = 400.toString();
+    if (errorTxt.contains(errorCode)) {
+      errorMsg = "Invalid operation";
+    }
+    _showSnackBar(errorMsg, true);
   }
 
   @override
   void onGetUserReportsSuccess() {
-    // TODO: implement onGetUserReportsSuccess
+    logger.d("Get user reports success");
+    //_showSnackBar("Get user reports success", false);
+    Navigator.pushNamed(context, '/citizen_home/user_reports');
+
   }
 
   @override
   void onLogoutSuccess() {
-    // TODO: implement onLogoutSuccess
+    _showSnackBar("Your logout was successful!", false);
   }
 
 }

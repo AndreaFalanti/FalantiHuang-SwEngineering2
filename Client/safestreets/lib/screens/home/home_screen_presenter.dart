@@ -1,3 +1,5 @@
+import 'package:logger/logger.dart';
+
 import 'package:safestreets/data/rest_ds.dart';
 import 'package:safestreets/models/user.dart';
 
@@ -8,8 +10,9 @@ abstract class HomeScreenContract {
   2. Analyze Data
   3. Analyze Personal Data
    */
+//  void onReportTrafficViolation();
+//  void onDataAnalysisRetrievalSuccess();
   void onGetUserReportsSuccess();
-  void onDataAnalysisRetrievalSuccess();
   void onLogoutSuccess();
   void onDataRetrievalError(String errorTxt);
 }
@@ -22,12 +25,9 @@ class HomeScreenPresenter {
   doGetUserReports() {
     api.getUserReports()
         .then((res) {
+          Logger().d("Get completed");
           _view.onGetUserReportsSuccess();
     }).catchError((Object error) => _view.onDataRetrievalError(error.toString()));
-  }
-
-  doDataAnalysisRetrieval() {
-
   }
 
   doLogout() {

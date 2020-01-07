@@ -1,0 +1,75 @@
+import 'package:safestreets/utils/enum_util.dart';
+
+class Report {
+  int _id;
+  String _timestamp;
+  String _licensePlate;
+  List<String> _photos;
+  ReportStatus _reportStatus;
+  String _violationType;
+  double _latitude;
+  double _longitude;
+  String _place;
+  String _city;
+
+  int get id => _id;
+  String get timestamp => _timestamp;
+  String get licensePlate => _licensePlate;
+  List<String> get photos => _photos;
+  ReportStatus get reportStatus => _reportStatus;
+  String get violationType => _violationType;
+  double get latitude => _latitude;
+  double get longitude => _longitude;
+  String get place => _place;
+  String get city => _city;
+
+  Report.map(dynamic obj) {
+    this._id = obj["id"];
+    this._timestamp = obj["timestamp"];
+    this._licensePlate = obj["license_plate"];
+    this._photos = obj["photos"].cast<String>();
+    this._reportStatus = enumFromString<ReportStatus>(obj["report_status"].toString().toUpperCase(),ReportStatus.values);
+    this._violationType = obj["violation_type"];
+    this._latitude = double.parse(obj["latitude"]);
+    this._longitude = double.parse(obj["longitude"]);
+    this._place = obj["place"];
+    this._city = obj["city"];
+  }
+
+  Map<String, dynamic> toMap() {
+    var map = new Map<String, dynamic>();
+    map["id"] = _id;
+    map["timestamp"] = _timestamp;
+    map["license_plate"] = _licensePlate;
+    map["photos"] = _photos;
+    map["report_status"] = _reportStatus;
+    map["violation_type"] = _violationType;
+    map["latitude"] = _latitude;
+    map["longitude"] = _longitude;
+    map["place"] = _place;
+    map["city"] = _city;
+
+    return map;
+  }
+
+  String formattedTimestamp() {
+    int tIndex = timestamp.indexOf("T");
+    int dotIndex = timestamp.indexOf(".");
+    String day = timestamp.substring(0, tIndex);
+    String hour = timestamp.substring(tIndex+1, dotIndex);
+
+    return day + "\t\t" + hour;
+  }
+
+  @override
+  toString() {
+    return this.toMap().toString();
+  }
+
+}
+
+enum ReportStatus {
+  PENDING,
+  VALIDATED,
+  INVALIDATED,
+}

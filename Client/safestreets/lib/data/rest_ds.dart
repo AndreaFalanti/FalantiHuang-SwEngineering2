@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:logger/logger.dart';
 
-import 'package:safestreets/utils/network_util.dart';
+//import 'package:safestreets/utils/network_util.dart';
+import 'package:safestreets/utils/network_dio.dart';
 import 'package:safestreets/models/user.dart';
+import 'package:safestreets/models/report.dart';
 
 class RestDatasource {
   NetworkUtil _netUtil = new NetworkUtil();
@@ -17,7 +19,6 @@ class RestDatasource {
   static const Map<String, String> JSON_CONTENT = {"Content-Type": "application/json"};
 
   var logger = Logger();
-
 
   Future<dynamic> signUpCitizen(String firstName, String lastName, String email,
       String password, String confirmPassword) {
@@ -79,11 +80,18 @@ class RestDatasource {
         });
   }
 
-  Future<void> getUserReports() {
+  Future<List<Report>> getUserReports() {
     return _netUtil.get(USER_REPORTS_URL)
         .then((reports) {
+          List<Report> reportList = new List();
+          for (dynamic report in reports) {
+            reportList.add(new Report.map(report));
+          }
           // List of dictionaries of reports
-          logger.d("Reports: "+ reports);
-        });
+          for (Report report in reportList) {
+            print(report.toMap());
+          }
+          return reportList;
+        }).catchError((Object error) => logger.e(error.toString()));
   }
 }

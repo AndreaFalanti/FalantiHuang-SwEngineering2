@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:math';
 import 'package:logger/logger.dart';
 
 import 'package:http/http.dart' as http;
 
+@deprecated
 class NetworkUtil {
   // next three lines makes this class a Singleton
   static NetworkUtil _instance = new NetworkUtil.internal();
@@ -46,6 +46,7 @@ class NetworkUtil {
       if (statusCode < 200 || statusCode > 400 || json == null) {
         throw new Exception("Error while fetching data");
       }
+      logger.d("Get decode: "+_decoder.convert(res).runtimeType.toString());
       return _decoder.convert(res);
     });
   }
