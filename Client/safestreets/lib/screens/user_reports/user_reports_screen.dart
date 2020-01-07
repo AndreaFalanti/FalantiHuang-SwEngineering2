@@ -139,15 +139,10 @@ class UserReportsScreenState extends State<UserReportsScreen>
                 padding: const EdgeInsets.all(32.0),
                 child: Column(
                   children: <Widget>[
-                    CarouselWithIndicator(report: report),
+                    CarouselWithIndicator(photos: report.photos),
                     SizedBox(height: 20,),
                     Container(
                       padding: const EdgeInsets.all(10.0),
-//                      decoration: BoxDecoration(
-//                        color: Colors.grey[300],
-//                        border: Border.all(color: Colors.grey),
-//                        borderRadius: BorderRadius.circular(4),
-//                      ),
                       child: Column(
                         children: <Widget>[
                           _reportRow("Date:", report.formattedTimestamp()),

@@ -3,7 +3,6 @@ import 'package:logger/logger.dart';
 
 
 import 'package:flutter/material.dart';
-import 'package:safestreets/auth.dart';
 import 'package:safestreets/screens/signup/signup_screen_presenter.dart';
 
 class AuthoritySignUpScreen extends StatefulWidget {
@@ -13,7 +12,7 @@ class AuthoritySignUpScreen extends StatefulWidget {
 }
 
 class AuthoritySignUpScreenState extends State<AuthoritySignUpScreen>
-    implements SignupScreenContract, AuthStateListener {
+    implements SignupScreenContract {
   BuildContext _ctx;
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
 
@@ -30,8 +29,6 @@ class AuthoritySignUpScreenState extends State<AuthoritySignUpScreen>
 
   AuthoritySignUpScreenState() {
     _presenter = new SignUpScreenPresenter(this);
-    var authStateProvider = new AuthStateProvider();
-    authStateProvider.subscribe(this);
   }
 
   void _showSnackBar(String text, bool error) {
@@ -257,11 +254,6 @@ class AuthoritySignUpScreenState extends State<AuthoritySignUpScreen>
         ),
       ),
     );
-  }
-
-  @override
-  void onAuthStateChanged(AuthState state) {
-    // TODO: implement onAuthStateChanged
   }
 
   @override

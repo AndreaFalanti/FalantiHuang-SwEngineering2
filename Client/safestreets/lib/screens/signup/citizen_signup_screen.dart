@@ -3,7 +3,6 @@ import 'package:logger/logger.dart';
 
 
 import 'package:flutter/material.dart';
-import 'package:safestreets/auth.dart';
 import 'package:safestreets/screens/signup/signup_screen_presenter.dart';
 import 'package:safestreets/widgtes/text_fields.dart';
 
@@ -14,7 +13,7 @@ class CitizenSignUpScreen extends StatefulWidget {
 }
 
 class CitizenSignUpScreenState extends State<CitizenSignUpScreen>
-    implements SignupScreenContract, AuthStateListener {
+    implements SignupScreenContract {
   BuildContext _ctx;
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
 
@@ -31,8 +30,6 @@ class CitizenSignUpScreenState extends State<CitizenSignUpScreen>
 
   CitizenSignUpScreenState() {
     _presenter = new SignUpScreenPresenter(this);
-    var authStateProvider = new AuthStateProvider();
-    authStateProvider.subscribe(this);
   }
 
   void _showSnackBar(String text, bool error) {
@@ -260,11 +257,6 @@ class CitizenSignUpScreenState extends State<CitizenSignUpScreen>
         ),
       ),
     );
-  }
-
-  @override
-  void onAuthStateChanged(AuthState state) {
-    // TODO: implement onAuthStateChanged
   }
 
   @override

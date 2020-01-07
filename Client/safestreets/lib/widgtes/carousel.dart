@@ -22,9 +22,9 @@ List<T> map<T>(List list, Function handler) {
 }
 
 class CarouselWithIndicator extends StatefulWidget {
-  final Report report;
+  final List<String> photos;
 
-  CarouselWithIndicator({Key key, @required this.report}) : super(key: key);
+  CarouselWithIndicator({Key key, @required this.photos}) : super(key: key);
   @override
   _CarouselWithIndicatorState createState() => _CarouselWithIndicatorState();
 }
@@ -38,7 +38,7 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
 
   @override
   Widget build(BuildContext context) {
-    var imgList = widget.report.photos;
+    var imgList = widget.photos;
 
     List images = map<Widget>(
       imgList,

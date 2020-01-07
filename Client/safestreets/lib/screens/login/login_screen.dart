@@ -4,7 +4,6 @@ import 'package:logger/logger.dart';
 
 
 import 'package:flutter/material.dart';
-import 'package:safestreets/auth.dart';
 import 'package:safestreets/models/user.dart';
 import 'package:safestreets/screens/login/login_screen_presenter.dart';
 
@@ -15,7 +14,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class LoginScreenState extends State<LoginScreen>
-    implements LoginScreenContract, AuthStateListener {
+    implements LoginScreenContract {
 
   BuildContext _ctx;
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
@@ -31,8 +30,6 @@ class LoginScreenState extends State<LoginScreen>
 
   LoginScreenState() {
     _presenter = new LoginScreenPresenter(this);
-    var authStateProvider = new AuthStateProvider();
-    authStateProvider.subscribe(this);
   }
 
   void _submit() {
@@ -217,13 +214,6 @@ class LoginScreenState extends State<LoginScreen>
         ),
       ),
     );
-  }
-
-  @override
-  onAuthStateChanged(AuthState state) {
-
-    if(state == AuthState.LOGGED_IN)
-      Navigator.of(_ctx).pushReplacementNamed("/home");
   }
 
   @override

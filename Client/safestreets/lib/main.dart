@@ -3,7 +3,6 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:safestreets/auth.dart';
 import 'package:safestreets/routes.dart';
 import 'package:safestreets/my_login_screen.dart';
 

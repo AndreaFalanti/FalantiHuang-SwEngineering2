@@ -36,19 +36,24 @@ class NetworkUtil {
 
   Future<dynamic> post(String url, {Map body, headers, encoding}) {
 
-    Map<String,String> postHeaders = {};
-
     logger.d("post to: " + url);
     logger.d("post body: "+body.toString());
 
-    postHeaders["Content-Type"] = headers["Content-Type"];
-    logger.d("headers: "+postHeaders.toString());
-    Options optionData = new Options(
-      headers: postHeaders
-    );
+    Map<String,String> postHeaders = {};
+    if (headers != null) {
+      postHeaders["Content-Type"] = headers["Content-Type"];
+      logger.d("headers: " + postHeaders.toString());
+    }
 
     return _dio
-        .post(url, data: _encoder.convert(body), options: optionData)
+        .post(
+        url,
+        data: (body != null)
+            ? _encoder.convert(body)
+            : null,
+        options: (headers != null)
+            ? new Options(headers: postHeaders)
+            : null)
         .then((Response response) {
       final String res = response.data;
       final int statusCode = response.statusCode;
@@ -58,6 +63,7 @@ class NetworkUtil {
       logger.d("cookie: "+response.headers["set-cookie"].toString());
 
       if (statusCode < 200 || statusCode > 400 || json == null) {
+
         throw new Exception("Error while fetching data");
       }
       if (statusCode == 400) {
@@ -65,6 +71,6 @@ class NetworkUtil {
       }
       // return something only if some data is expected
       return (res.length == 0) ? null : _decoder.convert(res);
-    });
+    }).catchError((Object error) => {print(error.toString())});
   }
 }
