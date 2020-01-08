@@ -12,7 +12,7 @@
 \begin{enumerate}
 	\item Install all the required software
 	\item Clone the repository
-	\item Create two databases using pgAdmin (located in "PostgreSQL/12/pgAdmin 4/bin/pgAdmin4.exe") or the PostgreSQL cli. With pgAdmin, wait for the browser interface to show up and insert the password inserted during installation, then right-click on databases to create database (name it as you want, for example "safestreets" and "safestreets\_test")
+	\item Create two databases using pgAdmin (located in "PostgreSQL/12/pgAdmin 4/bin/pgAdmin4.exe") or the PostgreSQL CLI. With pgAdmin, wait for the browser interface to show up and insert the password inserted during installation, then right-click on databases to create database (name it as you want, for example "safestreets" and "safestreets\_test")
 	\item Go into "Server" folder of the cloned repository and add a .env file (without name), containing these fields:\\
 	NODE\_ENV=development\\
 	DB\_USER=\textit{your postgreSQL username}\\
@@ -20,6 +20,7 @@
 	DB\_NAME\_DEV=\textit{name of first database}\\
 	DB\_NAME\_TEST=\textit{name of second database}\\
 	\item Open the terminal and position yourself into "Server" folder.
+	\item Install knex globally with with npm, using command \textbf{npm install -g knex}. This is needed to seed the database later.
 	\item Start the server with command: \textbf{npm start}, the first time it's executed will require a bit of time because all required npm packages will be installed in repository's folder and the database structure will be generated.
 	\item After the server is successfully started, run this command in "Server" folder: \textbf{knex seed:run --env development} to populate the development database with data provided in json files located in "Server/other/test\_data". You can run the command any time to reset the database to these values.
 \end{enumerate}
