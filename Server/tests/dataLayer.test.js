@@ -234,9 +234,9 @@ describe('Queries on report table', () => {
                 "timestamp": new Date("2019-12-17T14:13:00Z"),
                 "license_plate": "AA000AA",
                 "photos": [
-                    "path/0/0.jpg",
-                    "path/0/1.jpg",
-                    "path/0/2.jpg"
+                    "reports/0/p0.jpg",
+                    "reports/0/p1.jpg",
+                    "reports/0/p2.jpg"
                 ],
                 "report_status": "pending",
                 "violation_type": "double_parking",
@@ -255,9 +255,9 @@ describe('Queries on report table', () => {
                 "timestamp": new Date("2019-12-17T14:13:00Z"),
                 "license_plate": "AA000AA",
                 "photos": [
-                    "path/0/0.jpg",
-                    "path/0/1.jpg",
-                    "path/0/2.jpg"
+                    "reports/0/p0.jpg",
+                    "reports/0/p1.jpg",
+                    "reports/0/p2.jpg"
                 ],
                 "report_status": "pending",
                 "violation_type": "double_parking",
@@ -274,8 +274,8 @@ describe('Queries on report table', () => {
                 "timestamp": new Date("2019-12-17T14:13:00Z"),
                 "license_plate": "BB000AA",
                 "photos": [
-                    "path/1/0.jpg",
-                    "path/1/1.jpg"
+                    "reports/1/p0.jpg",
+                    "reports/1/p1.jpg"
                 ],
                 "report_status": "validated",
                 "violation_type": "bike_lane_parking",
@@ -299,8 +299,8 @@ describe('Queries on report table', () => {
                 "timestamp": new Date("2019-12-17T14:13:00Z"),
                 "license_plate": "BB000AA",
                 "photos": [
-                    "path/1/0.jpg",
-                    "path/1/1.jpg"
+                    "reports/1/p0.jpg",
+                    "reports/1/p1.jpg"
                 ],
                 "report_status": "validated",
                 "violation_type": "bike_lane_parking",
@@ -325,8 +325,8 @@ describe('Queries on report table', () => {
                 "timestamp": new Date("2019-12-17T14:13:00Z"),
                 "license_plate": "BB000AA",
                 "photos": [
-                    "path/1/0.jpg",
-                    "path/1/1.jpg"
+                    "reports/1/p0.jpg",
+                    "reports/1/p1.jpg"
                 ],
                 "report_status": "validated",
                 "violation_type": "bike_lane_parking",
@@ -350,8 +350,8 @@ describe('Queries on report table', () => {
                 "timestamp": new Date("2019-12-17T14:13:00Z"),
                 "license_plate": "BB000AA",
                 "photos": [
-                    "path/1/0.jpg",
-                    "path/1/1.jpg"
+                    "reports/1/p0.jpg",
+                    "reports/1/p1.jpg"
                 ],
                 "report_status": "validated",
                 "violation_type": "bike_lane_parking",
@@ -375,7 +375,7 @@ describe('Queries on report table', () => {
                     "timestamp": new Date("2019-12-16T14:53:00Z"),
                     "license_plate": "BB000AA",
                     "photos": [
-                        "path/3/0.jpg"
+                        "reports/2/p0.jpg"
                     ],
                     "report_status": "validated",
                     "violation_type": "invalid_handicap_parking",
