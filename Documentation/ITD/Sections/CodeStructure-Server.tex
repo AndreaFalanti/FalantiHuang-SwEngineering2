@@ -1,0 +1,30 @@
+This section will evidence the main files and folders that compose the server, explaining the criteria of their subdivision:
+
+\subsubsection{Files}
+\begin{itemize}
+	\item \textbf{index.js:} entry point of the server, when command \textbf{npm start} is executed the code contained in this file setups and start the server.
+	\item \textbf{knexfile.js:} knex package configurations, so that the correct database is connected based on the node environment variable.
+	\item \textbf{package.json:} contains all npm package dependencies required for running the server, that are automatically installed on the machine running the server when command \textbf{npm start} is performed. It also contains the scripts associated to npm commands.
+\end{itemize}
+
+\subsubsection{Folders}
+\begin{itemize}
+	\item \textbf{other:} contains all the code running on the server
+	\begin{itemize}
+		\item \textbf{api:} contains the API specification file, parsed at server start by \textit{oas-tools} middleware.
+		\item \textbf{controller:} contains source files associated to each server component. Each controller has functions that map an API endpoint, called by openAPI middleware after the input has been verified. Controller functions performs additional checks (especially on session fields to check what type of account made the request), then if all its ok they call the services' functions. Controllers along with \textit{oas-tools} provides the routing functionality.
+		\item \textbf{service:} each source file contained in this folder constitute a server main component, described in section 2.2 of design document. Services' functions are called by controllers and perform the operations required to fulfill SafeStreets functionalities. The services communicate often with the database server, but to decouple the database connection and query construction from the modules, an intermediate service called DataLayer provide this functionalities to all services, avoiding also code duplication between the components.
+		\item \textbf{test\_data:} contains the JSON files used to populate the server with test data.
+		\item \textbf{utils:} contains source file that provide common utilities to other components.
+	\end{itemize} 
+
+	\item \textbf{public:} contains html pages and files accessible from the clients.
+	\begin{itemize}
+		\item \textbf{assets:} contains css and js files associated to html pages.
+		\item \textbf{pages:} contains the html pages (excluding the homepage).
+		\item \textbf{reports:} contains a folder for each report stored in the database, containing the photos associated to them.
+	\end{itemize}
+
+	\item \textbf{tests:} contains unit tests and integration tests for all the server source files.
+	\item \textbf{tools:} contains source files used by \textit{knex} to create the database structure (migrations) and to populate the database after its creation (seeds).
+\end{itemize}
