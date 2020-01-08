@@ -84,6 +84,7 @@ describe('POST /reports/photo_upload', () => {
     });
 });
 
+// NOTE: desc is nullable in the API definitions, so it can be omitted and it will be considered null
 describe('POST /reports/submit', () => {
     let testPhotoPath = path.join(process.cwd(), 'other', 'test_data', 'licensePlateTest.jpg');
     let invalidTestPhotoPath = path.join(process.cwd(), 'other', 'test_data', 'strangeCat.jpg');
@@ -104,6 +105,7 @@ describe('POST /reports/submit', () => {
                     .field('longitude', 12.455214)
                     .field('violation_type', 'double_parking')
                     .field('license_plate', 'AA000AA')
+                    .field('desc', 'description about violation')
                     .attach('photo_files', testPhotoPath)
                     .attach('photo_files', invalidTestPhotoPath)
             });

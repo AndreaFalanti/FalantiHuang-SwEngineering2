@@ -9,6 +9,7 @@ exports.up = function(knex) {
         table.enum("report_status", ["pending", "validated", "invalidated"]);
         table.text("violation_type").references("type").inTable("traffic_violation")
             .onDelete('CASCADE').onUpdate('CASCADE');
+        table.text("desc").nullable();
         table.decimal("latitude", null);
         table.decimal("longitude", null);
         table.foreign(["latitude", "longitude"]).references(["latitude", "longitude"]).inTable("location")

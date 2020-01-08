@@ -246,7 +246,7 @@ exports.queryReportById = function (id) {
 };
 
 /**
- * Generate the query for retrieving a report from its submitter's id
+ * Generate the query for retrieving a report from its submitter's id (Restricted to avoid sensitive data)
  * @param id Report's submitter id
  * @returns Knex promise with the query
  */

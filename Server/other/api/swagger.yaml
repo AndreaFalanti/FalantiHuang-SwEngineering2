@@ -504,6 +504,7 @@ components:
       example:
         license plate: AA000AA
         photo_files: (binary of photos)
+        desc: An optional concise description of the violation
       allOf:
       - $ref: '#/components/schemas/Location'
       - $ref: '#/components/schemas/ViolationType'
@@ -516,6 +517,9 @@ components:
             items:
               type: string
               format: binary
+          desc:
+            type: string
+            nullable: true
     Non_sensitive_data_report:
       example:
         timestamp: 2019-04-12T11:00:00Z
@@ -542,6 +546,7 @@ components:
       example:
         id: 0
         license plate: AA000AA
+        desc: An optional concise description of the violation
         photos:
         - path/image_1.jpg
         - path/image_2.jpg
@@ -558,6 +563,9 @@ components:
             items:
               type: string
               format: uri
+          desc:
+            type: string
+            nullable: true
     Citizen_accessible_reports:
       type: array
       items:
