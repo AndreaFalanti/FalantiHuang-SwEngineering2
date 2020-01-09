@@ -1,20 +1,24 @@
 import 'dart:async';
+import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 
 //import 'package:safestreets/utils/network_util.dart';
 import 'package:safestreets/utils/network_dio.dart';
 import 'package:safestreets/models/user.dart';
 import 'package:safestreets/models/report.dart';
+import 'package:safestreets/config.dart';
 
 class RestDatasource {
   NetworkUtil _netUtil = new NetworkUtil();
-  static final BASE_URL = "http://localhost:8080/v2";
   static final LOGIN_URL = BASE_URL + "/users/login";
   static final LOGOUT_URL = BASE_URL + "/users/logout";
   static final DATA_URL = BASE_URL + "/users/data";
   static final USER_REPORTS_URL = BASE_URL + "/users/reports";
   static final CITIZEN_SIGNUP_URL = BASE_URL + "/users/register/citizen";
   static final AUTHORITY_SIGNUP_URL = BASE_URL + "/users/register/authority";
+  static final PHOTO_UPLOAD_URL = BASE_URL + "/reports/photo_upload";
+  static final REPORT_SUBMIT_URL = BASE_URL + "/reports/submit";
 
   static const Map<String, String> JSON_CONTENT = {"Content-Type": "application/json"};
 
@@ -72,6 +76,7 @@ class RestDatasource {
   }
 
   Future<User> getUserData() {
+    logger.d("Start get user data");
     return _netUtil.get(DATA_URL)
         .then((user) {
           logger.d("GetUserData: "+user.toString());
@@ -83,8 +88,10 @@ class RestDatasource {
   Future<List<Report>> getUserReports() {
     return _netUtil.get(USER_REPORTS_URL)
         .then((reports) {
+          logger.d("Got user reports!");
           List<Report> reportList = new List();
           for (dynamic report in reports) {
+            logger.d(report["id"]);
             reportList.add(new Report.map(report));
           }
           // List of dictionaries of reports
@@ -93,5 +100,43 @@ class RestDatasource {
           }
           return reportList;
         }).catchError((Object error) => logger.e(error.toString()));
+  }
+
+  Future<dynamic> sendFirstPhoto(String photoPath) {
+    File imgFile = new File(photoPath);
+    logger.d("path of image:" + imgFile.path);
+    logger.d("SEND FIRST PHOTO: " + photoPath.split("/").last);
+
+    return MultipartFile.fromFile(photoPath, filename: photoPath.split("/").last).then((photoName) {
+      logger.d("opened file: "+photoName.toString());
+      return _netUtil.postPhotoFormData(PHOTO_UPLOAD_URL,
+          files: {
+            "photo": photoName,
+          })
+          .then((dynamic res) {
+            logger.d("MultipartFile res: " + res["license_plate"]);
+        return res;
+      });
+    }).catchError((Object error) => logger.e(error.toString()));
+  }
+
+  Future<dynamic> sendReport(double lat, double long, String violationType, String licensePlate, List<String> filePaths, String optDesc) {
+    return _netUtil.postReportFormData(REPORT_SUBMIT_URL,
+      fields: {
+        "latitude": lat,
+        "longitude": long,
+        "violation_type": violationType,
+        "license_plate": licensePlate,
+        "desc": optDesc
+      },
+      files: {
+        "photo_files": filePaths
+            .map((filePath) =>
+        MultipartFile.fromFileSync(filePath, filename: filePath.split("/").last))
+            .toList(),
+      }
+    ).then((res) {
+
+    }).catchError((Object error) => logger.e(error.toString()));
   }
 }

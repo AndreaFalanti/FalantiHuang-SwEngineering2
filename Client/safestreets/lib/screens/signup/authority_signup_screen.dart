@@ -112,8 +112,9 @@ class AuthoritySignUpScreenState extends State<AuthoritySignUpScreen>
       child: new TextFormField(
         onSaved: (val) => _email = val,
         validator: (val) {
-          return !val.contains("@")
-              ? "Email must contain a @ and a domain"
+          final regExp = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+          return !regExp.hasMatch(val)
+              ? "Email is not valid"
               : null;
         },
         decoration: InputDecoration(
@@ -228,7 +229,8 @@ class AuthoritySignUpScreenState extends State<AuthoritySignUpScreen>
                 filter: new ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
                 child: new Container(
                   height: 800.0,
-                  child: new Column(
+                  width: 300.0,
+                  child: new ListView(
                     children: <Widget>[
                       SizedBox(
                         height: 100.0,
@@ -236,9 +238,13 @@ class AuthoritySignUpScreenState extends State<AuthoritySignUpScreen>
                           image: AssetImage('assets/images/logo.png'),
                         ),
                       ),
-                      SizedBox(height: 20,),
+                      Container(
+                        alignment: Alignment.center,
+                        child: Text("SafeStreets", style: TextStyle(fontFamily: 'Montserrat', color: Colors.white,fontSize: 30.0, fontWeight: FontWeight.w600)),
+                      ),
+                      SizedBox(height: 10,),
                       new Material(
-                        elevation: 10.0,
+                        elevation: 5.0,
                         borderRadius: BorderRadius.circular(20.0),
                         child: new Container(
                           child: signUpForm,

@@ -12,7 +12,6 @@ abstract class HomeScreenContract {
    */
 //  void onReportTrafficViolation();
 //  void onDataAnalysisRetrievalSuccess();
-  void onGetUserReportsSuccess();
   void onLogoutSuccess();
   void onDataRetrievalError(String errorTxt);
 }
@@ -21,14 +20,6 @@ class HomeScreenPresenter {
   HomeScreenContract _view;
   RestDatasource api = new RestDatasource();
   HomeScreenPresenter(this._view);
-
-  doGetUserReports() {
-    api.getUserReports()
-        .then((res) {
-          Logger().d("Get completed");
-          _view.onGetUserReportsSuccess();
-    }).catchError((Object error) => _view.onDataRetrievalError(error.toString()));
-  }
 
   doLogout() {
     api.logout()

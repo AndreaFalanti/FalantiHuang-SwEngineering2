@@ -57,7 +57,7 @@ class CitizenHomeScreenState extends State<CitizenHomeScreen>
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20.0),
           child: Container(
-              height: 220,
+              height: 200,
               width: 350,
               child: Scaffold(
                   appBar: AppBar(
@@ -92,7 +92,7 @@ class CitizenHomeScreenState extends State<CitizenHomeScreen>
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20.0),
           child: Container(
-              height: 220,
+              height: 200,
               width: 350,
               child: Scaffold(
                   appBar: AppBar(
@@ -128,7 +128,7 @@ class CitizenHomeScreenState extends State<CitizenHomeScreen>
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20.0),
           child: Container(
-            height: 220,
+            height: 200,
             width: 350,
             child: Scaffold(
               appBar: AppBar(
@@ -163,18 +163,21 @@ class CitizenHomeScreenState extends State<CitizenHomeScreen>
                 Navigator.pushReplacementNamed(context, '/');
               })
         ],),
-      body: new Center(
-        child: Column(
-          children: <Widget>[
-            SizedBox(height: 10,),
-            reportViolationsBtn,
-            SizedBox(height: 10,),
-            analyzeDataBtn,
-            SizedBox(height: 10,),
-            userReportsBtn
-          ],
-        )
-      ),
+      body: Center(
+        child: Container(
+          width: 350,
+          child: ListView(
+            children: <Widget>[
+              SizedBox(height: 10,),
+              reportViolationsBtn,
+              SizedBox(height: 10,),
+              analyzeDataBtn,
+              SizedBox(height: 10,),
+              userReportsBtn
+            ],
+          )
+        ),
+      )
 
     );
   }
@@ -187,14 +190,6 @@ class CitizenHomeScreenState extends State<CitizenHomeScreen>
       errorMsg = "Invalid operation";
     }
     _showSnackBar(errorMsg, true);
-  }
-
-  @override
-  void onGetUserReportsSuccess() {
-    logger.d("Get user reports success");
-    //_showSnackBar("Get user reports success", false);
-    Navigator.pushNamed(context, '/citizen_home/user_reports');
-
   }
 
   @override

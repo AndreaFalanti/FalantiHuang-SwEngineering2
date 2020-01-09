@@ -185,8 +185,10 @@ class LoginScreenState extends State<LoginScreen>
             child: new BackdropFilter(
               filter: new ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
               child: new Container(
+                alignment: Alignment.center,
                 height: 700.0,
-                child: new Column(
+                width: 300.0,
+                child: new ListView(
                   children: <Widget>[
                     SizedBox(
                       height: 100.0,
@@ -194,11 +196,14 @@ class LoginScreenState extends State<LoginScreen>
                         image: AssetImage('assets/images/logo.png'),
                       ),
                     ),
-                    SizedBox(height: 10),
-                    Text("SafeStreets", style: TextStyle(fontFamily: 'Montserrat', color: Colors.white,fontSize: 30.0, fontWeight: FontWeight.w600)),
+                    SizedBox(height: 10,),
+                    Container(
+                      alignment: Alignment.center,
+                      child: Text("SafeStreets", style: TextStyle(fontFamily: 'Montserrat', color: Colors.white,fontSize: 30.0, fontWeight: FontWeight.w600)),
+                    ),
                     SizedBox(height: 10),
                     new Material(
-                      elevation: 10.0,
+                      elevation: 5.0,
                       borderRadius: BorderRadius.circular(20.0),
                       child: new Container(
                         child: loginForm,

@@ -96,9 +96,9 @@ class UserReportsScreenState extends State<UserReportsScreen>
       ),
       trailing: Icon(
         Icons.brightness_1,
-        color: (report.reportStatus == ReportStatus.PENDING)
+        color: (report.reportStatus == ReportStatus.pending)
             ? Colors.orange
-            : (report.reportStatus == ReportStatus.INVALIDATED)
+            : (report.reportStatus == ReportStatus.invalidated)
                 ? Colors.redAccent
                 : Colors.green,
       ),
@@ -122,7 +122,7 @@ class UserReportsScreenState extends State<UserReportsScreen>
       children: <Widget>[
         Text(firstText,style: style.copyWith(fontSize: 16.0, fontWeight: FontWeight.bold),),
         Spacer(),
-        Text(secondText)
+        Text(secondText!=null?secondText:"")
       ],
     );
   }
@@ -139,7 +139,7 @@ class UserReportsScreenState extends State<UserReportsScreen>
                 padding: const EdgeInsets.all(32.0),
                 child: Column(
                   children: <Widget>[
-                    CarouselWithIndicator(photos: report.photos),
+                    CarouselWithIndicator(photos: report.photos, fromNetwork: true,),
                     SizedBox(height: 20,),
                     Container(
                       padding: const EdgeInsets.all(10.0),

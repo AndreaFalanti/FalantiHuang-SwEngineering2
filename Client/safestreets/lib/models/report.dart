@@ -28,7 +28,7 @@ class Report {
     this._timestamp = obj["timestamp"];
     this._licensePlate = obj["license_plate"];
     this._photos = obj["photos"].cast<String>();
-    this._reportStatus = enumFromString<ReportStatus>(obj["report_status"].toString().toUpperCase(),ReportStatus.values);
+    this._reportStatus = enumFromString<ReportStatus>(obj["report_status"].toString().toLowerCase(),ReportStatus.values);
     this._violationType = obj["violation_type"];
     this._latitude = double.parse(obj["latitude"]);
     this._longitude = double.parse(obj["longitude"]);
@@ -69,7 +69,16 @@ class Report {
 }
 
 enum ReportStatus {
-  PENDING,
-  VALIDATED,
-  INVALIDATED,
+  pending,
+  validated,
+  invalidated,
+}
+
+enum ViolationType {
+  double_parking,
+  invalid_handicap_parking,
+  bike_lane_parking,
+  red_zone_parking,
+  parking_disk_violation,
+  other
 }

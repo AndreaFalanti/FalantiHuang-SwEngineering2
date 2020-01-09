@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:logger/logger.dart';
-import 'package:safestreets/models/report.dart';
+import 'package:safestreets/config.dart';
 
 final List<String> imgList = [
   'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
@@ -22,9 +22,10 @@ List<T> map<T>(List list, Function handler) {
 }
 
 class CarouselWithIndicator extends StatefulWidget {
-  final List<String> photos;
+  final List photos;
+  final bool fromNetwork;
 
-  CarouselWithIndicator({Key key, @required this.photos}) : super(key: key);
+  CarouselWithIndicator({Key key, @required this.photos, @required this.fromNetwork}) : super(key: key);
   @override
   _CarouselWithIndicatorState createState() => _CarouselWithIndicatorState();
 }
@@ -33,22 +34,24 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
   var logger = Logger();
   int _current = 0;
 
-  String imgPath = "http://localhost:8080/";
+  String imgPath = HOST;
 
 
   @override
   Widget build(BuildContext context) {
     var imgList = widget.photos;
-
+    logger.d("carousel imglist: "+imgList.toString());
     List images = map<Widget>(
       imgList,
-          (index, i) {
+          (index, img) {
         return Container(
           margin: EdgeInsets.all(5.0),
           child: ClipRRect(
             borderRadius: BorderRadius.all(Radius.circular(5.0)),
             child: Stack(children: <Widget>[
-              Image.network(imgPath+i, fit: BoxFit.cover, width: 1000.0)
+              widget.fromNetwork
+                  ? Image.network(imgPath+img, fit: BoxFit.cover, width: 1000.0,)
+                  : Image.file(img, fit: BoxFit.cover, width: 1000.0)
             ]),
           ),
         );
