@@ -14,6 +14,6 @@ class SignUpScreenPresenter {
     api.signUpCitizen(firstName, lastName, email, password, confirmPassword)
         .then((dynamic res) {
       _view.onSignUpSuccess();
-    }).catchError((Object error) => _view.onSignUpError(error.toString()));
+    }).catchError((Object error) => _view.onSignUpError(error.toString().split(":").last));
   }
 }

@@ -25,6 +25,6 @@ class HomeScreenPresenter {
     api.logout()
         .then((res) {
           _view.onLogoutSuccess();
-    }).catchError((Object error) => _view.onDataRetrievalError(error.toString()));
+    }).catchError((Object error) => _view.onDataRetrievalError(error.toString().split(":").last));
   }
 }

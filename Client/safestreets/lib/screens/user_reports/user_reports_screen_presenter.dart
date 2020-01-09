@@ -20,6 +20,6 @@ class UserReportsScreenPresenter {
       reports.clear();
       reports.addAll(res);
       return res;
-    }).catchError((Object error) => _view.onDataRetrievalError(error.toString()));
+    }).catchError((Object error) => _view.onDataRetrievalError(error.toString().split(":").last));
   }
 }

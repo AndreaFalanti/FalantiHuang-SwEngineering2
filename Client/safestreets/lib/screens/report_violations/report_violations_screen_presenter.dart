@@ -17,8 +17,12 @@ class ReportTrafficViolationPresenter {
   doSendFirstPhoto(String photoPath) {
     api.sendFirstPhoto(photoPath)
         .then((res) {
-          _view.onSendFirstPhotoSuccess(res["license_plate"]);
-    }).catchError((Object error) => _view.onReportError(error.toString()));
+          try {
+            _view.onSendFirstPhotoSuccess(res["license_plate"]);
+          } catch (error) {
+            throw Exception("No license plate detected");
+      }
+    }).catchError((Object error) => _view.onReportError(error.toString().split(":").last));
   }
 
   doSendReport(double lat, double long, String violationType, String licensePlate, List<String> filePaths, String optDesc) {
