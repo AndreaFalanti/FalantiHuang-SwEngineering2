@@ -202,4 +202,48 @@ describe('POST /reports/submit', () => {
         expect(res.statusCode).toEqual(401);
         expect(res.res.statusMessage).toEqual("Insufficient permissions");
     });
+    it('try submitting a report form with a location not recognizable as a street',
+        async () => {
+            let agent = request.agent(app);
+            const res = await agent
+                .post('/v2/users/login')
+                .send({
+                    email: "asd@gmail.com",
+                    password: "qwerty456"
+                })
+                .then(() => {
+                    return agent
+                        .post('/v2/reports/submit')
+                        .field('latitude', 45.9004)     // there are no streets in the middle of a lake
+                        .field('longitude', 8.5717)
+                        .field('violation_type', 'double_parking')
+                        .field('license_plate', 'AA000AA')
+                        .attach('photo_files', testPhotoPath)
+                        .attach('photo_files', invalidTestPhotoPath)
+                });
+            expect(res.statusCode).toEqual(400);
+            expect(res.res.statusMessage).toEqual("Unknown address");
+        });
+    it('try submitting a report form with a location not in Italy',
+        async () => {
+            let agent = request.agent(app);
+            const res = await agent
+                .post('/v2/users/login')
+                .send({
+                    email: "asd@gmail.com",
+                    password: "qwerty456"
+                })
+                .then(() => {
+                    return agent
+                        .post('/v2/reports/submit')
+                        .field('latitude', 40.75145)        // spoiler: New York is not in Italy
+                        .field('longitude', -73.99026)
+                        .field('violation_type', 'double_parking')
+                        .field('license_plate', 'AA000AA')
+                        .attach('photo_files', testPhotoPath)
+                        .attach('photo_files', invalidTestPhotoPath)
+                });
+            expect(res.statusCode).toEqual(400);
+            expect(res.res.statusMessage).toEqual("Country not supported");
+        });
 });

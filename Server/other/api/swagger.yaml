@@ -216,7 +216,7 @@ paths:
           description: Report processed successfully
           content: {}
         "400":
-          description: Report data is incomplete
+          description: Bad data or unknown address or country not supported
           content: {}
         "401":
           description: Not authenticated or insufficient permissions

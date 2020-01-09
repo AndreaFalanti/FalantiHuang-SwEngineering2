@@ -195,30 +195,22 @@ exports.reportsSubmitPOST = function (body) {
             .then(async json => {
                 console.log(json);
 
-                //check if the city is already present in the db
-                let city = await queryCityByNameAndRegion(json.address.city, json.address.state);
-                //not present
-                if (!city) {
-                    let cityData = generateCityData(json.address.city, json.address.state);
-
-                    // if city wasn't in db, then also place can't be present
-                    let city_id = await insertCityInDb(cityData);
-                    let placeData = generatePlaceData(json.address.road, city_id[0]);
-
-                    // if place wasn't in db, then also the location can't be present
-                    let place_id = await insertPlaceInDb(placeData);
-                    let locationData = generateLocationData(body, place_id[0]);
-
-                    await insertLocationInDb(locationData);
-
-                    await finalizeReportInsertion(body);
-                    resolve();
+                if(json.address.country_code !== "it") {
+                    reject({code: 400, message: "Country not supported"})
+                }
+                else if(!json.address.road) {
+                    reject({code: 400, message: "Unknown address"})
                 }
                 else {
-                    let place = await queryPlaceByCityAndAddress(city.id, json.address.road);
+                    //check if the city is already present in the db
+                    let city = await queryCityByNameAndRegion(json.address.city, json.address.state);
+                    //not present
+                    if (!city) {
+                        let cityData = generateCityData(json.address.city, json.address.state);
 
-                    if (!place) {
-                        let placeData = generatePlaceData(json.address.road, city.id);
+                        // if city wasn't in db, then also place can't be present
+                        let city_id = await insertCityInDb(cityData);
+                        let placeData = generatePlaceData(json.address.road, city_id[0]);
 
                         // if place wasn't in db, then also the location can't be present
                         let place_id = await insertPlaceInDb(placeData);
@@ -230,10 +222,14 @@ exports.reportsSubmitPOST = function (body) {
                         resolve();
                     }
                     else {
-                        let location = await queryLocationByLatAndLon(body.latitude, body.longitude);
+                        let place = await queryPlaceByCityAndAddress(city.id, json.address.road);
 
-                        if(!location) {
-                            let locationData = generateLocationData(body, place.id);
+                        if (!place) {
+                            let placeData = generatePlaceData(json.address.road, city.id);
+
+                            // if place wasn't in db, then also the location can't be present
+                            let place_id = await insertPlaceInDb(placeData);
+                            let locationData = generateLocationData(body, place_id[0]);
 
                             await insertLocationInDb(locationData);
 
@@ -241,15 +237,27 @@ exports.reportsSubmitPOST = function (body) {
                             resolve();
                         }
                         else {
-                            await finalizeReportInsertion(body);
-                            resolve();
+                            let location = await queryLocationByLatAndLon(body.latitude, body.longitude);
+
+                            if(!location) {
+                                let locationData = generateLocationData(body, place.id);
+
+                                await insertLocationInDb(locationData);
+
+                                await finalizeReportInsertion(body);
+                                resolve();
+                            }
+                            else {
+                                await finalizeReportInsertion(body);
+                                resolve();
+                            }
                         }
                     }
                 }
             })
             .catch((err) => {
                 console.error(err);
-                reject(err);
+                reject({code: 500, message: "server error"});
             });
     });
 };

@@ -68,8 +68,6 @@ module.exports.reportsSubmitPOST = function reportsSubmitPOST(req, res, next) {
         body.report_status = 'pending';
         body.submitter_id = req.session.id;
 
-        //console.log(JSON.stringify(body));
-        //res.status(200).end();
         ReportReceiver.reportsSubmitPOST(body)
             .then(function (response) {
                 res.statusCode = 204;
@@ -77,9 +75,8 @@ module.exports.reportsSubmitPOST = function reportsSubmitPOST(req, res, next) {
                 res.end();
             })
             .catch(function (response) {
-                console.error(response)
-                res.statusCode = 500;
-                res.statusMessage = 'Server error';
+                res.statusCode = response.code;
+                res.statusMessage = response.message;
                 res.end();
             })
             .finally(() => removePhotos(body.photo_files));
