@@ -122,7 +122,7 @@ class CitizenHomeScreenState extends State<CitizenHomeScreen>
       ),
       child: new InkWell(
         onTap: () {
-          Navigator.pushNamed(context, '/citizen_home/user_reports');
+          Navigator.pushNamed(context, '/citizen_home/reports');
           //_presenter.doGetUserReports();
         },
         child: ClipRRect(

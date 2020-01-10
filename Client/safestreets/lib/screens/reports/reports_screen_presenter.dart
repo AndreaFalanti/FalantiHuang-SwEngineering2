@@ -2,15 +2,15 @@ import 'package:logger/logger.dart';
 import 'package:safestreets/data/rest_ds.dart';
 import 'package:safestreets/models/report.dart';
 
-abstract class UserReportsScreenContract {
+abstract class ReportsScreenContract {
   void onGetUserReportsSuccess();
   void onDataRetrievalError(String errorTxt);
 }
 
-class UserReportsScreenPresenter {
-  UserReportsScreenContract _view;
+class ReportsScreenPresenter {
+  ReportsScreenContract _view;
   RestDatasource api = new RestDatasource();
-  UserReportsScreenPresenter(this._view);
+  ReportsScreenPresenter(this._view);
   var logger = Logger();
 
   doGetUserReports(List<Report> reports) {

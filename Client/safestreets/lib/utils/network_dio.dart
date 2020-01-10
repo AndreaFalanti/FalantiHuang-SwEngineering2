@@ -12,12 +12,6 @@ class NetworkUtil {
   // next three lines makes this class a Singleton
   static NetworkUtil _instance = new NetworkUtil.internal();
   NetworkUtil.internal() {
-//    var appDir = getLibraryDirectory() .then((dir) {
-//      //var docDir = new Directory( dir.path +);
-//      dir.list().listen((FileSystemEntity entity) {
-//        logger.d(entity.path);
-//      });
-//    });
 
     getApplicationDocumentsDirectory().then((Directory dir) {
       String appPath = dir.path;
@@ -40,11 +34,10 @@ class NetworkUtil {
   Future<dynamic> get(String url) {
     logger.d("before get to url: " + url);
     return _dio.get(url).then((Response response) {
-      logger.d("get to: " + url);
       final int statusCode = response.statusCode;
 
       logger.d("get body: " + response.data.toString());
-      logger.d(statusCode);
+      logger.d("get status code: " + statusCode.toString());
       if (statusCode < 200 || statusCode > 400 || json == null) {
         throw new Exception("Error while fetching data");
       }

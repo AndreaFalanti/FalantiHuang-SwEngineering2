@@ -4,10 +4,9 @@ import 'package:logger/logger.dart';
 
 
 import 'package:flutter/material.dart';
-import 'package:safestreets/screens/user_reports/user_reports_screen_presenter.dart';
+import 'package:safestreets/screens/reports/reports_screen_presenter.dart';
 import 'package:safestreets/models/report.dart';
-import 'package:safestreets/utils/enum_util.dart';
-import 'package:safestreets/widgtes/carousel.dart';
+import 'package:safestreets/screens/reports/user_single_report_screen.dart';
 
 class UserReportsScreen extends StatefulWidget {
 
@@ -16,18 +15,18 @@ class UserReportsScreen extends StatefulWidget {
 }
 
 class UserReportsScreenState extends State<UserReportsScreen>
-    implements UserReportsScreenContract {
+    implements ReportsScreenContract {
 
   TextStyle style = TextStyle(fontFamily: 'Monserrat', fontSize: 20.0);
 
   final scaffoldKey = new GlobalKey<ScaffoldState>();
   final _reports = List<Report>();
-  UserReportsScreenPresenter _presenter;
+  ReportsScreenPresenter _presenter;
 
   var logger = Logger();
 
   UserReportsScreenState() {
-    _presenter = new UserReportsScreenPresenter(this);
+    _presenter = new ReportsScreenPresenter(this);
   }
 
   void _showSnackBar(String text, bool error) {
@@ -117,51 +116,11 @@ class UserReportsScreenState extends State<UserReportsScreen>
         itemCount: _reports.length);
   }
 
-  Widget _reportRow(String firstText, String secondText) {
-    return Row(
-      children: <Widget>[
-        Text(firstText,style: style.copyWith(fontSize: 16.0, fontWeight: FontWeight.bold),),
-        Spacer(),
-        Text(secondText!=null?secondText:"")
-      ],
-    );
-  }
   void _pushReportScreen(Report report) {
 
     Navigator.of(context).push(
         MaterialPageRoute<void>(
-          builder: (BuildContext context) {
-            return Scaffold(
-              appBar: AppBar(
-                title: Text("Report ${report.id}"),
-              ),
-              body: Container(
-                padding: const EdgeInsets.all(32.0),
-                child: Column(
-                  children: <Widget>[
-                    CarouselWithIndicator(photos: report.photos, fromNetwork: true,),
-                    SizedBox(height: 20,),
-                    Container(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Column(
-                        children: <Widget>[
-                          _reportRow("Date:", report.formattedTimestamp()),
-                          SizedBox(height: 10,),
-                          _reportRow("License plate:", report.licensePlate),
-                          SizedBox(height: 10,),
-                          _reportRow("City:", report.city),
-                          SizedBox(height: 10,),
-                          _reportRow("Place:", report.place),
-                          SizedBox(height: 10,),
-                          _reportRow("Report status", enumToString(report.reportStatus)),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              )
-            );
-          }
+            builder: (BuildContext context) => UserSingleReportScreen(reportId: report.id)
         )
     );
   }

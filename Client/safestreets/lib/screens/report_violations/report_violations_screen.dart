@@ -6,7 +6,7 @@ import 'package:logger/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:safestreets/utils/enum_util.dart';
-import 'package:safestreets/widgtes/photo.dart';
+import 'package:safestreets/screens/photo/photo.dart';
 import 'package:safestreets/screens/report_violations/report_violations_screen_presenter.dart';
 import 'package:safestreets/widgtes/carousel.dart';
 import 'package:dropdownfield/dropdownfield.dart';
@@ -29,7 +29,7 @@ class ReportViolationScreenState extends State<ReportViolationScreen>
 
   ReportTrafficViolationPresenter _presenter;
   bool _isFirstPhotoValid = false;
-  bool _hasPhotoDirChanged = false;
+  bool _isRetrievingLicensePlate = false;
   bool _isRetrievingGPS = true;
   bool _isSubmitting = false;
   int _oldPhotoDirLen = 0;
@@ -119,7 +119,7 @@ class ReportViolationScreenState extends State<ReportViolationScreen>
     logger.d("resetting photo dir");
     var dir = new Directory((await getTemporaryDirectory()).path +"/photos");
     try {
-      dir.delete(recursive: true);
+      dir.deleteSync(recursive: true);
     } catch (error) {
       logger.d("/photos directory not created yet");
     }
@@ -170,11 +170,13 @@ class ReportViolationScreenState extends State<ReportViolationScreen>
 
 
 
-  dynamic _printDirectory() async {
-    var dir = new Directory((await getTemporaryDirectory()).path +"/photos/saved");
-    dir.list().listen((FileSystemEntity entity) {
-      logger.d(entity.path);
-    });
+  dynamic _printDirectory() {
+    //var dir = new Directory((await getTemporaryDirectory()).path +"/photos/saved");
+    if (_photoDir!=null){
+      _photoDir.list().listen((FileSystemEntity entity) {
+        logger.d(entity.path);
+      });
+    }
   }
 
   void _checkPhotoDirChange() async {
@@ -185,7 +187,8 @@ class ReportViolationScreenState extends State<ReportViolationScreen>
         _oldPhotoDirLen = len;
         _getPhotos()
             .then((val) {
-          if (!_isFirstPhotoValid) {
+          if (!_isFirstPhotoValid ) {
+            _isRetrievingLicensePlate = true;
             _presenter.doSendFirstPhoto(_photoFiles[0].path);
           } else {
             setState(() {
@@ -203,7 +206,7 @@ class ReportViolationScreenState extends State<ReportViolationScreen>
     List<String> photoPaths = _photoFiles.map((file) => file.path).toList();
 
     if (form.validate()) {
-      //setState(() => _isSubmitting = true);
+      setState(() => _isSubmitting = true);
       form.save();
 
       logger.d("Report form: " + _currentPosition.latitude.toString() +" "+
@@ -268,8 +271,20 @@ class ReportViolationScreenState extends State<ReportViolationScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          SizedBox(height: 30,
-              child: Text("License plate *", style: TextStyle(fontWeight: FontWeight.bold),)),
+          Row(
+            children: <Widget>[
+              SizedBox(height: 30,
+                  child: Text("License plate *", style: TextStyle(fontWeight: FontWeight.bold),)),
+              SizedBox(width: 10,),
+              _isRetrievingLicensePlate
+                  ? Container(
+                      alignment: Alignment.topCenter,
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2,),)
+                  : Spacer()
+            ],
+          ),
           TextFormField(
             controller: _licensePlateController,
             onSaved:  (val) => _licensePlate = val,
@@ -425,29 +440,51 @@ class ReportViolationScreenState extends State<ReportViolationScreen>
   }
 
   @override
-  void onReportError(String errorTxt) {
-    logger.d("Login error");
-    String errorMsg = errorTxt;
-    String errorCode = 400.toString();
-    if (errorTxt.contains(errorCode)) {
-      errorMsg = "Invalid login";
-    }
-    _showSnackBar(errorMsg, true);
-    setState(() => _isSubmitting = false);
-  }
-
-  @override
   void onSendFirstPhotoSuccess(String licensePlate) {
     logger.d("Successful license plate retrieval:" + licensePlate);
     _showSnackBar("Successful license plate retrieval!", false);
     _licensePlateController.text = licensePlate;
-    setState(() => _isFirstPhotoValid = true);
+    setState(() {
+      _isFirstPhotoValid = true;
+      _isRetrievingLicensePlate = false;
+    });
+  }
+
+  @override
+  void onSendFirstPhotoError(String errorTxt) {
+    logger.d("Could not retrieve license plate successfully");
+    String errorMsg = errorTxt;
+    String errorCode = 400.toString();
+    if (errorTxt.contains(errorCode)) {
+      errorMsg = "Could not retrieve license plate successfully";
+    }
+    _showSnackBar(errorMsg, true);
+    setState(() {
+      logger.d("Updating state after first photo error: " + _photoDir.path);
+      resetPhotoDir().then((val) => createPhotoDir());
+      _isRetrievingLicensePlate = false;
+    });
   }
 
   @override
   void onSendReportSuccess() {
     _showSnackBar("Report was sent successfully", false);
     setState(() => _isSubmitting = false);
+    Future.delayed(Duration(seconds: 1), () => Navigator.pop(context));
+  }
+
+  @override
+  void onSendReportError(String errorTxt) {
+    logger.d("Could not send report successfully");
+    String errorMsg = errorTxt;
+    String errorCode = 400.toString();
+    if (errorTxt.contains(errorCode)) {
+      errorMsg = "Could not send report successfully";
+    }
+    _showSnackBar(errorMsg, true);
+    setState(() {
+      _isSubmitting = false;
+    });
   }
 
 }

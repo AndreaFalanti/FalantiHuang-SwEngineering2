@@ -38,6 +38,78 @@ class AuthorityHomeScreenState extends State<AuthorityHomeScreen>
 
   @override
   Widget build(BuildContext context) {
+
+    var authorityReportsBtn = Card(
+      elevation: 15.0,
+      shape: RoundedRectangleBorder(
+          side: BorderSide(
+              color: Colors.lightGreen,
+              width: 2),
+          borderRadius: BorderRadius.circular(20.0)
+      ),
+      child: new InkWell(
+        onTap: () {
+          Navigator.pushNamed(context, '/authority_home/reports');
+          //_presenter.doGetUserReports();
+        },
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20.0),
+          child: Container(
+              height: 200,
+              width: 350,
+              child: Scaffold(
+                  appBar: AppBar(
+                    backgroundColor: Colors.lightGreen,
+                    title: Text("Validate reports",
+                        textAlign: TextAlign.center,
+                        style: style.copyWith(
+                            color: Colors.white, fontWeight: FontWeight.w600)
+                    ),
+                  ),
+                  body: Center(
+                    child: Icon(Icons.subject, size: 100,),
+                  )
+              )
+          ),
+        ),
+      ),
+    );
+
+    var analyzeDataBtn = Card(
+      elevation: 15.0,
+      shape: RoundedRectangleBorder(
+          side: BorderSide(
+              color: Colors.red,
+              width: 2),
+          borderRadius: BorderRadius.circular(20.0)
+      ),
+      child: new InkWell(
+        onTap: () {
+          // TODO push screen
+        },
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20.0),
+          child: Container(
+              height: 200,
+              width: 350,
+              child: Scaffold(
+                  appBar: AppBar(
+                    backgroundColor: Colors.red,
+                    title: Text("Analyze data",
+                        textAlign: TextAlign.center,
+                        style: style.copyWith(
+                            color: Colors.white, fontWeight: FontWeight.w600)
+                    ),
+                  ),
+                  body: Center(
+                    child: Icon(Icons.insert_chart, size: 100,),
+                  )
+              )
+          ),
+        ),
+      ),
+    );
+
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("SafeStreets for Authorities"),
@@ -51,9 +123,19 @@ class AuthorityHomeScreenState extends State<AuthorityHomeScreen>
                 Navigator.pushReplacementNamed(context, '/');
               })
         ],),
-      body: new Center(
-        child: new Text("Welcome to authority home!"),
-      ),
+      body: Center(
+        child: Container(
+            width: 350,
+            child: ListView(
+              children: <Widget>[
+                SizedBox(height: 10,),
+                authorityReportsBtn,
+                SizedBox(height: 10,),
+                analyzeDataBtn
+              ],
+            )
+        ),
+      )
 
     );
   }

@@ -6,7 +6,8 @@ import 'package:safestreets/models/user.dart';
 abstract class ReportViolationScreenContract {
   void onSendFirstPhotoSuccess(String licensePlate);
   void onSendReportSuccess();
-  void onReportError(String errorTxt);
+  void onSendFirstPhotoError(String errorTxt);
+  void onSendReportError(String errorTxt);
 }
 
 class ReportTrafficViolationPresenter {
@@ -22,13 +23,13 @@ class ReportTrafficViolationPresenter {
           } catch (error) {
             throw Exception("No license plate detected");
       }
-    }).catchError((Object error) => _view.onReportError(error.toString().split(":").last));
+    }).catchError((Object error) => _view.onSendFirstPhotoError(error.toString().split(":").last));
   }
 
   doSendReport(double lat, double long, String violationType, String licensePlate, List<String> filePaths, String optDesc) {
     api.sendReport(lat, long, violationType, licensePlate, filePaths, optDesc)
         .then((res) {
       _view.onSendReportSuccess();
-    }).catchError((Object error) => _view.onReportError(error.toString()));
+    }).catchError((Object error) => _view.onSendReportError(error.toString()));
   }
 }

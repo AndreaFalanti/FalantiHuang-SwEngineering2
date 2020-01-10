@@ -54,7 +54,7 @@ class RestDatasource {
         headers: JSON_CONTENT)
         .then((dynamic res) {
 
-    });
+        });
 
   }
 
@@ -91,15 +91,23 @@ class RestDatasource {
           logger.d("Got user reports!");
           List<Report> reportList = new List();
           for (dynamic report in reports) {
-            logger.d(report["id"]);
+            //logger.d(report["id"]);
             reportList.add(new Report.map(report));
           }
           // List of dictionaries of reports
-          for (Report report in reportList) {
-            print(report.toMap());
-          }
+          reportList.sort((r1,r2) => r1.id - r2.id);
+          reportList.sort((r1,r2) => r1.reportStatus.index - r2.reportStatus.index);
+//          for (Report report in reportList) {
+//            print(report.toMap());
+//          }
           return reportList;
-        }).catchError((Object error) => logger.e(error.toString()));
+        });
+  }
+  Future<Report> getSingleReport(int reportId) {
+    return _netUtil.get(BASE_URL+"/reports/"+reportId.toString())
+        .then((report) {
+          return new Report.map(report);
+        });
   }
 
   Future<dynamic> sendFirstPhoto(String photoPath) {
@@ -117,7 +125,7 @@ class RestDatasource {
             logger.d("MultipartFile res: " + res["license_plate"]);
         return res;
       });
-    }).catchError((Object error) => logger.e(error.toString()));
+    });
   }
 
   Future<dynamic> sendReport(double lat, double long, String violationType, String licensePlate, List<String> filePaths, String optDesc) {
@@ -137,6 +145,18 @@ class RestDatasource {
       }
     ).then((res) {
 
-    }).catchError((Object error) => logger.e(error.toString()));
+    });
   }
+
+  Future<dynamic> updateReportStatus(int reportId, String newReportStatus) {
+    return _netUtil.post(BASE_URL+"/reports/"+reportId.toString()+"/set_status",
+        body: {
+          "status": newReportStatus,
+        },
+        headers: JSON_CONTENT)
+        .then((res) {
+          return res;
+        });
+  }
+
 }
