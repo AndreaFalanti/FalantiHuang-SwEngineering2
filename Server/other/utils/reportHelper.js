@@ -7,6 +7,10 @@ let { queryUserById } = require('../service/DataLayer');
  */
 function completeReportsWithUsersData (reports) {
     return new Promise((resolve, reject) => {
+        if (reports.length === 0) {
+            resolve([]);
+        }
+
         let results = [];
         reports.forEach(async report => {
             let submitterData = await queryUserById(report.submitter_id);
@@ -17,6 +21,9 @@ function completeReportsWithUsersData (reports) {
             }
 
             delete submitterData.organization_id;
+            delete report.submitter_id;
+            delete report.supervisor_id;
+
             report.submitter = submitterData;
             report.supervisor = supervisorData;
 
