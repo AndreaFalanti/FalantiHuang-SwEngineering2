@@ -84,7 +84,7 @@ oasTools.initializeMiddleware(swaggerDoc, app, function (middleware) {
     // See also: https://blog.campvanilla.com/jest-expressjs-and-the-eaddrinuse-error-bac39356c33a
     if (process.env.NODE_ENV !== 'test') {
         // Start the server
-        setupDataLayer().then(
+        setupDataLayer().then(() =>
             http.createServer(app).listen(serverPort, function () {
                 console.log('Your server is listening on port %d (http://localhost:%d)', serverPort, serverPort);
                 console.log('Swagger-ui is available on http://localhost:%d/docs', serverPort);

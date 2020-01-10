@@ -6,12 +6,13 @@
   "scripts": {
     "prestart": "npm install",
     "start": "node index.js",
-    "test": "cross-env NODE_ENV=test jest -i --force-exit"
+    "test": "cross-env NODE_ENV=test jest -i --force-exit --testTimeout=10000"
   },
   "keywords": [
     "swagger"
   ],
   "jest": {
+    "preset": "jest-puppeteer",
     "testEnvironment": "node",
     "coveragePathIgnorePatterns": [
       "/node_modules/"
@@ -25,7 +26,6 @@
   "license": "Unlicense",
   "private": true,
   "dependencies": {
-    "ajv": "^6.10.2",
     "body-parser": "^1.19.0",
     "connect": "^3.2.0",
     "cookie-parser": "^1.4.4",
@@ -46,6 +46,8 @@
   "devDependencies": {
     "cross-env": "^6.0.3",
     "jest": "^24.9.0",
+    "jest-puppeteer": "^4.4.0",
+    "puppeteer": "^2.0.0",
     "supertest": "^4.0.2"
   }
 }
