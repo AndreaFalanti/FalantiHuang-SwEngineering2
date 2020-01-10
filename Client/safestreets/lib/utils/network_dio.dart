@@ -81,7 +81,7 @@ class NetworkUtil {
       }
       // return something only if some data is expected
       return (res.length == 0) ? null : _decoder.convert(res);
-    }).catchError((Object error) => logger.e(error.toString()));
+    });
   }
 
   Future<dynamic> postPhotoFormData(String url, {Map files}) {
@@ -114,7 +114,7 @@ class NetworkUtil {
 
       // return something only if some data is expected
       return (res.length == 0) ? null : response.data;
-    }).catchError((Object error) => logger.e(error.toString()));
+    });
   }
 
   Future<dynamic> postReportFormData(String url, {Map fields, files}) {
@@ -154,6 +154,6 @@ class NetworkUtil {
 
       // return something only if some data is expected
       return (res.length == 0) ? null : response.data;
-    }).catchError((Object error) => logger.e(error.toString()));
+    });
   }
 }

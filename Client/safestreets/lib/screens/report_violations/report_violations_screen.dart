@@ -78,7 +78,7 @@ class ReportViolationScreenState extends State<ReportViolationScreen>
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((Position position) {
       setState(() {
-        logger.d("Setting current position");
+        logger.d("Setting current position: " + position.latitude.toString() + "," + position.longitude.toString());
         _currentPosition = position;
       });
       _getAddressFromLatLng();
@@ -118,7 +118,11 @@ class ReportViolationScreenState extends State<ReportViolationScreen>
   Future resetPhotoDir() async {
     logger.d("resetting photo dir");
     var dir = new Directory((await getTemporaryDirectory()).path +"/photos");
-    dir.delete(recursive: true);
+    try {
+      dir.delete(recursive: true);
+    } catch (error) {
+      logger.d("/photos directory not created yet");
+    }
   }
 
 
