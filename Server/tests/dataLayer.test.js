@@ -208,6 +208,29 @@ describe('Queries on location table', () => {
 });
 
 describe('Queries on report table', () => {
+    it('Get a report by id', async () => {
+        let report = await dataLayer.queryReportById(0);
+
+        expect(report).toEqual({
+            "id": 0,
+            "timestamp": new Date("2019-12-17T14:13:00Z"),
+            "license_plate": "AA000AA",
+            "photos": [
+                "reports/0/p0.jpg",
+                "reports/0/p1.jpg",
+                "reports/0/p2.jpg"
+            ],
+            "report_status": "pending",
+            "violation_type": "double_parking",
+            "desc": null,
+            "latitude": 45.475772.toString(),
+            "longitude": 9.234391.toString(),
+            "place": "Via Camillo Golgi",
+            "city": "Milano",
+            "submitter_id": 2,
+            "supervisor_id": null
+        })
+    });
     it('Update a report tuple with its photo paths', async () => {
         let newPhotoPaths = ["aaa", "bbb"];
 

@@ -16,7 +16,7 @@ exports.reportsIdSetStatusPOST = function (body, id, userId, userCityId) {
         if (report) {
             let cityIdObj = await queryLocationForCityId(report.latitude, report.longitude);
             if (cityIdObj.city_id === userCityId) {
-                updateReportStatus(id, body.status)
+                updateReportStatus(id, body.status, userId)
                     .then(() => resolve())
                     .catch(err => {
                         console.error(err);

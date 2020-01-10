@@ -17,6 +17,8 @@ exports.reportsIdGET = function (id, userId, userType, userCityId) {
             .then(report => {
                 if (userType === 'citizen') {
                     if (report.submitter_id === userId) {
+                        delete report.submitter_id;
+                        delete report.supervisor_id;
                         resolve(report);
                     }
                     else {

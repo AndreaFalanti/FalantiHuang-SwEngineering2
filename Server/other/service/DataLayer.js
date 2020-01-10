@@ -239,9 +239,15 @@ exports.updateReportWithPhotoPaths = function (id, photos) {
  */
 exports.queryReportById = function (id) {
     return sqlDb("report")
-        .select()
+        .select("report.*", "place.address AS place", "city.name AS city")
         .first()
-        .where("id", id)
+        .join("location", function () {
+            this.on("location.latitude", "report.latitude")
+                .on("location.longitude", "report.longitude")
+        })
+        .innerJoin("place", "place.id", "location.place_id")
+        .innerJoin("city", "city.id", "place.city_id")
+        .where("report.id", id)
         .timeout(TIMEOUT_TIME, {cancel: true})
 };
 
