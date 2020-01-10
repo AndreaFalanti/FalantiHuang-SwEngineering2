@@ -1,6 +1,6 @@
 'use strict';
 
-let { queryReportsForAnalysis } = require("./DataLayer");
+let { queryReportsForAnalysis, queryAllCities } = require("./DataLayer");
 let { completeReportsWithUsersData } = require('../utils/reportHelper');
 
 /**
@@ -27,6 +27,19 @@ exports.reportsGET = function (city, from, to, type, userType) {
                 }
             })
             .catch(err => reject(err))
+    });
+};
+
+/**
+ * Return all cities
+ * Return all the cities registered to the system.
+ *
+ * returns Cities
+ **/
+exports.citiesGET = function () {
+    return new Promise(function (resolve, reject) {
+        queryAllCities()
+            .then(cities => resolve(cities));
     });
 };
 

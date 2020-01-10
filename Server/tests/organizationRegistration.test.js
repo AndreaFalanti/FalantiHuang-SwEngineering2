@@ -18,43 +18,6 @@ beforeEach(() => {
     return sqlDb.seed.run();
 });
 
-describe('GET /admin/cities', () => {
-    it('get registered cities data after a login with admin account', async () => {
-        let agent = request.agent(app);
-        const res = await agent
-            .post('/v2/users/login')
-            .send({
-                email: "andrea.falanti@safestreets.com",
-                password: "qwerty123"
-            })
-            .then(() => {
-                return agent
-                    .get('/v2/admin/cities')
-            });
-        expect(res.statusCode).toEqual(200);
-    });
-    it('try getting cities data without a proper login', async () => {
-        const res = await request(app)
-            .get('/v2/admin/cities');
-        expect(res.statusCode).toEqual(401);
-        expect(res.res.statusMessage).toEqual("Not authenticated");
-    });
-    it('try getting cities data with a non admin account', async () => {
-        let agent = request.agent(app);
-        const res = await agent
-            .post('/v2/users/login')
-            .send({
-                email: "asd@gmail.com",
-                password: "qwerty456"
-            })
-            .then(() => {
-                return agent
-                    .get('/v2/admin/cities')
-            });
-        expect(res.statusCode).toEqual(401);
-        expect(res.res.statusMessage).toEqual("Insufficient permissions");
-    });
-});
 
 describe('POST /admin/cities/register', () => {
     it('try inserting a city into the database with a logged admin account', async () => {

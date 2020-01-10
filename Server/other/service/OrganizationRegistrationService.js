@@ -1,19 +1,6 @@
 'use strict';
 
-let {queryAllCities, insertCityInDb, insertOrganizationInDb} = require("./DataLayer");
-
-/**
- * Return all cities
- * Return all the cities registered to the system.
- *
- * returns Cities
- **/
-exports.adminCitiesGET = function () {
-    return new Promise(function (resolve, reject) {
-        queryAllCities()
-            .then(cities => resolve(cities));
-    });
-};
+let { insertCityInDb, insertOrganizationInDb } = require("./DataLayer");
 
 
 /**

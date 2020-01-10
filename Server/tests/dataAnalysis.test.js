@@ -74,3 +74,27 @@ describe('GET /reports?from=<string>&to=<string>&type=<string>&city=<integer>', 
         expect(res.get('content-type')).toEqual('application/json');
     });
 });
+
+
+describe('GET /cities', () => {
+    it('get registered cities data after a login with admin account', async () => {
+        let agent = request.agent(app);
+        const res = await agent
+            .post('/v2/users/login')
+            .send({
+                email: "andrea.falanti@safestreets.com",
+                password: "qwerty123"
+            })
+            .then(() => {
+                return agent
+                    .get('/v2/cities')
+            });
+        expect(res.statusCode).toEqual(200);
+    });
+    it('try getting cities data without a proper login', async () => {
+        const res = await request(app)
+            .get('/v2/cities');
+        expect(res.statusCode).toEqual(401);
+        expect(res.res.statusMessage).toEqual("Not authenticated");
+    });
+});

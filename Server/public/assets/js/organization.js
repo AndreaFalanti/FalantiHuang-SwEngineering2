@@ -26,7 +26,7 @@ function register() {
 }
 
 function populateCityFilterOptions () {
-    fetch("/v2/admin/cities").then(r => r.json())
+    fetch("/v2/cities").then(r => r.json())
         .then(cities => {
             let select = $("#cityIdSelect");
 

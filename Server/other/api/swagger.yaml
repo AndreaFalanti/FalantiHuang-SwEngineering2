@@ -324,6 +324,24 @@ paths:
           description: Report not found (unknown id)
           content: {}
       x-swagger-router-controller: ReportValidation
+  /cities:
+    get:
+      tags:
+        - dataAnalysis
+      summary: Return all cities
+      description: Return all the cities registered to the system.
+      operationId: citiesGET
+      responses:
+        "200":
+          description: Registered cities
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cities'
+        "401":
+          description: Not authenticated
+          content: {}
+      x-swagger-router-controller: DataAnalysis
   /admin/organizations/register:
     post:
       tags:
@@ -347,24 +365,6 @@ paths:
         "400":
           description: Missing data
           content: {}
-        "401":
-          description: Not authenticated or insufficient permissions
-          content: {}
-      x-swagger-router-controller: OrganizationRegistration
-  /admin/cities:
-    get:
-      tags:
-      - organizationRegistration
-      summary: Return all cities
-      description: Return all the cities registered to the system.
-      operationId: adminCitiesGET
-      responses:
-        "200":
-          description: Registered cities
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Cities'
         "401":
           description: Not authenticated or insufficient permissions
           content: {}

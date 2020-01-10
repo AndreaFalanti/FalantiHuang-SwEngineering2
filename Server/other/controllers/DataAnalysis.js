@@ -35,3 +35,22 @@ module.exports.reportsGET = function reportsGET(req, res, next) {
             });
     }
 };
+
+module.exports.citiesGET = function adminCitiesGET(req, res, next) {
+    if (!req.session.loggedin) {
+        res.statusCode = 401;
+        res.statusMessage = "Not authenticated";
+        res.end();
+    }
+    else {
+        DataAnalysis.citiesGET()
+            .then(function (response) {
+                utils.writeJson(res, response);
+            })
+            .catch(function (response) {
+                res.statusCode = 500;
+                res.statusMessage = "Server error";
+                res.end();
+            });
+    }
+};
