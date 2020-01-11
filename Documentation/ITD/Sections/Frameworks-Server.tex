@@ -1,21 +1,22 @@
-\subsubsection{Programming languages}
+\subsection{Programming languages}
 As programming language, JavaScript in a Node.js environment has been used for the server code. As explained in the "Other design decisions" of the design document, asynchronous programming has been chosen over a multi-thread approach as it provides better performances when handling a big amount of simultaneous requests. Node.js is built on the asynchronous I/O paradigm and it's pretty popular nowadays for its performances and scalability, which is one of the most relevant point of why it has been chosen for the development. One drawback of an asynchronous system is that each asynchronous operation must be coordinated with the other operations with care and also tested accurately to avoid unexpected behaviours, but the benefits in performances when avoiding synchronous operation and so not blocking the event loop are really important for high performance servers.
 
-\subsubsection{Middleware}
+\subsection{Middleware}
 \begin{itemize}
-	\item \textbf{OpenAPI:} the server stub has been generated from Swagger editor online, after the .yaml file with the specification has been written, following the rules of openAPI v3. The presence of the specification file provide a good documentation to the API, defining in a standardized way all the endpoint along with the consumed body and all the possible responses. The server also contains the \textit{oas-tools} middleware, that provides the routing functionality following the .yaml file, checking also that the received data correspond to the specified one, increasing the robustness of the server.
+	\item \textbf{OpenAPI(oas-tools):} the server stub has been generated from Swagger editor online, after the .yaml file with the specification has been written, following the rules of openAPI v3. The presence of the specification file provide a good documentation to the API, defining in a standardized way all the endpoint along with the consumed body and all the possible responses. The server contains the \textit{oas-tools} middleware, that provides the routing functionality following the .yaml file, checking also that the received data correspond to the specified one, increasing the robustness of the server.
 	
 	\item \textbf{Express:} one of the most popular npm packages, it is used and customized along with the \textit{oas-tools} package to handle request and responses. \textit{Multer} and \textit{Body-parser} packages are used to handle correctly the files and inserting the parsed data in the request body so that the \textit{oas-tools} package can correctly see them without throwing an error (We think this is a bug of \textit{oas-tools}, as the new openAPI specification are pretty recent and no official middleware has still emerged, customizing \textit{multer} even if already present in the middleware actually resolved the problem).
 	
 	\item \textbf{Cookie-session:} allows to save sessions in the server and distributing the required cookies to clients, so that they can be recognized by the server after a successful login. Authentication is an important topic of our software as many features are restricted based on account type, sessions provide a good approach to recognize client and associating them with some data, so that also the following server computations can be faster as account type and city organization are stored directly in the session and don't need to be retrieved every time.
 \end{itemize}
 
-\subsubsection{Relevant Packages}
+\subsection{Relevant Packages}
 \begin{itemize}
 	\item \textbf{Knex:} package responsible for establishing the connection with the database and performing operations on the db. 
 	\item \textbf{Node-fetch:} used to generate requests to other servers, so that our server can call external services' API and await their responses.
-	\item \textbf{Jest:} our chosen package for testing. Provide a quite easy syntax and many features for assertions.
+	\item \textbf{Jest:} our chosen test framework. Provide a quite easy syntax, fast execution and many features for assertions.
 	\item \textbf{Supertest:} used to generate request to the server itself and simulate a client for actually testing the API calls in an automatic way. Used along with jest test suites, it constitutes the core of the integration testing of the server.
+	\item \textbf{Puppeteer:} testing API for running an instance of chromium (headless or not) and simulating browser interaction, for example fill-in forms. Useful to test the interface of web pages and the JavaScript code running in the browser.
 \end{itemize}
 
 \subsubsection{API}

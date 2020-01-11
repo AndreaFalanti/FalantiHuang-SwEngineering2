@@ -1,4 +1,4 @@
-\subsubsection{Prerequisites}
+\subsection{Prerequisites}
 \begin{itemize}
 	\item Node.js (v12.13.1)
 	\item PostgreSQL (v12.1)
@@ -8,7 +8,7 @@
 	Make sure to install npm along node.js and pgAdmin during PostgreSQL if you want to avoid to use the terminal commands. If you want to use the PostgreSQL CLI, make sure "INSTALLATION\_PATH/PostgreSQL/12/bin" is inserted into paths system variable.
 \end{itemize}
 
-\subsubsection{Setup}
+\subsection{Setup}
 \begin{enumerate}
 	\item Install all the required software
 	\item Clone the repository
@@ -25,15 +25,15 @@
 	\item After the server is successfully started, run this command in "Server" folder: \textbf{knex seed:run --env development} to populate the development database with data provided in json files located in "Server/other/test\_data". You can run the command any time to reset the database to these values.
 \end{enumerate}
 
-\subsubsection{Testing and Analysis}
+\subsection{Testing and Analysis}
 After performing all setup tests:
 \begin{itemize}
-	\item In "Server" folder use command: \textbf{npm test}, to run the tests and generate a coverage report in "Server/coverage" folder.
+	\item In "Server" folder, while the server is running, use command: \textbf{npm test} to run the tests and generate a coverage report in "Server/coverage" folder. Server needs to be running because admin interface tests require the server to be on to visualize the pages, it's possible to execute the other tests when server is not running but that suite will fail, so be aware of that.
 	\item While the server is running you can use Postman or the client to send requests (see also postman setup below).
 	\item If you have installed sonarQube, you can run an analysis by installing globally the package with this command: \textbf{npm install -g sonarqube-scanner}, then while sonarQube is running its possible to generate a report by using the command \textbf{sonar-scanner} in the "Server" folder. To have the coverage set in sonar report, it's important that the tests have been already ran so that the coverage file is available.
 \end{itemize}
 
-\subsubsection{Postman Setup}
+\subsection{Postman Setup}
 \begin{enumerate}
 	\item Click import button, select paste raw text and paste all the content of "Server/other/api/swagger.yaml", this will import the API into postman creating the collection.
 	\item Edit the collection to use http instead of https
