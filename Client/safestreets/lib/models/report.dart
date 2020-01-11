@@ -1,3 +1,5 @@
+import 'package:logger/logger.dart';
+import 'package:safestreets/models/user.dart';
 import 'package:safestreets/utils/enum_util.dart';
 
 class Report {
@@ -11,6 +13,8 @@ class Report {
   double _longitude;
   String _place;
   String _city;
+  User _submitter;
+  User _supervisor;
 
   int get id => _id;
   String get timestamp => _timestamp;
@@ -22,13 +26,21 @@ class Report {
   double get longitude => _longitude;
   String get place => _place;
   String get city => _city;
+  User get submitter => _submitter;
+  User get supervisor => _supervisor;
 
   Report.map(dynamic obj) {
     this._id = obj["id"];
     this._timestamp = obj["timestamp"];
     this._licensePlate = obj["license_plate"];
-    this._photos = obj["photos"].cast<String>();
-    this._reportStatus = enumFromString<ReportStatus>(obj["report_status"].toString().toLowerCase(),ReportStatus.values);
+    try {
+      this._photos = obj["photos"].cast<String>();
+    } catch (error) {
+      // for possible emty photos field
+      Logger().d(error.toString());
+    }
+    this._reportStatus = enumFromString<ReportStatus>(
+        obj["report_status"].toString().toLowerCase(), ReportStatus.values);
     this._violationType = obj["violation_type"];
     this._latitude = double.parse(obj["latitude"]);
     this._longitude = double.parse(obj["longitude"]);
@@ -65,6 +77,8 @@ class Report {
   toString() {
     return this.toMap().toString();
   }
+
+  
 
 }
 

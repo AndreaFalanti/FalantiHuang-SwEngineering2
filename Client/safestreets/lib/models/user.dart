@@ -6,7 +6,6 @@ class User {
   String _orgName;
   String _orgCity;
   String _orgType;
-  User(this._email, this._password);
 
   User.map(dynamic obj) {
     this._email = obj["email"];

@@ -4,7 +4,6 @@ import 'package:logger/logger.dart';
 
 import 'package:flutter/material.dart';
 import 'package:safestreets/screens/signup/signup_screen_presenter.dart';
-import 'package:safestreets/widgtes/text_fields.dart';
 
 class CitizenSignUpScreen extends StatefulWidget {
 

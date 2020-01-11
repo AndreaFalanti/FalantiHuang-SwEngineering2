@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
+import 'package:safestreets/models/city.dart';
 
 //import 'package:safestreets/utils/network_util.dart';
 import 'package:safestreets/utils/network_dio.dart';
@@ -14,6 +15,7 @@ class RestDatasource {
   static final LOGIN_URL = BASE_URL + "/users/login";
   static final LOGOUT_URL = BASE_URL + "/users/logout";
   static final DATA_URL = BASE_URL + "/users/data";
+  static final CITIES_URL = BASE_URL + "/cities";
   static final USER_REPORTS_URL = BASE_URL + "/users/reports";
   static final CITIZEN_SIGNUP_URL = BASE_URL + "/users/register/citizen";
   static final AUTHORITY_SIGNUP_URL = BASE_URL + "/users/register/authority";
@@ -85,6 +87,24 @@ class RestDatasource {
         });
   }
 
+  Future<List<City>> getCities() {
+    logger.d("Start get cities");
+    return _netUtil.get(CITIES_URL)
+        .then((cities) {
+          logger.d("Cities: "+cities.toString());
+          List<City> cityList = new List();
+          for (dynamic city in cities) {
+            //logger.d(report["id"]);
+            logger.d("Mapping cities");
+            cityList.add(new City.map(city));
+          }
+
+          cityList.sort((c1,c2) => c1.id - c2.id);
+
+          return cityList;
+    });
+  }
+
   Future<List<Report>> getUserReports() {
     return _netUtil.get(USER_REPORTS_URL)
         .then((reports) {
@@ -94,7 +114,7 @@ class RestDatasource {
             //logger.d(report["id"]);
             reportList.add(new Report.map(report));
           }
-          // List of dictionaries of reports
+          // sort list of dictionaries of reports
           reportList.sort((r1,r2) => r1.id - r2.id);
           reportList.sort((r1,r2) => r1.reportStatus.index - r2.reportStatus.index);
 //          for (Report report in reportList) {
@@ -103,6 +123,34 @@ class RestDatasource {
           return reportList;
         });
   }
+
+  Future<List<Report>> getFilterReports(String from, String to, String violationType, String city) {
+    String path = BASE_URL+"/reports";
+    path = (from != "") ? path + "?from=$from": path;
+    path = (to != "")
+        ? (path.compareTo(BASE_URL+"/report") != 0) ? path + "&to=$to" : path+"?to=$to"
+        : path;
+    path = (violationType != "")
+        ? (path.compareTo(BASE_URL+"/reports") != 0) ? path + "&type=$violationType" : path+"?type=$violationType"
+        : path;
+    path = (city != "")
+        ? (path.compareTo(BASE_URL+"/reports") != 0) ? path + "&city=$city" : path+"?city=$city"
+        : path;
+    logger.d("filter url: $path");
+    return _netUtil.get(path)
+        .then((reports) {
+            logger.d("Got filter reports!");
+            List<Report> reportList = new List();
+            for (dynamic report in reports) {
+              //logger.d(report["id"]);
+              logger.d("Mapping reports");
+              reportList.add(new Report.map(report));
+            }
+
+            return reportList;
+        });
+  }
+
   Future<Report> getSingleReport(int reportId) {
     return _netUtil.get(BASE_URL+"/reports/"+reportId.toString())
         .then((report) {
