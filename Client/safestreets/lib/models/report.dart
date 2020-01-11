@@ -46,6 +46,11 @@ class Report {
     this._longitude = double.parse(obj["longitude"]);
     this._place = obj["place"];
     this._city = obj["city"];
+    try {
+      this._submitter = new User.map(obj["submitter"]);
+    } catch (error) {
+      Logger().e(error.toString());
+    }
   }
 
   Map<String, dynamic> toMap() {
@@ -70,7 +75,7 @@ class Report {
     String day = timestamp.substring(0, tIndex);
     String hour = timestamp.substring(tIndex+1, dotIndex);
 
-    return day + "\t\t" + hour;
+    return day + " " + hour;
   }
 
   @override

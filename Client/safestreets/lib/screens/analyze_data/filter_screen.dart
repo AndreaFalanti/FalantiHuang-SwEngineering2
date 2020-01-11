@@ -51,7 +51,7 @@ class _FilterScreenState extends State<FilterScreen>
 
     final snackBar = new SnackBar(
       content: new Text(text),
-      duration: new Duration(seconds: 1),
+      duration: new Duration(milliseconds: 300),
       backgroundColor: color,
       action: new SnackBarAction(label: "Ok", onPressed: (){
         print("Press Ok on SnackBar");
@@ -308,25 +308,21 @@ class _FilterScreenState extends State<FilterScreen>
   void onGetFilterReportsSuccess(List<Report> reports) {
     String msg = "Got filter reports successfully!";
     logger.d(msg);
-    _showSnackBar(msg, false);
+    //_showSnackBar(msg, false);
 
     setState(() {
       _isRetrievingReports = false;
     });
-    Future.delayed(
-            Duration(milliseconds: 500),
-            () =>
-                _city != ""
-                    ? Navigator.push(context,
-                        MaterialPageRoute(
-                          builder: (context) => MapScreen(cityName: _city, reports: reports,),
-                        )
-                    )
-                    : Navigator.push(context,
-                        MaterialPageRoute(
-                          builder: (context) => ChartsScreen(),
-                        )
-                    )
+    _city != ""
+        ? Navigator.push(context,
+            MaterialPageRoute(
+              builder: (context) => MapScreen(cityName: _city, reports: reports,),
+            )
+        )
+        : Navigator.push(context,
+            MaterialPageRoute(
+              builder: (context) => ChartsScreen(reports: reports),
+            )
     );
   }
 

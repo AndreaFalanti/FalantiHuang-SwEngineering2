@@ -33,6 +33,8 @@ dependencies:
   # Only for testing things out
   flutter_login: ^1.0.10+1
 
+  font_awesome_flutter: ^8.5.0
+
   http: ^0.12.0+1
   dio: ^3.0.8
   cookie_jar: ^1.0.0

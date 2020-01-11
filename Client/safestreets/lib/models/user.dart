@@ -1,3 +1,5 @@
+import 'package:logger/logger.dart';
+
 class User {
   String _email;
   String _firstName;
@@ -8,14 +10,18 @@ class User {
   String _orgType;
 
   User.map(dynamic obj) {
-    this._email = obj["email"];
-    this._firstName = obj["firstname"];
-    this._lastName = obj["lastname"];
-    this._password = obj["password"];
-    if (obj["org_name"] != null) {
-      this._orgName = obj["org_name"];
-      this._orgCity = obj["org_city"];
-      this._orgType = obj["org_type"];
+    try {
+      this._email = obj["email"];
+      this._firstName = obj["firstname"];
+      this._lastName = obj["lastname"];
+      this._password = obj["password"];
+      if (obj["org_name"] != null) {
+        this._orgName = obj["org_name"];
+        this._orgCity = obj["org_city"];
+        this._orgType = obj["org_type"];
+      }
+    } catch (error) {
+      Logger().e(error.toString());
     }
   }
 

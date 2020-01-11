@@ -46,7 +46,7 @@ class _MapScreenState extends State<MapScreen> {
               size: 50,
             ),
             onPressed: () => print("marker pressed"),
-            tooltip: "Date: ${report.formattedTimestamp()}\nViolation type: ${report.violationType}",)
+            tooltip: "Date: ${report.formattedTimestamp()}\nViolation type: ${report.violationType.replaceAll("_", " ")}",)
     ),
     ).toList();
   }
@@ -109,7 +109,7 @@ class _MapScreenState extends State<MapScreen> {
               onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(
-                      builder: (context) => ChartsScreen(),
+                      builder: (context) => ChartsScreen(reports: widget.reports,),
                     )
                 );
               }),

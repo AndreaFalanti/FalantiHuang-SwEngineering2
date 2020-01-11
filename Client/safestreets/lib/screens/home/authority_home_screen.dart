@@ -85,7 +85,7 @@ class AuthorityHomeScreenState extends State<AuthorityHomeScreen>
       ),
       child: new InkWell(
         onTap: () {
-          // TODO push screen
+          Navigator.pushNamed(context, '/filter');
         },
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20.0),
