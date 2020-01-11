@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:safestreets/screens/analyze_data/charts.dart';
+import 'package:safestreets/screens/analyze_data/map_screen.dart';
 import 'package:safestreets/screens/home/authority_home_screen.dart';
 import 'package:safestreets/screens/home/citizen_home_screen.dart';
 import 'package:safestreets/screens/login/login_screen.dart';

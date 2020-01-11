@@ -7,7 +7,9 @@ import 'package:logger/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:safestreets/models/city.dart';
 import 'package:safestreets/models/report.dart';
+import 'package:safestreets/screens/analyze_data/charts.dart';
 import 'package:safestreets/screens/analyze_data/filter_screen_presenter.dart';
+import 'package:safestreets/screens/analyze_data/map_screen.dart';
 import 'package:safestreets/utils/enum_util.dart';
 
 class FilterScreen extends StatefulWidget {
@@ -24,8 +26,8 @@ class _FilterScreenState extends State<FilterScreen>
   final formKey = new GlobalKey<FormState>();
 
   String _from ="", _to= "";
-  String _violationType;
-  String _city;
+  String _violationType = "";
+  String _city = "";
   List<City> _cities;
   DateTime _fromDateConstraint;
   bool _isRetrievingReports = false;
@@ -49,7 +51,7 @@ class _FilterScreenState extends State<FilterScreen>
 
     final snackBar = new SnackBar(
       content: new Text(text),
-      duration: new Duration(seconds: 2),
+      duration: new Duration(seconds: 1),
       backgroundColor: color,
       action: new SnackBarAction(label: "Ok", onPressed: (){
         print("Press Ok on SnackBar");
@@ -61,17 +63,23 @@ class _FilterScreenState extends State<FilterScreen>
   var logger = Logger();
 
   void _applyFilters() {
-    _isRetrievingReports = true;
+    setState(() {
+      _isRetrievingReports = true;
+    });
     formKey.currentState.save();
     logger.d("apply filters: $_from, $_to, $_violationType, $_city");
     _presenter.doGetFilterReports(
         _from,
         _to,
         _violationType,
-        _city!=""
-            ? _cities.firstWhere((city) => city.name.compareTo(_city)==0).id.toString()
-            : ""
+        convertToCity()
     );
+  }
+
+  String convertToCity() {
+    return _city!=""
+        ? _cities.firstWhere((city) => city.name.compareTo(_city)==0).id.toString()
+        : "";
   }
 
   @override
@@ -286,7 +294,7 @@ class _FilterScreenState extends State<FilterScreen>
                     toField,
                     violationTypeMenu,
                     cityMenu,
-                    _isRetrievingReports ? CircularProgressIndicator : applyFilterBtn
+                    _isRetrievingReports ? CircularProgressIndicator() : applyFilterBtn
                   ],
                 ),
               )
@@ -297,15 +305,34 @@ class _FilterScreenState extends State<FilterScreen>
   }
 
   @override
-  void onGetFilterReportsSuccess() {
+  void onGetFilterReportsSuccess(List<Report> reports) {
     String msg = "Got filter reports successfully!";
     logger.d(msg);
     _showSnackBar(msg, false);
+
+    setState(() {
+      _isRetrievingReports = false;
+    });
+    Future.delayed(
+            Duration(milliseconds: 500),
+            () =>
+                _city != ""
+                    ? Navigator.push(context,
+                        MaterialPageRoute(
+                          builder: (context) => MapScreen(cityName: _city, reports: reports,),
+                        )
+                    )
+                    : Navigator.push(context,
+                        MaterialPageRoute(
+                          builder: (context) => ChartsScreen(),
+                        )
+                    )
+    );
   }
 
   @override
   void onGetFilterReportsError(String errorTxt) {
-    String msg = "Unable to retrieve reports!";
+    String msg = "Unable to retrieve filter reports!";
     logger.d(msg);
     _showSnackBar(msg, true);
     setState(() {

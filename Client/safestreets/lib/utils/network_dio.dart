@@ -36,7 +36,7 @@ class NetworkUtil {
     return _dio.get(url).then((Response response) {
       final int statusCode = response.statusCode;
 
-      logger.d("get body: " + response.data.toString());
+      logger.d("get response body: " + response.data.toString());
       logger.d("get status code: " + statusCode.toString());
       if (statusCode < 200 || statusCode > 400 || json == null) {
         throw new Exception("Error while fetching data");

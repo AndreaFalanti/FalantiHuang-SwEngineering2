@@ -1,9 +1,10 @@
 import 'package:logger/logger.dart';
 import 'package:safestreets/data/rest_ds.dart';
 import 'package:safestreets/models/city.dart';
+import 'package:safestreets/models/report.dart';
 
 abstract class FilterScreenContract {
-  void onGetFilterReportsSuccess();
+  void onGetFilterReportsSuccess(List<Report> reports);
   void onGetFilterReportsError(String errorTxt);
   void onGetCitiesSuccess(List<City> cities);
   void onGetCitiesError(errorTxt);
@@ -18,9 +19,9 @@ class FilterScreenPresenter {
 
   doGetFilterReports(String from, String to, String violationType, String city) {
     api.getFilterReports(from, to, violationType, city)
-        .then((reports) {
+        .then((List<Report> reports) {
           logger.d("Filter reports: " + reports.toString());
-          _view.onGetFilterReportsSuccess();
+          _view.onGetFilterReportsSuccess(reports);
         }).catchError((Object error) => _view.onGetFilterReportsError(error.toString().split(":").last));
   }
 

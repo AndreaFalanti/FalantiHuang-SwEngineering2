@@ -128,7 +128,7 @@ class RestDatasource {
     String path = BASE_URL+"/reports";
     path = (from != "") ? path + "?from=$from": path;
     path = (to != "")
-        ? (path.compareTo(BASE_URL+"/report") != 0) ? path + "&to=$to" : path+"?to=$to"
+        ? (path.compareTo(BASE_URL+"/reports") != 0) ? path + "&to=$to" : path+"?to=$to"
         : path;
     path = (violationType != "")
         ? (path.compareTo(BASE_URL+"/reports") != 0) ? path + "&type=$violationType" : path+"?type=$violationType"
