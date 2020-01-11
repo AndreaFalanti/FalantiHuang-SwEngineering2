@@ -1,0 +1,9 @@
+\begin{itemize}
+	\item In RASD use cases is stated that after the registration form is submitted, the user needs to confirm its email before he can actually use the account. In the prototype this step is omitted, because it's more focused on the actual functionalities of the system and the extra step of email confirmation would have required extra development time and extra testing time (one different email domain for organization) for an unnecessary function for a prototype showcase. Anyway, this step is essential in the final product to avoid fake registrations, especially fake authority registration that would compromise the privacy measures of the system.
+	
+	\item The prototype runs locally and it's not deployed, therefore the prototype should be adapted to run with a load balancer through multiple instances to maximize the performances.
+	
+	\item Even if not stated in DD, the passwords should be hashed and salted in final version of the product, because saving them in plaintext is not a good practice for security reasons. This could be done quite easily with the npm package \textit{bcrypt}, but the step has been omitted for an easier debugging and faster insertion of test data, as the database is reseeded after each step the hashing and salting could probably affect testing time.
+	
+	\item The SafeStreets operator interface is actually accessible by everyone, but it only works with proper admin accounts. In production version these pages should be accessible only by authenticated account, to improve security of the system. It's layout and style should also be revamped and improved.
+\end{itemize}
