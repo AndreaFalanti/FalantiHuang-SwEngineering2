@@ -39,7 +39,7 @@ module.exports.adminOrganizationsRegisterPOST = function adminOrganizationsRegis
         res.statusMessage = "Not authenticated";
         res.end();
     }
-    else if (req.session.account_type !== 'system') {
+    else if (req.session.account_type !== 'system' || body.type === 'system') {
         res.statusCode = 401;
         res.statusMessage = "Insufficient permissions";
         res.end();
