@@ -29,7 +29,8 @@ exports.reportsIdGET = function (id, userId, userType, userCityId) {
                     queryLocationForCityId(report.latitude, report.longitude)
                         .then(obj => {
                             if(obj.city_id === userCityId) {
-                                resolve(report);
+                                completeReportsWithUsersData([report])
+                                    .then(completedReport => resolve(completedReport.pop()));
                             }
                             else {
                                 reject();
