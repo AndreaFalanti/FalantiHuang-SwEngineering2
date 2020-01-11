@@ -154,6 +154,7 @@ class RestDatasource {
   Future<Report> getSingleReport(int reportId) {
     return _netUtil.get(BASE_URL+"/reports/"+reportId.toString())
         .then((report) {
+          logger.d("Maaping single report");
           return new Report.map(report);
         });
   }

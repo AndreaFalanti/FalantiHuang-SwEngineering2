@@ -47,7 +47,10 @@ class Report {
     this._place = obj["place"];
     this._city = obj["city"];
     try {
+      //Logger().d("Trying to map submitter");
       this._submitter = new User.map(obj["submitter"]);
+      //Logger().d("Mapped submitter successfully: ${_submitter.firstName}");
+      this._supervisor = new User.map(obj["supervisor"]);
     } catch (error) {
       Logger().e(error.toString());
     }
@@ -65,6 +68,8 @@ class Report {
     map["longitude"] = _longitude;
     map["place"] = _place;
     map["city"] = _city;
+    map["submitter"] = _submitter;
+    map["supervisor"] = _supervisor;
 
     return map;
   }

@@ -104,7 +104,13 @@ class AuthoritySingleReportScreenState extends State<AuthoritySingleReportScreen
                 SizedBox(height: 10,),
                 _reportRow("Place:", _report.place),
                 SizedBox(height: 10,),
+                _reportRow("Submitter:", "${_report.submitter.firstName} ${_report.submitter.lastName}"),
+                SizedBox(height: 10,),
                 _reportRow("Report status", enumToString(_report.reportStatus)),
+                SizedBox(height: 10,),
+                _report.supervisor != null && _report.supervisor.firstName != null
+                    ? _reportRow("Supervisor:", "${_report.supervisor.firstName} ${_report.supervisor.lastName}")
+                    : SizedBox(height: 0,),
                 SizedBox(height: 10,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

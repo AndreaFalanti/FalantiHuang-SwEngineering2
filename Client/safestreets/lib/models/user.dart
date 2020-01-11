@@ -21,7 +21,7 @@ class User {
         this._orgType = obj["org_type"];
       }
     } catch (error) {
-      Logger().e(error.toString());
+      //Logger().e(error.toString());
     }
   }
 
@@ -45,5 +45,10 @@ class User {
       map["org_type"] = _orgType;
     }
     return map;
+  }
+
+  @override
+  String toString() {
+    return toMap().toString();
   }
 }
