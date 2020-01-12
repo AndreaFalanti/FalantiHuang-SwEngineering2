@@ -14,9 +14,13 @@ class NetworkUtil {
   NetworkUtil.internal() {
 
     getApplicationDocumentsDirectory().then((Directory dir) {
-      String appPath = dir.path;
-      logger.d(appPath);
-      _cookieJar = new PersistCookieJar(dir: appPath+"/cookies/");
+      String cookiesPath = dir.path + "/cookies/";
+      Directory cookiesDir = new Directory(cookiesPath);
+      cookiesDir.createSync();
+      cookiesDir.deleteSync(recursive: true);
+
+      logger.d(cookiesPath);
+      _cookieJar = new PersistCookieJar(dir: cookiesPath);
       _dio.interceptors.add(CookieManager(_cookieJar));
     });
 

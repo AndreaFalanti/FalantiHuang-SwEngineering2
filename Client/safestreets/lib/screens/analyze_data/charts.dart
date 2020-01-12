@@ -197,10 +197,10 @@ class _ChartsScreenState extends State<ChartsScreen> {
                                     new charts.DatumLegend(
                                       outsideJustification: charts.OutsideJustification.endDrawArea,
                                       horizontalFirst: false,
-                                      desiredMaxRows: 2,
+                                      desiredMaxRows: 4,
                                       cellPadding: new EdgeInsets.only(right: 4.0, bottom: 4.0),
                                       entryTextStyle: charts.TextStyleSpec(
-                                          color: charts.MaterialPalette.purple.shadeDefault,
+                                          color: charts.MaterialPalette.black,
                                           fontFamily: 'Monserrat',
                                           fontSize: 11),
                                     )
@@ -209,8 +209,10 @@ class _ChartsScreenState extends State<ChartsScreen> {
                                       arcWidth: 100,
                                       arcRendererDecorators: [
                                         new charts.ArcLabelDecorator(
-                                            labelPosition: charts.ArcLabelPosition.inside)
-                                      ])),
+                                            labelPosition: charts.ArcLabelPosition.inside
+                                        )
+                                      ])
+                              ),
                             ),
                           ],
                         ),
@@ -234,7 +236,7 @@ class _ChartsScreenState extends State<ChartsScreen> {
                                     new charts.DatumLegend(
                                       outsideJustification: charts.OutsideJustification.endDrawArea,
                                       horizontalFirst: false,
-                                      desiredMaxRows: 2,
+                                      desiredMaxRows: 4,
                                       cellPadding: new EdgeInsets.only(right: 4.0, bottom: 4.0),
                                       entryTextStyle: charts.TextStyleSpec(
                                           color: charts.MaterialPalette.purple.shadeDefault,

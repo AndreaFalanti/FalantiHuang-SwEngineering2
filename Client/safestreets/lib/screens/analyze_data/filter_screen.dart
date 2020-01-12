@@ -86,7 +86,7 @@ class _FilterScreenState extends State<FilterScreen>
   Widget build(BuildContext context) {
 
     if (_from != null) {
-      logger.d("From: "+_from+"\n$_fromDateConstraint");
+      //logger.d("From: "+_from+"\n$_fromDateConstraint");
     }
 
     var fromField = Container(
@@ -118,7 +118,7 @@ class _FilterScreenState extends State<FilterScreen>
                             });
                           },
                           currentTime: DateTime.now(),
-                          locale: LocaleType.it);
+                          locale: LocaleType.en);
                     },
                     icon: Icon(Icons.date_range, size: 30,),
                   ),
@@ -182,7 +182,7 @@ class _FilterScreenState extends State<FilterScreen>
                             });
                           },
                           currentTime: DateTime.now(),
-                          locale: LocaleType.it);
+                          locale: LocaleType.en);
                     },
                     icon: Icon(Icons.date_range, size: 30,),
                   ),

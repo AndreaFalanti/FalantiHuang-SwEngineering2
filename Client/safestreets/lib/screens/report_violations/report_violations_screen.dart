@@ -102,7 +102,7 @@ class ReportViolationScreenState extends State<ReportViolationScreen>
         _isRetrievingGPS = false;
       });
     } catch (e) {
-      logger.e(e);
+      logger.w(e);
     }
   }
 

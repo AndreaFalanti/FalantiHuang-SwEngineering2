@@ -36,13 +36,9 @@ class AuthoritySignUpScreenState extends State<AuthoritySignUpScreen>
 
     final snackBar = new SnackBar(
       content: new Text(text),
-      duration: new Duration(seconds: 5),
+      duration: new Duration(seconds: 2),
       backgroundColor: color,
-      action: new SnackBarAction(label: "Ok", onPressed: (){
-        if (!error) {
-          Navigator.pop(context);
-        }
-      }),
+      action: new SnackBarAction(label: "Ok", onPressed: (){}),
     );
 
     scaffoldKey.currentState.showSnackBar(snackBar);
@@ -56,10 +52,10 @@ class AuthoritySignUpScreenState extends State<AuthoritySignUpScreen>
       form.save();
       if (_termIsChecked) {
         setState(() => _isLoading = true);
-        _presenter.doSignUp(
+        _presenter.doSignUpAuthority(
             _firstName, _lastName, _email, _password, _confirmPassword);
       } else {
-        _showSnackBar("You must agree to terms of SafeStreets if you want to "
+        _showSnackBar("You must agree to terms of SafeStreets if you want "
             "to use the app", true);
       }
     }
@@ -268,7 +264,7 @@ class AuthoritySignUpScreenState extends State<AuthoritySignUpScreen>
     String errorMsg = errorTxt;
     String errorCode = 400.toString();
     if (errorTxt.contains(errorCode)) {
-      errorMsg = "Email already taken";
+      errorMsg = "Invalid registration";
     }
     _showSnackBar(errorMsg, true);
     setState(() => _isLoading = false);
@@ -282,6 +278,9 @@ class AuthoritySignUpScreenState extends State<AuthoritySignUpScreen>
         + " your signup was successful!", false);
     setState(() => _isLoading = false);
 
+    Future.delayed(
+        Duration(seconds: 2), () => Navigator.pop(context)
+    );
   }
 
 }

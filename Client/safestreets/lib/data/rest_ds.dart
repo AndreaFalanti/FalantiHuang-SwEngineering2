@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'package:safestreets/models/city.dart';
 
-//import 'package:safestreets/utils/network_util.dart';
 import 'package:safestreets/utils/network_dio.dart';
 import 'package:safestreets/models/user.dart';
 import 'package:safestreets/models/report.dart';

@@ -4,7 +4,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:safestreets/routes.dart';
-import 'package:safestreets/my_login_screen.dart';
 
 void main() => runApp(MyApp());
 

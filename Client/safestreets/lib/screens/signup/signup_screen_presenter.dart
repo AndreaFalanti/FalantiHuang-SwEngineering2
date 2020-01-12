@@ -10,8 +10,15 @@ class SignUpScreenPresenter {
   RestDatasource api = new RestDatasource();
   SignUpScreenPresenter(this._view);
 
-  doSignUp(String firstName, String lastName, String email, String password, String confirmPassword) {
+  doSignUpCitizen(String firstName, String lastName, String email, String password, String confirmPassword) {
     api.signUpCitizen(firstName, lastName, email, password, confirmPassword)
+        .then((dynamic res) {
+      _view.onSignUpSuccess();
+    }).catchError((Object error) => _view.onSignUpError(error.toString().split(":").last));
+  }
+
+  doSignUpAuthority(String firstName, String lastName, String email, String password, String confirmPassword) {
+    api.signUpAuthority(firstName, lastName, email, password, confirmPassword)
         .then((dynamic res) {
       _view.onSignUpSuccess();
     }).catchError((Object error) => _view.onSignUpError(error.toString().split(":").last));
