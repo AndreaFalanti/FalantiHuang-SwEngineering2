@@ -1,0 +1,15 @@
+\subsection{Programming languages}
+The programming language chosen to implement the client application is Dart using the Flutter framework to create natively compiled cross-platform applications from a single codebase. This framework is able to provide a faster development process using its Stateful Hot Reload feature and its rich set of fully-customizable widgets.
+\subsection{Relevant Packages}
+Dart has a rich set of useful packages which can be found at \url{https://pub.dev} and can be easily imported using the Pub package manager. For this project the following packages were used:
+	\begin{itemize}
+		\item \textbf{dio}: powerful Http client used for raw and FormData POST requests.
+		\item \textbf{cookie\_jar} and \textbf{dio cookie manager}: these two packages combined together are able to manage a client-side cookie session.
+		\item \textbf{camera}: allows access to device cameras, used to display live camera and save captured images to a file.
+		\item \textbf{path\_provider} and \textbf{path}: a plugin for finding commonly used locations on the filesystem, used to set the documents path where the cookies are stored and set the temporary files path for photos when reporting a violation.
+		\item \textbf{carousel\_slider}, \textbf{dropdownfield}, \textbf{flutter\_datetime\_picker}: packages used respectively for a carousel to show the images of a report, a dropdown field to allow the selection of a predefined set of items, and a date picker for the filters selection.
+		\item \textbf{geolocator}, \textbf{flutter\_map}, \textbf{latlong}: packages used respectively for access to the GPS of the citizen when reporting a violation, map rendering using a OpenStreetsMap Tile server (https://tile.waymarkedtrails.org/hiking/{z}/{x}/{y}.png) and latitude-longitude object for the flutter map plugin.
+		\item \textbf{charts flutter}: this package provides data visualization charts for data analysis, used for visualization of a time series bar chart to display the number of reports by day, a piechart for reports grouped by violation type and a piechart for reports grouped by city.
+	\end{itemize}
+\subsection{API}
+The client application has a single module (rest\_datasource.dart) that provides all the methods to call the API endpoints of the server using the network module (network\_dio.dart).

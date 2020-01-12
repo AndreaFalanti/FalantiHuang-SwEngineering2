@@ -1,0 +1,32 @@
+This section will highlight the main files and folders that compose the client, explaining the criteria of their subdivision:
+\subsubsection{Files}
+\begin{itemize}
+	\item \textbf{pubsec.yaml}: file containing metadata about the used dependendecies and assets.
+	\item \textbf{lib/main.dart}: contains the root widget of the application.
+	\item \textbf{lib/config.dart}: configuration file defining the HOST address and the API endpoint's base url.
+	\item \textbf{lib/routes.dart}: defines names for the main routes(screens) of the application, it will be passed to the main file to set the accessible screens.
+\end{itemize}
+
+\subsubsection{Main folders}
+\begin{itemize}
+	\item \textbf{lib}: contains the source code of the client
+	\begin{itemize}
+		\item \textbf{data}: contains the class responsible of calling the correct server's API endpoint.
+		\item \textbf{models}: provides models for user, report, city objects; used to easily display information about each object.
+		\item \textbf{screens}: contains source files for each kind of screen, the implementation follows a Model-View-Presenter pattern so each screen is divided in a view class and a presenter class. The view class responds passively on the result of a service call of the presenter.The presenter class works as middleware between a view and the server, it uses the methods from the data module to call a specific service to obtain data for the UI rendering. The following folders group screens by the functionality they implement:
+		\begin{itemize}[label=\ding{228}]
+			\item \textbf{analyze\_data}: contains a filter screen, map screen and a charts screen; the filter screen is used to retrieve data to be displayed on the map screen and charts screen.
+			\item \textbf{home}: contains a citizen home screen and an authority home screen to let the user choose which service to use.
+			\item \textbf{login}: the initial screen of the app, it allows the user to log in with his account or register a new account.
+			\item \textbf{photo}: contains a screen for taking a photo with the camera and a screen to check the taken photo and decide whether to save it or not.
+			\item \textbf{report\_violations}: contains the screen to report a violation after taking a photo and checking its license plate.
+			\item \textbf{reports}: contains a screen displaying a list of available photos depending on the user and a screen containing more details of a single report, which is displayed when a report is clicked from the list.
+			\item \textbf{signup}: contains a screen form citizen registration and one for authority registration.
+		\end{itemize}
+		\item \textbf{utils}: contains a util file for enum class handling in dart and a network module.
+		\item \textbf{widgets}: contains a customized carousel widget used to display images from a local folder or images from the network.
+	\end{itemize}
+	\item \textbf{assets}: contains the logo of the app.
+	\item \textbf{android}: contains the code generated for android platform; it contains the "build.gradle" file for build configuration and "AndroidManifest.xml" file which was used to set the permission requests to access to camera and location of the device.
+	\item \textbf{ios}: contains the code generated for ios platform; the file "Runner/Info.plist" was used to set the permission requests to access to camera and location of the device.
+\end{itemize}
