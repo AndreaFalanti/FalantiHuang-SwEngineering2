@@ -142,12 +142,17 @@ class AuthorityHomeScreenState extends State<AuthorityHomeScreen>
 
   @override
   void onDataRetrievalError(String errorTxt) {
-    // TODO: implement onDataRetrievalError
+    String errorMsg = errorTxt;
+    String errorCode = 400.toString();
+    if (errorTxt.contains(errorCode)) {
+      errorMsg = "Invalid operation";
+    }
+    _showSnackBar(errorMsg, true);
   }
 
   @override
   void onLogoutSuccess() {
-    // TODO: implement onLogoutSuccess
+    _showSnackBar("Your logout was successful!", false);
   }
 
 }

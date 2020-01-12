@@ -10,121 +10,58 @@ class ChartsScreen extends StatefulWidget {
   ChartsScreen({Key key, @required this.reports}) : super(key: key);
 
   @override
-  _ChartsScreenState createState() => _ChartsScreenState();
+  ChartsScreenState createState() => ChartsScreenState();
 }
 
-class _ChartsScreenState extends State<ChartsScreen> {
+@visibleForTesting
+class ChartsScreenState extends State<ChartsScreen> {
 
-  List<charts.Series<_ReportsByDate, DateTime>> _dateSeriesList;
-  List<charts.Series<_ReportsByCity, String>> _citySeriesList;
-  List<charts.Series<_ReportsByViolationType, String>> _violationSeriesList;
+  List<charts.Series<ReportsByDate, DateTime>> _dateSeriesList;
+  List<charts.Series<ReportsByCity, String>> _citySeriesList;
+  List<charts.Series<ReportsByViolationType, String>> _violationSeriesList;
   bool animate = true;
 
   var logger = Logger();
 
-  void getReportsByDate() {
-
-    Set<DateTime> dates = widget.reports
-        .map((report) =>
-          DateTime.parse(report.formattedTimestamp().split(" ").first+" 00:00:00"))
-        .toSet();
-    logger.d("Dates: $dates");
-
-    var groupedReports = dates
-        .map((date) =>
-            widget.reports
-                .where((report) =>
-                    DateTime.parse(report.formattedTimestamp().split(" ").first+" 00:00:00").compareTo(date) == 0)
-                .toList())
-        .toList();
-
-    var timeSeriesData = new List<_ReportsByDate>();
-    for (List<Report> reports in groupedReports) {
-      timeSeriesData.add(new _ReportsByDate(DateTime.parse(reports.first.formattedTimestamp().split(" ").first+" 00:00:00"), reports.length));
-    }
-    logger.d("Time Series: $timeSeriesData");
-
-    _dateSeriesList.add(
-      charts.Series(
-        domainFn: (_ReportsByDate _reportsByDate, _) => _reportsByDate.time,
-        measureFn: (_ReportsByDate _reportsByDate, _) => _reportsByDate.quantity,
-        id: 'Reports by date',
-        data: timeSeriesData,
-        fillPatternFn: (_, __) => charts.FillPatternType.solid,
-        fillColorFn: (_ReportsByDate _reportsByDate, _) =>
-            charts.ColorUtil.fromDartColor(Colors.green),
-      ),
-    );
-  }
-
-  void getReportsByCity() {
-
-    Set<String> cities = widget.reports.map((report) => report.city).toSet();
-    logger.d("cities: $cities");
-
-    var groupedReports = cities
-        .map((city) =>
-        widget.reports
-            .where((report) => report.city.compareTo(city) == 0).toList())
-        .toList();
-
-    var timeSeriesData = new List<_ReportsByCity>();
-    for (List<Report> reports in groupedReports) {
-      timeSeriesData.add(new _ReportsByCity(reports.first.city, reports.length));
-    }
-    logger.d("City Series: $timeSeriesData");
-
-    _citySeriesList.add(
-      charts.Series(
-        domainFn: (_ReportsByCity _reportsByCity, _) => _reportsByCity.city,
-        measureFn: (_ReportsByCity _reportsByCity, _) => _reportsByCity.quantity,
-        id: 'Reports by city',
-        data: timeSeriesData,
-        labelAccessorFn: (_ReportsByCity row, _) => '${row.quantity}',
-        fillPatternFn: (_, __) => charts.FillPatternType.solid,
-      ),
-    );
-  }
-
-  void getReportsByViolationType() {
-
-    Set<String> violationTypes = widget.reports.map((report) => report.violationType).toSet();
-    logger.d("Violation types: $violationTypes");
-
-    var groupedReports = violationTypes
-        .map((violationType) =>
-        widget.reports
-            .where((report) => report.violationType.compareTo(violationType) == 0).toList())
-        .toList();
-
-    var timeSeriesData = new List<_ReportsByViolationType>();
-    for (List<Report> reports in groupedReports) {
-      timeSeriesData.add(new _ReportsByViolationType(reports.first.violationType.replaceAll("_", " "), reports.length));
-    }
-    logger.d("City Series: $timeSeriesData");
-
-    _violationSeriesList.add(
-      charts.Series(
-        domainFn: (_ReportsByViolationType _reportsByViolationType, _) => _reportsByViolationType.violationType,
-        measureFn: (_ReportsByViolationType _reportsByViolationType, _) => _reportsByViolationType.quantity,
-        id: 'Reports by city',
-        data: timeSeriesData,
-        labelAccessorFn: (_ReportsByViolationType row, _) => '${row.quantity}',
-        fillPatternFn: (_, __) => charts.FillPatternType.solid,
-      ),
-    );
-  }
-
-
   @override
   void initState() {
     super.initState();
-    _dateSeriesList = new List<charts.Series<_ReportsByDate, DateTime>>();
-    _citySeriesList = new List<charts.Series<_ReportsByCity, String>>();
-    _violationSeriesList = new List<charts.Series<_ReportsByViolationType, String>>();
-    getReportsByDate();
-    getReportsByCity();
-    getReportsByViolationType();
+    _dateSeriesList = new List<charts.Series<ReportsByDate, DateTime>>();
+    _citySeriesList = new List<charts.Series<ReportsByCity, String>>();
+    _violationSeriesList = new List<charts.Series<ReportsByViolationType, String>>();
+
+    _dateSeriesList.add(
+      charts.Series(
+        domainFn: (ReportsByDate _reportsByDate, _) => _reportsByDate.time,
+        measureFn: (ReportsByDate _reportsByDate, _) => _reportsByDate.quantity,
+        id: 'Reports by date',
+        data: ReportsByDate.getReportsByDate(widget.reports),
+        fillPatternFn: (_, __) => charts.FillPatternType.solid,
+        fillColorFn: (ReportsByDate _reportsByDate, _) =>
+            charts.ColorUtil.fromDartColor(Colors.green),
+      ),
+    );
+    _citySeriesList.add(
+      charts.Series(
+        domainFn: (ReportsByCity _reportsByCity, _) => _reportsByCity.city,
+        measureFn: (ReportsByCity _reportsByCity, _) => _reportsByCity.quantity,
+        id: 'Reports by city',
+        data: ReportsByCity.getReportsByCity(widget.reports),
+        labelAccessorFn: (ReportsByCity row, _) => '${row.quantity}',
+        fillPatternFn: (_, __) => charts.FillPatternType.solid,
+      ),
+    );
+    _violationSeriesList.add(
+      charts.Series(
+        domainFn: (ReportsByViolationType _reportsByViolationType, _) => _reportsByViolationType.violationType,
+        measureFn: (ReportsByViolationType _reportsByViolationType, _) => _reportsByViolationType.quantity,
+        id: 'Reports by city',
+        data: ReportsByViolationType.getReportsByViolationType(widget.reports),
+        labelAccessorFn: (ReportsByViolationType row, _) => '${row.quantity}',
+        fillPatternFn: (_, __) => charts.FillPatternType.solid,
+      ),
+    );
+
   }
 
   @override
@@ -266,24 +203,92 @@ class _ChartsScreenState extends State<ChartsScreen> {
   }
 }
 
-class _ReportsByDate {
+@visibleForTesting
+class ReportsByDate {
   DateTime time;
   int quantity;
 
-  _ReportsByDate(this.time, this.quantity);
+  ReportsByDate(this.time, this.quantity);
+
+  static List<ReportsByDate> getReportsByDate(List<Report> reports) {
+
+    Set<DateTime> dates = reports
+        .map((report) =>
+        DateTime.parse(report.formattedTimestamp().split(" ").first+" 00:00:00"))
+        .toSet();
+    Logger().d("Dates: $dates");
+
+    var groupedReports = dates
+        .map((date) =>
+        reports
+            .where((report) =>
+        DateTime.parse(report.formattedTimestamp().split(" ").first+" 00:00:00").compareTo(date) == 0)
+            .toList())
+        .toList();
+
+    var timeSeriesData = new List<ReportsByDate>();
+    for (List<Report> reports in groupedReports) {
+      timeSeriesData.add(new ReportsByDate(DateTime.parse(reports.first.formattedTimestamp().split(" ").first+" 00:00:00"), reports.length));
+    }
+    Logger().d("Time Series: $timeSeriesData");
+
+    return timeSeriesData;
+  }
 }
 
-class _ReportsByViolationType {
+@visibleForTesting
+class ReportsByViolationType {
   String violationType;
   int quantity;
 
-  _ReportsByViolationType(this.violationType, this.quantity);
+  ReportsByViolationType(this.violationType, this.quantity);
+
+  static List<ReportsByViolationType> getReportsByViolationType(List<Report> reports) {
+
+    Set<String> violationTypes = reports.map((report) => report.violationType).toSet();
+    Logger().d("Violation types: $violationTypes");
+
+    var groupedReports = violationTypes
+        .map((violationType) =>
+        reports
+            .where((report) => report.violationType.compareTo(violationType) == 0).toList())
+        .toList();
+
+    var timeSeriesData = new List<ReportsByViolationType>();
+    for (List<Report> reports in groupedReports) {
+      timeSeriesData.add(new ReportsByViolationType(reports.first.violationType.replaceAll("_", " "), reports.length));
+    }
+    Logger().d("City Series: $timeSeriesData");
+
+    return timeSeriesData;
+  }
 }
 
-class _ReportsByCity {
+@visibleForTesting
+class ReportsByCity {
   String city;
   int quantity;
 
-  _ReportsByCity(this.city, this.quantity);
+  ReportsByCity(this.city, this.quantity);
+
+  static List<ReportsByCity> getReportsByCity(List<Report> reports) {
+
+    Set<String> cities = reports.map((report) => report.city).toSet();
+    Logger().d("cities: $cities");
+
+    var groupedReports = cities
+        .map((city) =>
+        reports
+            .where((report) => report.city.compareTo(city) == 0).toList())
+        .toList();
+
+    var timeSeriesData = new List<ReportsByCity>();
+    for (List<Report> reports in groupedReports) {
+      timeSeriesData.add(new ReportsByCity(reports.first.city, reports.length));
+    }
+    Logger().d("City Series: $timeSeriesData");
+
+    return timeSeriesData;
+  }
 }
 

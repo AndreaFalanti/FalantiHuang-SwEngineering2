@@ -36,7 +36,7 @@ class Report {
     try {
       this._photos = obj["photos"].cast<String>();
     } catch (error) {
-      // for possible emty photos field
+      // for possible empty photos field
       Logger().d(error.toString());
     }
     this._reportStatus = enumFromString<ReportStatus>(
@@ -62,14 +62,14 @@ class Report {
     map["timestamp"] = _timestamp;
     map["license_plate"] = _licensePlate;
     map["photos"] = _photos;
-    map["report_status"] = _reportStatus;
+    map["report_status"] = enumToString(_reportStatus);
     map["violation_type"] = _violationType;
-    map["latitude"] = _latitude;
-    map["longitude"] = _longitude;
+    map["latitude"] = _latitude.toString();
+    map["longitude"] = _longitude.toString();
     map["place"] = _place;
     map["city"] = _city;
-    map["submitter"] = _submitter;
-    map["supervisor"] = _supervisor;
+    map["submitter"] = _submitter.toMap();
+    map["supervisor"] = _supervisor.toMap();
 
     return map;
   }
