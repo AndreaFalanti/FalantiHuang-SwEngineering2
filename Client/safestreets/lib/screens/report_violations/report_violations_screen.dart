@@ -208,19 +208,22 @@ class ReportViolationScreenState extends State<ReportViolationScreen>
     if (form.validate()) {
       setState(() => _isSubmitting = true);
       form.save();
-
-      logger.d("Report form: " + _currentPosition.latitude.toString() +" "+
-        _currentPosition.longitude.toString() + " "+
-        _violationType.replaceAll(" ", "_") + " "+
-        _licensePlate + " optDesc:" + _optDesc,);
-      _presenter.doSendReport(
-          _currentPosition.latitude,
-          _currentPosition.longitude,
-          _violationType.replaceAll(" ", "_"),
-          _licensePlate,
-        photoPaths,
-        _optDesc
-      );
+      if (_locationController.text.length != 0) {
+        logger.d("Report form: " + _currentPosition.latitude.toString() + " " +
+            _currentPosition.longitude.toString() + " " +
+            _violationType.replaceAll(" ", "_") + " " +
+            _licensePlate + " optDesc:" + _optDesc,);
+        _presenter.doSendReport(
+            _currentPosition.latitude,
+            _currentPosition.longitude,
+            _violationType.replaceAll(" ", "_"),
+            _licensePlate,
+            photoPaths,
+            _optDesc
+        );
+      } else {
+        _showSnackBar("Your location is missing!", true);
+      }
     }
   }
 
