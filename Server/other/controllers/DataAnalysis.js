@@ -9,12 +9,6 @@ module.exports.reportsGET = function reportsGET(req, res, next) {
     let to = req.swagger.params['to'].value;
     let type = req.swagger.params['type'].value;
 
-    if (from) {
-        from = new Date(from);
-    }
-    if (to) {
-        to = new Date(to);
-    }
 
     if (!req.session.loggedin) {
         res.statusCode = 401;
@@ -22,6 +16,19 @@ module.exports.reportsGET = function reportsGET(req, res, next) {
         res.end();
     }
     else {
+        if (from) {
+            from = new Date(from);
+        }
+        if (to) {
+            to = new Date(to);
+            to.setDate(to.getDate() + 1)
+        }
+        if (from > to) {
+            res.statusCode = 400;
+            res.statusMessage = "Invalid temporal filters";
+            res.end();
+        }
+
         let userType = req.session.account_type;
         DataAnalysis.reportsGET(city, from, to, type, userType)
             .then(function (response) {

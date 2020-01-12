@@ -73,6 +73,23 @@ describe('GET /reports?from=<string>&to=<string>&type=<string>&city=<integer>', 
         expect(res.statusCode).toEqual(200);
         expect(res.get('content-type')).toEqual('application/json');
     });
+    it('get reports for data analysis, using bad temporal filters (authority)', async () => {
+        // use same agent session for both requests
+        let agent = request.agent(app);
+        const res = await agent
+            .post('/v2/users/login')
+            .send({
+                email: "asd@poliziamilano.it",
+                password: "qwerty789"
+            })
+            .then(() => {
+                // from > to, so filters are bad
+                return agent
+                    .get('/v2/reports?from=2019-12-20&to=2019-12-16&type=bike_lane_parking&city=0')
+            });
+        expect(res.statusCode).toEqual(400);
+        expect(res.res.statusMessage).toEqual("Invalid temporal filters");
+    });
 });
 
 

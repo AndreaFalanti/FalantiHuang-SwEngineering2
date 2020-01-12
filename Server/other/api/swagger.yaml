@@ -192,6 +192,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/inline_response_200_2'
+        "400":
+          description: Invalid temporal filters
+          content: {}
         "401":
           description: Not authenticated
           content: {}
