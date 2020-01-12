@@ -51,7 +51,7 @@ class _FilterScreenState extends State<FilterScreen>
 
     final snackBar = new SnackBar(
       content: new Text(text),
-      duration: new Duration(milliseconds: 300),
+      duration: new Duration(seconds: 1),
       backgroundColor: color,
       action: new SnackBarAction(label: "Ok", onPressed: (){
         print("Press Ok on SnackBar");
@@ -313,17 +313,21 @@ class _FilterScreenState extends State<FilterScreen>
     setState(() {
       _isRetrievingReports = false;
     });
-    _city != ""
-        ? Navigator.push(context,
-            MaterialPageRoute(
-              builder: (context) => MapScreen(cityName: _city, reports: reports,),
-            )
-        )
-        : Navigator.push(context,
-            MaterialPageRoute(
-              builder: (context) => ChartsScreen(reports: reports),
-            )
-    );
+    if (reports.length != 0) {
+      _city != ""
+          ? Navigator.push(context,
+          MaterialPageRoute(
+            builder: (context) => MapScreen(cityName: _city, reports: reports,),
+          )
+      )
+          : Navigator.push(context,
+          MaterialPageRoute(
+            builder: (context) => ChartsScreen(reports: reports),
+          )
+      );
+    } else {
+      _showSnackBar("No reports associated to the chosen filters", true);
+    }
   }
 
   @override
