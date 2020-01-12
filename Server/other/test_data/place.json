@@ -1,0 +1,22 @@
+[
+  {
+    "id": 0,
+    "address": "Via Camillo Golgi",
+    "city_id": 0
+  },
+  {
+    "id": 1,
+    "address": "Viale Varese",
+    "city_id": 1
+  },
+  {
+    "id": 2,
+    "address": "Corso Buenos Aires",
+    "city_id": 0
+  },
+  {
+    "id": 3,
+    "address": "Viale Luigi Borri",
+    "city_id": 2
+  }
+]

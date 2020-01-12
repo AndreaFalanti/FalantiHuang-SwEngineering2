@@ -1,0 +1,23 @@
+[
+  {
+    "id": 0,
+    "name": "SafeStreets system",
+    "domain": "safestreets.com",
+    "type": "system",
+    "city_id": 0
+  },
+  {
+    "id": 1,
+    "name": "Polizia locale di Milano",
+    "domain": "poliziamilano.it",
+    "type": "authority",
+    "city_id": 0
+  },
+  {
+    "id": 2,
+    "name": "Polizia locale di Varese",
+    "domain": "poliziavarese.it",
+    "type": "authority",
+    "city_id": 2
+  }
+]

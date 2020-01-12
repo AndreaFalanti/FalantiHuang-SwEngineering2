@@ -1,0 +1,717 @@
+openapi: 3.0.1
+info:
+  title: SafeStreets API
+  description: SafeStreets API for software engineering 2 project 2019/2020
+  version: 1.0.0
+servers:
+- url: https://localhost:8080/v2
+tags:
+- name: login
+  description: Endpoints handled by Login component
+- name: signUp
+  description: Endpoints handled by SignUp component
+- name: organizationRegistration
+  description: Endpoints handled by OrganizationRegistration component
+- name: reportReceiver
+  description: Endpoints handled by ReportReceiver component
+- name: reportVisualization
+  description: Endpoints handled by ReportVisualization component
+- name: reportValidation
+  description: Endpoints handled by ReportValidation component
+- name: dataAnalysis
+  description: Endpoints handled by DataAnalysis component
+paths:
+  /users/data:
+    get:
+      tags:
+      - login
+      summary: Gets a single user's data
+      description: Returns logged user non-sensitive data or an error if not authenticated.
+      operationId: usersDataGET
+      responses:
+        "200":
+          description: User data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+        "401":
+          description: Not authenticated
+          content: {}
+      x-swagger-router-controller: Login
+  /users/reports:
+    get:
+      tags:
+      - reportVisualization
+      summary: Gets citizen own reports list or reports in the same city of authority
+      description: Returns a list of reports, based on which type of account make
+        the request. A citizen receives reports made by himself, an authority receives
+        reports in its city.
+      operationId: usersReportsGET
+      responses:
+        "200":
+          description: Reports accessible by user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_1'
+        "401":
+          description: Not authenticated or insufficient permissions
+          content: {}
+      x-swagger-router-controller: ReportVisualization
+  /users/login:
+    post:
+      tags:
+      - login
+      summary: Login
+      description: Login into the system.
+      operationId: usersLoginPOST
+      requestBody:
+        x-name: login
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+        required: true
+      responses:
+        "204":
+          description: Successful login
+          content: {}
+        "400":
+          description: Invalid login
+          content: {}
+      x-swagger-router-controller: Login
+      x-codegen-request-body-name: login
+  /users/logout:
+    post:
+      tags:
+      - login
+      summary: Logout
+      description: Logout user.
+      operationId: usersLogoutPOST
+      responses:
+        "204":
+          description: Successful logout
+          content: {}
+        "400":
+          description: Trying logout when not logged in
+          content: {}
+      x-swagger-router-controller: Login
+  /users/register/citizen:
+    post:
+      tags:
+      - signUp
+      summary: Register
+      description: Citizen registration into SafeStreets system.
+      operationId: usersRegisterCitizenPOST
+      requestBody:
+        x-name: body
+        description: Data inserted by the citizen in the registration form
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Citizen_registration_data'
+        required: true
+      responses:
+        "204":
+          description: Successful registration
+          content: {}
+        "400":
+          description: Email already registered or invalid email or invalid password or password mismatch
+          content: {}
+      x-swagger-router-controller: SignUp
+      x-codegen-request-body-name: body
+  /users/register/authority:
+    post:
+      tags:
+      - signUp
+      summary: Register
+      description: Authority registration into SafeStreets system.
+      operationId: usersRegisterAuthorityPOST
+      requestBody:
+        x-name: body
+        description: Data inserted by the authority in the registration form
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Authority_registration_data'
+        required: true
+      responses:
+        "204":
+          description: Successful registration
+          content: {}
+        "400":
+          description: Invalid data or invalid email or invalid password or password mismatch
+          content: {}
+      x-swagger-router-controller: SignUp
+      x-codegen-request-body-name: body
+  /reports:
+    get:
+      tags:
+      - dataAnalysis
+      summary: Get a list of reports
+      description: Returns list of reports, optionally filtered by type, city and date.
+      operationId: reportsGET
+      parameters:
+      - name: from
+        in: query
+        description: From which date filter the content
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: to
+        in: query
+        description: To which date filter the content
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: type
+        in: query
+        description: Type filter to apply
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: city
+        in: query
+        description: City location filter to apply
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: List of reports
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_2'
+        "400":
+          description: Invalid temporal filters
+          content: {}
+        "401":
+          description: Not authenticated
+          content: {}
+      x-swagger-router-controller: DataAnalysis
+  /reports/submit:
+    post:
+      tags:
+      - reportReceiver
+      summary: Upload report form data
+      description: Receive report form compiled from a citizen.
+      operationId: reportsSubmitPOST
+      requestBody:
+        x-name: report
+        description: Report form data
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ReportForm'
+        required: false
+      responses:
+        "204":
+          description: Report processed successfully
+          content: {}
+        "400":
+          description: Bad data or unknown address or country not supported
+          content: {}
+        "401":
+          description: Not authenticated or insufficient permissions
+          content: {}
+      x-swagger-router-controller: ReportReceiver
+      x-codegen-request-body-name: report
+  /reports/photo_upload:
+    post:
+      tags:
+      - reportReceiver
+      summary: Upload first photo of a report
+      description: Upload first photo of a violation report, so that the license plate
+        of the vehicle can be recognised.
+      operationId: reportsPhotoUploadPOST
+      requestBody:
+        x-name: photo
+        description: First photo of the report
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                photo:
+                  type: string
+                  format: binary
+        required: false
+      responses:
+        "200":
+          description: Recognised license plate
+          content:
+            application/json:
+              schema:
+                properties:
+                  license_plate:
+                    type: string
+                    example: AA000AA
+        "400":
+          description: License plate not recognised
+          content: {}
+        "401":
+          description: Not authenticated or insufficient permissions
+          content: {}
+      x-swagger-router-controller: ReportReceiver
+      x-codegen-request-body-name: photo
+  /reports/{id}:
+    get:
+      tags:
+      - reportVisualization
+      summary: Get a single report
+      description: Returns a report for its id.
+      operationId: reportsIdGET
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Report for id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_3'
+        "401":
+          description: Not authenticated or insufficient permissions
+          content: {}
+        "404":
+          description: Report not found (unknown id)
+          content: {}
+      x-swagger-router-controller: ReportVisualization
+  /reports/{id}/set_status:
+    post:
+      tags:
+      - reportValidation
+      summary: Set a single report status
+      description: Update the status of a report identified by the given id.
+      operationId: reportsIdSetStatusPOST
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        x-name: status
+        description: New status to set
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportStatus'
+        required: true
+      responses:
+        "204":
+          description: Report status successfully updated
+          content: {}
+        "401":
+          description: Not authenticated or insufficient permissions
+          content: {}
+        "404":
+          description: Report not found (unknown id)
+          content: {}
+      x-swagger-router-controller: ReportValidation
+  /cities:
+    get:
+      tags:
+        - dataAnalysis
+      summary: Return all cities
+      description: Return all the cities registered to the system.
+      operationId: citiesGET
+      responses:
+        "200":
+          description: Registered cities
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cities'
+        "401":
+          description: Not authenticated
+          content: {}
+      x-swagger-router-controller: DataAnalysis
+  /admin/organizations/register:
+    post:
+      tags:
+      - organizationRegistration
+      summary: Register a single organization
+      description: Register a single organization's data and PEC domain, after an
+        operator had signed a contract with it.
+      operationId: adminOrganizationsRegisterPOST
+      requestBody:
+        x-name: body
+        description: Data of the organization to register in the system
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationData'
+        required: true
+      responses:
+        "204":
+          description: Organization successfully registered
+          content: {}
+        "400":
+          description: Missing data
+          content: {}
+        "401":
+          description: Not authenticated or insufficient permissions
+          content: {}
+      x-swagger-router-controller: OrganizationRegistration
+  /admin/cities/register:
+    post:
+      tags:
+      - organizationRegistration
+      summary: Register a single city
+      description: Register a city if not present in the database and required to
+        register an organization.
+      operationId: adminCitiesRegisterPOST
+      requestBody:
+        x-name: body
+        description: Data of the city to register in the system
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CityData'
+        required: true
+      responses:
+        "204":
+          description: City successfully registered
+          content: {}
+        "400":
+          description: Missing data
+          content: {}
+        "401":
+          description: Not authenticated or insufficient permissions
+          content: {}
+      x-swagger-router-controller: OrganizationRegistration
+components:
+  schemas:
+    Citizen_registration_data:
+      example:
+        password: qwerty123
+        confirmPassword: qwerty123
+      allOf:
+      - $ref: '#/components/schemas/Citizen'
+      - type: object
+        properties:
+          password:
+            type: string
+          confirmPassword:
+            type: string
+    Authority_registration_data:
+      example:
+        password: qwerty123
+        confirmPassword: qwerty123
+      allOf:
+      - $ref: '#/components/schemas/Authority_info'
+      - type: object
+        properties:
+          password:
+            type: string
+          confirmPassword:
+            type: string
+    Citizen:
+      type: object
+      properties:
+        firstname:
+          type: string
+        lastname:
+          type: string
+        email:
+          type: string
+      example:
+        firstname: Johnny
+        lastname: De Gennaro
+        email: asd@gmail.com
+    Authority_info:
+      type: object
+      properties:
+        firstname:
+          type: string
+        lastname:
+          type: string
+        email:
+          type: string
+      example:
+        firstname: Bruno
+        lastname: Bucciarati
+        email: asd@pec.it
+    Authority:
+      example:
+        org_name: Polizia Locale di Milano
+        org_city: Milano
+        org_type: authority
+      allOf:
+      - $ref: '#/components/schemas/Authority_info'
+      - type: object
+        properties:
+          org_name:
+            type: string
+          org_city:
+            type: string
+          org_type:
+            type: string
+    Location:
+      type: object
+      properties:
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+      example:
+        latitude: 10.1232
+        longitude: 12.12323
+    ViolationType:
+      type: object
+      properties:
+        violation_type:
+          type: string
+          enum:
+          - double_parking
+          - invalid_handicap_parking
+          - bike_lane_parking
+          - red_zone_parking
+          - parking_disk_violation
+          - other
+      example:
+        violation_type: red_zone_parking
+    ReportStatus:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - pending
+          - validated
+          - invalidated
+      example:
+        status: validated
+    ReportForm:
+      example:
+        license plate: AA000AA
+        photo_files: (binary of photos)
+        desc: An optional concise description of the violation
+      allOf:
+      - $ref: '#/components/schemas/Location'
+      - $ref: '#/components/schemas/ViolationType'
+      - type: object
+        properties:
+          license_plate:
+            type: string
+          photo_files:
+            type: array
+            items:
+              type: string
+              format: binary
+          desc:
+            type: string
+            nullable: true
+    Non_sensitive_data_report:
+      example:
+        timestamp: 2019-04-12T11:00:00Z
+        city: Milan
+        place: Via Golgi
+      allOf:
+      - type: object
+        properties:
+          timestamp:
+            type: string
+            format: date-time
+          city:
+            type: string
+          place:
+            type: string
+      - $ref: '#/components/schemas/Location'
+      - $ref: '#/components/schemas/ReportStatus'
+      - $ref: '#/components/schemas/ViolationType'
+    Non_sensitive_data_reports:
+      type: array
+      items:
+        $ref: '#/components/schemas/Non_sensitive_data_report'
+    Citizen_accessible_report:
+      example:
+        id: 0
+        license plate: AA000AA
+        desc: An optional concise description of the violation
+        photos:
+        - path/image_1.jpg
+        - path/image_2.jpg
+      allOf:
+      - $ref: '#/components/schemas/Non_sensitive_data_report'
+      - type: object
+        properties:
+          id:
+            type: integer
+          license_plate:
+            type: string
+          photos:
+            type: array
+            items:
+              type: string
+              format: uri
+          desc:
+            type: string
+            nullable: true
+    Citizen_accessible_reports:
+      type: array
+      items:
+        $ref: '#/components/schemas/Citizen_accessible_report'
+    Report:
+      example:
+        submitter:
+          firstname: Johnny
+          lastname: De Gennaro
+          email: asd@gmail.com
+        supervisor:
+          firstname: Bruno
+          lastname: Bucciarati
+          email: asd@pec.it
+      allOf:
+      - $ref: '#/components/schemas/Citizen_accessible_report'
+      - type: object
+        properties:
+          submitter:
+            $ref: '#/components/schemas/Citizen'
+      - type: object
+        properties:
+          supervisor:
+            $ref: '#/components/schemas/Authority_info'
+    Reports:
+      type: array
+      items:
+        $ref: '#/components/schemas/Report'
+    Login:
+      required:
+      - email
+      - password
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        email: asd@pec.it
+        password: qwerty123
+    OrganizationData:
+      required:
+      - city_id
+      - domain
+      - name
+      - type
+      type: object
+      properties:
+        name:
+          type: string
+        domain:
+          type: string
+        type:
+          type: string
+          enum:
+          - system
+          - authority
+        city_id:
+          type: integer
+      example:
+        name: Polizia Locale Milano
+        domain: comunemilano.it
+        type: authority
+        city_id: 0
+    CityData:
+      required:
+      - name
+      - region
+      type: object
+      properties:
+        name:
+          type: string
+        region:
+          type: string
+      example:
+        name: Milano
+        region: Lombardia
+    City:
+      example:
+        id: 0
+      allOf:
+      - required:
+        - id
+        type: object
+        properties:
+          id:
+            type: integer
+      - $ref: '#/components/schemas/CityData'
+    Cities:
+      type: array
+      items:
+        $ref: '#/components/schemas/City'
+    inline_response_200:
+      oneOf:
+      - $ref: '#/components/schemas/Citizen'
+      - $ref: '#/components/schemas/Authority'
+    inline_response_200_1:
+      oneOf:
+      - $ref: '#/components/schemas/Reports'
+      - $ref: '#/components/schemas/Citizen_accessible_reports'
+    inline_response_200_2:
+      oneOf:
+      - $ref: '#/components/schemas/Reports'
+      - $ref: '#/components/schemas/Non_sensitive_data_reports'
+    inline_response_200_3:
+      oneOf:
+      - $ref: '#/components/schemas/Citizen_accessible_report'
+      - $ref: '#/components/schemas/Report'
+  parameters:
+    from_date:
+      name: from
+      in: query
+      description: From which date filter the content
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: string
+    to_date:
+      name: to
+      in: query
+      description: To which date filter the content
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: string
+    city_id:
+      name: city
+      in: query
+      description: City location filter to apply
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: integer
+    violation_type:
+      name: type
+      in: query
+      description: Type filter to apply
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: string

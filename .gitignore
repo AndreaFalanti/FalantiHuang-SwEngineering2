@@ -278,3 +278,18 @@ TSWLatexianTemp*
 
 # Makeindex log files
 *.lpz
+
+## IntelliJ
+.idea/
+
+## SERVER
+Server/node_modules/
+Server/.swagger-codegen/
+Server/tmp
+.env
+Server/public/reports/*
+!Server/public/reports/0/*
+!Server/public/reports/1/*
+!Server/public/reports/2/*
+/Server/coverage/
+/Server/.scannerwork/

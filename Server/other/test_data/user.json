@@ -1,0 +1,58 @@
+[
+  {
+    "id": 0,
+    "email": "andrea.falanti@safestreets.com",
+    "firstname": "Andrea",
+    "lastname": "Falanti",
+    "password": "qwerty123",
+    "organization_id": 0
+  },
+  {
+    "id": 1,
+    "email": "andrea.huang@safestreets.com",
+    "firstname": "Andrea",
+    "lastname": "Huang",
+    "password": "qwerty123",
+    "organization_id": 0
+  },
+  {
+    "id": 2,
+    "email": "asd@gmail.com",
+    "firstname": "Johnny",
+    "lastname": "De Gennaro",
+    "password": "qwerty456",
+    "organization_id": null
+  },
+  {
+    "id": 3,
+    "email": "asd@poliziamilano.it",
+    "firstname": "Bruno",
+    "lastname": "Bucciarati",
+    "password": "qwerty789",
+    "organization_id": 1
+  },
+  {
+    "id": 4,
+    "email": "asd2@poliziavarese.it",
+    "firstname": "Agostina",
+    "lastname": "Miniati",
+    "password": "qwerty789",
+    "organization_id": 2
+  },
+  {
+    "id": 5,
+    "email": "asd2@gmail.com",
+    "firstname": "Sonia",
+    "lastname": "Udinesi",
+    "password": "qwerty456",
+    "organization_id": null
+  },
+  {
+    "id": 6,
+    "email": "asd3@gmail.com",
+    "firstname": "Lorenzo",
+    "lastname": "Piazza",
+    "password": "qwerty456",
+    "organization_id": null
+  }
+]
