@@ -2,7 +2,7 @@
 Repo for SW engineering 2 course project of year 2019/2020 (Politecnico di Milano)
 
 ### Authors
-Andrea Falanti (matricola: 944954)
+Andrea Falanti (matricola: 944954)  
 Andrea Huang (matricola: 866900)
 
 ### Folders structure
