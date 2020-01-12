@@ -203,10 +203,10 @@ exports.reportsSubmitPOST = function (body) {
                 }
                 else {
                     //check if the city is already present in the db
-                    let city = await queryCityByNameAndRegion(json.address.city, json.address.state);
+                    let city = await queryCityByNameAndRegion(json.address.city || json.address.town, json.address.state);
                     //not present
                     if (!city) {
-                        let cityData = generateCityData(json.address.city, json.address.state);
+                        let cityData = generateCityData(json.address.city  || json.address.town, json.address.state);
 
                         // if city wasn't in db, then also place can't be present
                         let city_id = await insertCityInDb(cityData);
