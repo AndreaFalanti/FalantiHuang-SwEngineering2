@@ -124,6 +124,7 @@ coverage/
 Documentation/RASD/*.pdf
 Documentation/DD/*.pdf
 Documentation/ITD/*.pdf
+Documentation/ATD/*.pdf
 
 ## Intermediate documents:
 *.dvi

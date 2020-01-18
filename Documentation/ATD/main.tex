@@ -1,0 +1,64 @@
+\input{config}
+\usepackage{subfiles}
+
+\begin{document}
+	% title page
+	\clearpage
+	\begin{figure}
+		\centering
+		\includegraphics[width=\linewidth]{Logo_Politecnico_Milano.png}
+		\label{fig:my_label}
+	\end{figure}
+	
+	
+	{
+		\centering
+		\Huge Software Engineering 2\\
+		\LARGE Acceptance Test Deliverable document\\
+		\LARGE SafeStreets\\
+		\bigskip
+		\large Version 1.0 - 21/01/2020\\
+		\vspace*{\fill}
+		\begingroup
+		\small
+		\renewcommand*{\arraystretch}{1.5}
+		\noindent
+		\begin{tabularx}{\linewidth}{@{}lXl@{}}
+			\textit{Authors:}  & & \textit{Professor:} \\
+			Andrea Falanti      & & Prof.\@ Elisabetta Di Nitto        \\
+			Andrea Huang \\
+		\end{tabularx}
+		\endgroup
+		\par
+	}
+	
+	\thispagestyle{empty}
+	
+	\newpage
+	\tableofcontents
+	
+	% content pages
+	\newpage
+	
+	\chapter{Introduction}
+	\section{Project Identification}
+	\subfile{Sections/ProjectIdentification}
+	\section{Purpose and Scope}
+	\subfile{Sections/PurposeAndScope}
+	\section{Document Structure}
+	\subfile{Sections/DocumentStructure}
+	
+	\newpage
+	\chapter{Installation setup}
+	
+	\newpage
+	\chapter{Acceptance test cases}
+	
+	\newpage
+	\chapter{Other notes}
+	
+	\newpage
+	\chapter{Effort Spent}
+	\subfile{Sections/EffortSpent}
+	
+\end{document}
